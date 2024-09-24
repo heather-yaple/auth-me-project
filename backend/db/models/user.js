@@ -7,12 +7,8 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-<<<<<<< HEAD
-
-=========
       User.hasMany(models.Review, { foreignKey: 'userId' });
       User.hasMany(models.Booking, { foreignKey: 'userId' });
->>>>>>>>> Temporary merge branch 2
     }
   }
 
@@ -21,16 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          len: [2, 50], 
-        },
+        validate: { len: [2, 50] },
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          len: [2, 50], 
-        },
+        validate: { len: [2, 50] },
       },
       username: {
         type: DataTypes.STRING,
@@ -49,26 +41,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          len: [3, 256],
-          isEmail: true,
-        },
+        validate: { len: [3, 256], isEmail: true },
       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
-        validate: {
-          len: [60, 60],
-        },
+        validate: { len: [60, 60] },
       },
     },
     {
       sequelize,
       modelName: 'User',
-
       defaultScope: {
         attributes: {
-          include: ['id', 'firstName', 'lastName', 'username'],
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
         },
       },

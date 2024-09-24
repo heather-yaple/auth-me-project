@@ -14,11 +14,15 @@ router.get('/current', requireAuth, async (req, res, next) => {
       include: [
         {
           model: Spot,
-          attributes: ['id', 'name', 'address', 'city', 'state', 'country']
+          attributes: ['id', 'ownerId', 'name', 'address', 'city', 'state', 'country', 'lat', 'lng', 'price', 'previewImage']
         },
         {
           model: User,
           attributes: ['id', 'firstName', 'lastName']
+        },
+        {
+          model: ReviewImages,  
+          attributes: ['id', 'url']
         }
       ]
     });
