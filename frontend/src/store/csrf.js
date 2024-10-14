@@ -30,3 +30,8 @@ export async function csrfFetch(url, options = {}) {
   // Otherwise, return the response to the next .then() handler
   return response;
 }
+
+export function restoreCSRF() {
+  return csrfFetch('/api/csrf/restore');
+}
+
