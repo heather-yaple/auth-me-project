@@ -1,0 +1,15 @@
+/* frontend/src/components/Navigation/Navigation.css */
+
+.profile-dropdown {
+    position: absolute; /* To position the dropdown */
+    background-color: white; /* Dropdown background */
+    border: 1px solid #ccc; /* Border around dropdown */
+    list-style: none; /* Remove bullet points */
+    padding: 10px; /* Padding around list items */
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
+  
+  .hidden {
+    display: none; /* Hides the dropdown */
+  }
+  
