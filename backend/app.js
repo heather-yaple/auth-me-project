@@ -14,6 +14,11 @@ const app = express();
 
 const { ValidationError } = require('sequelize');
 
+
+
+
+
+
 app.use(morgan('dev'));
 
 app.use(cookieParser());
@@ -43,6 +48,20 @@ if (!isProduction) {
     })
   );
 
+
+  app.get('/api/csrf/restore', (req, res) => {
+    // Set the CSRF token in the cookie
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {
+      httpOnly: false, // Allow JavaScript access to this cookie
+      secure: isProduction, // Secure cookie only in production
+      sameSite: isProduction ? 'Lax' : 'None', // Adjust SameSite for production
+    });
+    
+    // Respond with a success message or an empty object
+    return res.status(200).json({ message: 'CSRF token restored' });
+  });
+
+  
   const routes = require('./routes');
   app.use(routes);
 
