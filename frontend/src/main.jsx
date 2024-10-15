@@ -27,12 +27,12 @@ async function startApp() {
   // Render the app
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-    <ModalProvider>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ModalProvider>
-  </React.StrictMode>
+      <ModalProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ModalProvider>
+    </React.StrictMode>
   );
 }
 
