@@ -44,6 +44,58 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <SignupFormPage />
+      },
+      {
+        path: '/logout',
+        element: <h1>Logout</h1>
+      },  
+      {
+        path: '/spots',
+        element: <h1>SpotsIndex</h1>
+      },
+      {
+        path: '/spots/:spotId', 
+        element: <h1>SpotShow</h1>
+      },
+      {
+        path: '/bookings',
+        element: <h1>Bookings</h1>
+      },
+      {
+        path: '/reviews',
+        element: <h1>Reviews</h1>
+      },
+      {
+        path: '/users',
+        element: <h1>Users</h1>
+      },    
+      {
+        path: '/users/:userId',
+        element: <h1>UserShow</h1>
+      },
+      {
+        path: '/reviews/:reviewId',
+        element: <h1>ReviewShow</h1>
+      },
+      {
+        path: '/bookings/:bookingId',
+        element: <h1>BookingShow</h1>
+      },
+      {
+        path: '/spots/:spotId/bookings',
+        element: <h1>SpotBookings</h1>
+      },
+      {
+        path: '/spots/:spotId/reviews',
+        element: <h1>SpotReviews</h1>
+      },
+      {
+        path: '/users/:userId/bookings',
+        element: <h1>UserBookings</h1>
+      },
+      {
+        path: '/users/:userId/reviews',
+        element: <h1>UserReviews</h1>
       }
     ]
   }
