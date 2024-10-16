@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createReview } from '../store/reviews'; // Action to create review
+import './ReviewForm.css';
 
 const ReviewForm = ({ spotId }) => {
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createSpot, updateSpot } from '../store/spots'; // Spot actions
-
+import './SpotForm.css';
 const SpotForm = ({ spot }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState(spot?.name || '');

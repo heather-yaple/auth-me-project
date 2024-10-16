@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { fetchSpot, deleteSpot } from '../store/spots'; // Import necessary actions
 import ReviewsList from './ReviewsList';
 import ReviewForm from './ReviewForm';
-
+import './SpotShow.css';
 const SpotShow = () => {
   const { id } = useParams();  // 'id' parameter from the URL
   const dispatch = useDispatch();

@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-undef */
 // store/reviews.js
 
 // Action types
@@ -30,19 +32,22 @@ export const fetchReviews = spotId => async dispatch => {
   }
 };
 
-export const createReview = (spotId, reviewData) => async dispatch => {
+export const createReview = (spotId, reviewData) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: 'POST',
-    body: JSON.stringify(reviewData)
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reviewData),
   });
 
   if (response.ok) {
-    const review = await response.json();
-    dispatch(addReview(review));
+    const newReview = await response.json();
+    dispatch(addReview(newReview));
   }
 };
 
-export const deleteReview = reviewId => async dispatch => {
+export const deleteReviewThunk = reviewId => async dispatch => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: 'DELETE'
   });
@@ -52,31 +57,30 @@ export const deleteReview = reviewId => async dispatch => {
   }
 };
 
-// Reducer
 const reviewsReducer = (state = {}, action) => {
-  switch (action.type) {
-    case LOAD_REVIEWS:
-      const reviews = {};
-      action.reviews.forEach(review => {
-        reviews[review.id] = review;
-      });
-      return reviews;
-
-    case ADD_REVIEW:
-      return {
-        ...state,
-        [action.review.id]: action.review
-      };
-
-    case DELETE_REVIEW:
-      const newState = { ...state };
-      delete newState[action.reviewId];
-      return newState;
-
-    default:
-      return state;
-  }
-};
-
-export default reviewsReducer;
+    switch (action.type) {
+      case LOAD_REVIEWS:
+        const reviews = {};
+        action.reviews.forEach(review => {
+          reviews[review.id] = review;
+        });
+        return reviews;
+  
+      case ADD_REVIEW:
+        return {
+          ...state,
+          [action.review.id]: action.review
+        };
+  
+      case DELETE_REVIEW:
+        const newState = { ...state };
+        delete newState[action.reviewId];
+        return newState;
+  
+      default:
+        return state;
+    }
+  };
+  
+  export default reviewsReducer;
 
