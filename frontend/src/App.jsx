@@ -7,11 +7,11 @@ import { fetchSpots } from './store/spots';
 import { fetchReviews } from './store/reviews';
 import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage/SignupFormPage';
-import Navigation from './components/Navigation';
+import Navigation from './components/Navigation/Navigation';
 import SpotsIndexPage from './components/SpotsIndex/SpotsIndex';
 import SpotShowPage from './components/SpotShow/SpotShow';
 import ReviewsListPage from './components/ReviewsList/ReviewsList';
-import './styles.css';
+import './styles/styles.css';
 
 function Layout() {
   const dispatch = useDispatch();
