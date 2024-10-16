@@ -1,80 +1,82 @@
-// reviews.js
-import { csrfFetch } from './csrf';
+// store/reviews.js
 
-const SET_REVIEWS = 'reviews/setReviews';
-const ADD_REVIEW = 'reviews/addReview';
-const DELETE_REVIEW = 'reviews/deleteReview';
+// Action types
+const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
+const ADD_REVIEW = 'reviews/ADD_REVIEW';
+const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
 
-export const setReviews = (spotId, reviews) => ({
-  type: SET_REVIEWS,
-  spotId,
-  reviews,
+// Action creators
+const loadReviews = reviews => ({
+  type: LOAD_REVIEWS,
+  reviews
 });
 
-export const addReview = (review) => ({
+const addReview = review => ({
   type: ADD_REVIEW,
-  review,
+  review
 });
 
-export const removeReview = (reviewId) => ({
+const deleteReview = reviewId => ({
   type: DELETE_REVIEW,
-  reviewId,
+  reviewId
 });
 
 // Thunks
-export const fetchReviews = (spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
+export const fetchReviews = spotId => async dispatch => {
+  const response = await fetch(`/api/spots/${spotId}/reviews`);
   if (response.ok) {
     const reviews = await response.json();
-    dispatch(setReviews(spotId, reviews));
+    dispatch(loadReviews(reviews));
   }
 };
 
-export const createReview = (review) => async (dispatch) => {
-  const response = await csrfFetch(`/api/reviews`, {
+export const createReview = (spotId, reviewData) => async dispatch => {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: 'POST',
-    body: JSON.stringify(review),
+    body: JSON.stringify(reviewData)
   });
+
   if (response.ok) {
-    const newReview = await response.json();
-    dispatch(addReview(newReview));
+    const review = await response.json();
+    dispatch(addReview(review));
   }
 };
 
-export const deleteReview = (reviewId) => async (dispatch) => {
+export const deleteReview = reviewId => async dispatch => {
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
-    method: 'DELETE',
+    method: 'DELETE'
   });
+
   if (response.ok) {
-    dispatch(removeReview(reviewId));
+    dispatch(deleteReview(reviewId));
   }
 };
 
 // Reducer
 const reviewsReducer = (state = {}, action) => {
-  const newState = { ...state };
-
   switch (action.type) {
-    case SET_REVIEWS:
-      newState[action.spotId] = action.reviews;
-      break;
+    case LOAD_REVIEWS:
+      const reviews = {};
+      action.reviews.forEach(review => {
+        reviews[review.id] = review;
+      });
+      return reviews;
 
     case ADD_REVIEW:
-      newState[action.review.spotId] =
-        (newState[action.review.spotId] || []).concat(action.review);
-      break;
+      return {
+        ...state,
+        [action.review.id]: action.review
+      };
 
     case DELETE_REVIEW:
-      newState[action.review.spotId] = newState[action.review.spotId].filter(
-        (review) => review.id !== action.reviewId
-      );
-      break;
+      const newState = { ...state };
+      delete newState[action.reviewId];
+      return newState;
 
     default:
       return state;
   }
-
-  return newState;
 };
 
 export default reviewsReducer;
+
