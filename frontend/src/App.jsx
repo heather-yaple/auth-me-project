@@ -1,29 +1,41 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import * as sessionActions from './store/session';
+import { fetchSpots } from './store/spots';
+import { fetchReviews } from './store/reviews';
 import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage/SignupFormPage';
-import * as sessionActions from './store/session';
-import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import Navigation from './components/Navigation';
+import SpotsIndexPage from './components/SpotsIndex/SpotsIndex';
+import SpotShowPage from './components/SpotShow/SpotShow';
+import ReviewsListPage from './components/ReviewsList/ReviewsList';
+import './styles.css';
 
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser())
-      .then(() => {
-        setIsLoaded(true);
-      })
-      .catch((error) => {
+    const initializeApp = async () => {
+      try {
+        await dispatch(sessionActions.restoreUser());
+        await dispatch(fetchSpots());
+        await dispatch(fetchReviews());
+      } catch (error) {
         console.error("Error restoring user session:", error);
-        setIsLoaded(true); // Still load the app even if there's an error
-      });
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    initializeApp();
   }, [dispatch]);
 
   return (
     <>
+      <Navigation />
       {!isLoaded ? <h1>Loading...</h1> : <Outlet />}
     </>
   );
@@ -33,72 +45,17 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <h1>Welcome!</h1>
-      },
-      {
-        path: '/login',
-        element: <LoginFormPage />
-      },
-      {
-        path: '/signup',
-        element: <SignupFormPage />
-      },
-      {
-        path: '/logout',
-        element: <h1>Logout</h1>
-      },  
-      {
-        path: '/spots',
-        element: <h1>SpotsIndex</h1>
-      },
-      {
-        path: '/spots/:spotId', 
-        element: <h1>SpotShow</h1>
-      },
-      {
-        path: '/bookings',
-        element: <h1>Bookings</h1>
-      },
-      {
-        path: '/reviews',
-        element: <h1>Reviews</h1>
-      },
-      {
-        path: '/users',
-        element: <h1>Users</h1>
-      },    
-      {
-        path: '/users/:userId',
-        element: <h1>UserShow</h1>
-      },
-      {
-        path: '/reviews/:reviewId',
-        element: <h1>ReviewShow</h1>
-      },
-      {
-        path: '/bookings/:bookingId',
-        element: <h1>BookingShow</h1>
-      },
-      {
-        path: '/spots/:spotId/bookings',
-        element: <h1>SpotBookings</h1>
-      },
-      {
-        path: '/spots/:spotId/reviews',
-        element: <h1>SpotReviews</h1>
-      },
-      {
-        path: '/users/:userId/bookings',
-        element: <h1>UserBookings</h1>
-      },
-      {
-        path: '/users/:userId/reviews',
-        element: <h1>UserReviews</h1>
-      }
-    ]
-  }
+      { path: '/', element: <h1>Welcome!</h1> },
+      { path: '/login', element: <LoginFormPage /> },
+      { path: '/signup', element: <SignupFormPage /> },
+      { path: '/spots', element: <SpotsIndexPage /> },
+      { path: '/spots/:spotId', element: <SpotShowPage /> },
+      { path: '/reviews', element: <ReviewsListPage /> },
+      { path: '/logout', element: <h1>Logout</h1> },
+      // Add additional routes here as needed
+      { path: '*', element: <h1>404 Not Found</h1> }, // Catch-all for 404
+    ],
+  },
 ]);
 
 function App() {
