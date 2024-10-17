@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchReviews } from '../store/reviews'; // Import deleteReview action
 import { deleteReviewThunk } from '../store/reviews'; // Import the renamed thunk
-import '../styles/ReviewsList.css';
+import './styles/ReviewsList.css';
 const ReviewsList = ({ spotId }) => {
   const dispatch = useDispatch();
   const reviews = useSelector(state => state.reviews[spotId] || []); // Handle undefined state gracefully

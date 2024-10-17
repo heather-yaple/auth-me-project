@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSpots } from '../../store/spots'; // Action to fetch spots
-import '../styles/SpotsIndex.css';
+import './styles/SpotsIndex.css';
 const SpotsIndex = () => {
   const dispatch = useDispatch();
   const spots = useSelector(state => state.spots);
