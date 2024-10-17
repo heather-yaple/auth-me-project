@@ -1,5 +1,5 @@
 {
-  "name": "auth-me-project",
+  "name": "frontend",
   "version": "1.0.0",
   "description": "Repo for Auth Me project # StaySphere",
   "main": "index.js",
@@ -9,7 +9,9 @@
     "sequelize": "npm run --prefix backend sequelize",
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend",
-    "build": "npm run --prefix backend build"
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "npm run --prefix frontend build",
+    "build:backend": "npm run --prefix backend build"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   "homepage": "https://github.com/heather-yaple/auth-me-project#readme",
   "dependencies": {
     "react-router-dom": "^6.27.0",
+    "react-scripts": "^5.0.1",
     "redux-thunk": "^3.1.0"
   }
 }

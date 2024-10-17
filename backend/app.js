@@ -5,69 +5,71 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const path = require('path'); // <-- Add this line
 require('dotenv').config();
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
 
-
 const { ValidationError } = require('sequelize');
 
-
-
-
-
-
+// Use morgan for logging
 app.use(morgan('dev'));
 
+// Middleware to parse cookies and JSON
 app.use(cookieParser());
 app.use(express.json());
 
 // Security Middleware
 if (!isProduction) {
-    // enable cors only in development
-    app.use(cors());
-  }
-  
-  // helmet helps set a variety of headers to better secure your app
-  app.use(
-    helmet.crossOriginResourcePolicy({
-      policy: "cross-origin"
-    })
-  );
-  
-  // Set the _csrf token and create req.csrfToken method
-  app.use(
-    csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true
-      }
-    })
-  );
+  // Enable CORS only in development
+  app.use(cors());
+}
 
+// Helmet helps set a variety of headers to better secure your app
+app.use(
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
+  })
+);
 
-  app.get('/api/csrf/restore', (req, res) => {
-    // Set the CSRF token in the cookie
-    res.cookie('XSRF-TOKEN', req.csrfToken(), {
-      httpOnly: false, // Allow JavaScript access to this cookie
-      secure: isProduction, // Secure cookie only in production
-      sameSite: isProduction ? 'Lax' : 'None', // Adjust SameSite for production
-    });
-    
-    // Respond with a success message or an empty object
-    return res.status(200).json({ message: 'CSRF token restored' });
+// CSRF protection
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
+
+// Serve CSRF token
+app.get('/api/csrf/restore', (req, res) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken(), {
+    httpOnly: false,
+    secure: isProduction,
+    sameSite: isProduction ? 'Lax' : 'None',
   });
+  return res.status(200).json({ message: 'CSRF token restored' });
+});
 
-  
-  const routes = require('./routes');
-  app.use(routes);
+// Import routes
+const routes = require('./routes');
+app.use(routes);
 
-  // backend/app.js
-// ...
-// Catch unhandled requests and forward to error handler.
+// Serve static files from frontend build
+if (isProduction) {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  // Serve index.html for all other routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+  });
+}
+
+// Catch unhandled requests and forward to error handler
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
@@ -78,7 +80,6 @@ app.use((_req, _res, next) => {
 
 // Process sequelize errors
 app.use((err, _req, _res, next) => {
-  // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
@@ -102,5 +103,4 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-
-  module.exports = app;
+module.exports = app;
