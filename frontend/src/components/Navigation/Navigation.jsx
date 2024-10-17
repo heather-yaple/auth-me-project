@@ -7,11 +7,37 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul>
+    <ul className="navigation">
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink exact to="/">Home</NavLink>
       </li>
-      {isLoaded && (
+
+      {/* Only show Spots and Reviews if the user is logged in */}
+      {sessionUser && (
+        <>
+          <li>
+            <NavLink to="/spots">Spots</NavLink>
+          </li>
+          <li>
+            <NavLink to="/reviews">Reviews</NavLink>
+          </li>
+        </>
+      )}
+
+      {/* Show Login and Signup if no user is logged in */}
+      {!sessionUser && (
+        <>
+          <li>
+            <NavLink to="/login">Login</NavLink>
+          </li>
+          <li>
+            <NavLink to="/signup">Signup</NavLink>
+          </li>
+        </>
+      )}
+
+      {/* Conditionally render the ProfileButton if user is loaded */}
+      {isLoaded && sessionUser && (
         <li>
           <ProfileButton user={sessionUser} />
         </li>
