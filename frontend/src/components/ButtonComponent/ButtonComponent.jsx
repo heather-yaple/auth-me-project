@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { useModal } from '../context/Modal'; // Import the custom hook
-import './ButtonComponent.css';
+import './styles/ButtonComponent.css';
 function ButtonComponent() {
     const { setModalContent, setOnModalClose } = useModal();
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchSpot, deleteSpot } from '../store/spots.js'; // Import necessary actions
+import { fetchSpot, deleteSpot } from '../../store/spots.js'; // Import necessary actions
 import ReviewsList from './ReviewsList';
 import ReviewForm from './ReviewForm';
 import './styles/SpotShow.css';
