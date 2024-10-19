@@ -52,5 +52,11 @@ function LoginFormModal() {
     </form>
   );
 }
+const fetchUsers = async (page = 1, size = 10) => {
+  const response = await csrfFetch(`/api/users?page=${page}&size=${size}`);
+  const data = await response.json();
+  return data;
+};
+
 
 export default LoginFormModal;

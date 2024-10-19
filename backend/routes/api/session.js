@@ -94,5 +94,49 @@ router.get(
     }
 );
   
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
+// Create a transport for sending emails
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // or any email service you're using
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Send confirmation email
+const sendConfirmationEmail = async (user) => {
+  const confirmationToken = crypto.randomBytes(32).toString('hex');
+
+  // Save token to the user's record (you may need to add this field in your database)
+  user.confirmationToken = confirmationToken;
+  await user.save();
+
+  const url = `http://yourfrontend.com/confirm/${confirmationToken}`;
+
+  await transporter.sendMail({
+    to: user.email,
+    subject: 'Confirm your email',
+    html: `<h3>Welcome ${user.username}</h3><p>Please confirm your email by clicking <a href="${url}">here</a></p>`
+  });
+};
+
+// Sign up user and send email
+router.post('/signup', validateSignup, async (req, res) => {
+  const { email, username, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password);
+
+  const user = await User.create({
+    email,
+    username,
+    hashedPassword
+  });
+
+  await sendConfirmationEmail(user);
+
+  return res.status(201).json({ message: 'Please confirm your email' });
+});
 
 module.exports = router;

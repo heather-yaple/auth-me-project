@@ -8,6 +8,8 @@
     "seed:all": "cd backend && npx sequelize-cli db:seed:all",
     "seed:undo:all": "cd backend && npx sequelize-cli db:seed:undo:all",
     "migrate:undo:all": "cd backend && npx sequelize-cli db:migrate:undo:all"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.15"
   }
 }
-
