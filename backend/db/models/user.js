@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 const { Model, Validator } = require('sequelize');
@@ -7,28 +5,14 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-
+      // define association here
+      User.hasMany(models.Spot, { foreignKey: 'ownerId', as: 'Owner' });
       User.hasMany(models.Review, { foreignKey: 'userId' });
       User.hasMany(models.Booking, { foreignKey: 'userId' });
     }
   }
-
   User.init(
     {
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [2, 50], 
-        },
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [2, 50], 
-        },
-      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -58,23 +42,21 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60],
         },
       },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
     {
       sequelize,
       modelName: 'User',
-
       defaultScope: {
         attributes: {
-          include: ['id', 'firstName', 'lastName', 'username'],
           exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
-        },
-      },
-      scopes: {
-        currentUser: {
-          attributes: { exclude: ['hashedPassword'] },
-        },
-        withEmail: {
-          attributes: { exclude: ['hashedPassword'] },
         },
       },
     }

@@ -1,102 +1,87 @@
-"use strict";
-
-const { Model, Validator } = require("sequelize");
-
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  console.log("Creating a spot...");
   class Spot extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-        Spot.belongsTo(models.User, { foreignKey: "ownerId", as: "Owner" });
-        Spot.hasMany(models.Review, { foreignKey: 'spotId' });
-        Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
-        Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
-      }
-  }
+      // define association here
+      // Spot.belongsTo(models.User);
+      // Spot.belongsTo(models.User, { foreignKey: 'ownerId' });
+      Spot.belongsTo(models.User, { foreignKey: 'ownerId', as: 'Owner', onDelete: 'cascade' });
 
-  Spot.init(
-    {
-      ownerId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-
-      address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      city: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      state: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      country: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      lat: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        validate: {
-          min: -90,
-          max: 90,
-        },
-      },
-
-      lng: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-        validate: {
-          min: -180,
-          max: 180,
-        },
-      },
-
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [1, 50],
-        },
-      },
-
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-
-      price: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          min: 0,
-        },
-      },
-
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-    },
-    {
-      sequelize,
-      modelName: "Spot",
-      timestamps: true,
+      Spot.hasMany(models.Review, { foreignKey: 'spotId' });
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
+      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
+      // Spot.hasMany(models.Review, { foreignKey: 'reviewId' });
+      // Spot.hasMany(models.Booking, { foreignKey: 'bookingId' });
+      // Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
+      // Spot.belongsToMany(models.User, { through: 'Booking', foreignKey: 'spotId', otherKey: 'userId' })
     }
-  );
-
+  }
+  Spot.init({
+    ownerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        as: 'Owner'
+      },
+      // onDelete: 'cascade',
+    },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      // unique: true,
+    },
+    city: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      // unique: 'addressIndex',
+    },
+    state: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      // unique: 'addressIndex',
+    },
+    country: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      // unique: 'addressIndex',
+    },
+    lat: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    lng: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+  }, {
+    sequelize,
+    modelName: 'Spot',
+    indexes: [
+      // { unique: true, fields: ['address'] },
+      // { unique: true, fields: ['city', 'state', 'country'] },
+      // { unique: true, fields: ['lat', 'lng'] },
+    ]
+  });
   return Spot;
 };
