@@ -2,11 +2,12 @@
   "name": "root",
   "version": "1.0.0",
   "scripts": {
-    "build": "npm run build --prefix backend && npm run build --prefix frontend",
     "install": "npm install --prefix backend && npm install --prefix frontend",
-    "migrate": "npx sequelize-cli db:migrate --prefix backend",
-    "seed:all": "npx sequelize-cli db:seed:all --prefix backend",
-    "seed:undo:all": "npx sequelize-cli db:seed:undo:all --prefix backend",
-    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all --prefix backend"
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "migrate": "cd backend && npx sequelize-cli db:migrate",
+    "seed:all": "cd backend && npx sequelize-cli db:seed:all",
+    "seed:undo:all": "cd backend && npx sequelize-cli db:seed:undo:all",
+    "migrate:undo:all": "cd backend && npx sequelize-cli db:migrate:undo:all"
   }
 }
+
