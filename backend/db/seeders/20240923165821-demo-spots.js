@@ -1,60 +1,53 @@
-"use strict";
-
-const { Spot } = require("../models");
+'use strict';
+const { Spot, User } = require('../models');
+const { demoSpots } = require('../../utils/demo-data');
 
 let options = {};
-if (process.env.NODE_ENV === "production") {
-  options.schema = process.env.SCHEMA;
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    options.tableName = "Spots";
-    await Spot.bulkCreate([
-      {
-        ownerId: 1,
-        address: "123 Disney Lane",
-        city: "San Francisco",
-        state: "California",
-        country: "United States of America",
-        lat: 37.7645358,
-        lng: -122.4730327,
-        name: "App Academy",
-        description: "Place where web developers are created",
-        price: 123,
-      },
-      {
-        ownerId: 2,
-        address: "456 Coding Avenue",
-        city: "New York",
-        state: "New York",
-        country: "United States of America",
-        lat: 40.7127753,
-        lng: -74.0059728,
-        name: "Tech Hub",
-        description: "A cozy spot for tech enthusiasts",
-        price: 250,
-      },
-      {
-        ownerId: 3,
-        address: "789 Silicon Street",
-        city: "San Jose",
-        state: "California",
-        country: "United States of America",
-        lat: 37.3382082,
-        lng: -121.8863286,
-        name: "Startup Heaven",
-        description: "Where innovation meets comfort",
-        price: 199,
-      },
-    ], { validate: true });
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add seed commands here.
+     *
+     * Example:
+     * await queryInterface.bulkInsert('People', [{
+     *   name: 'John Doe',
+     *   isBetaMember: false
+     * }], {});
+    */
+    for (const owner of demoSpots) {
+      for (const spot of owner.spots) {
+        const newSpot = await Spot.create(
+          {
+            ownerId: owner.ownerId,
+            ...spot
+          }
+        );
+      }
+    }
   },
 
-  async down(queryInterface, Sequelize) {
-    options.tableName = "Spots";
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
+    options.tableName = 'Spots';
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ["App Academy", "Tech Hub", "Startup Heaven"] }
-    }, {});
+    for (const owner of demoSpots) {
+      for (const spot of owner.spots) {
+        const newSpot = await Spot.destroy({
+          where: { ownerId: owner.ownerId,
+            // ...spot
+          }
+        });
+      }
+    }
   }
 };
