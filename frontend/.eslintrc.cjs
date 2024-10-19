@@ -18,4 +18,13 @@ module.exports = {
     ],
     'react/prop-types': 'off'
   },
-}
+  overrides: [
+    //linter rule disabled for modal context file
+    {
+      files: ['src/context/*.jsx'],
+      rules: {
+        'react-refresh/only-export-components': 'off',
+      },
+    },
+  ],
+};
