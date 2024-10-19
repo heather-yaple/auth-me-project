@@ -1,4 +1,4 @@
-
+// backend/routes/api/session.js
 const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
@@ -15,14 +15,14 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Email or username is required'),
+    .withMessage('Please provide a valid email or username.'),
   check('password')
     .exists({ checkFalsy: true })
-    .withMessage('Password is required'),
+    .withMessage('Please provide a password.'),
   handleValidationErrors
 ];
 
-  // Log in
+// Log in
 router.post(
   '/',
   validateLogin,
@@ -42,18 +42,17 @@ router.post(
       const err = new Error('Invalid credentials');
       err.status = 401;
       err.title = 'Login failed';
-      err.errors = { credential: 'Invalid credentials' };
+      err.errors = { credential: 'The provided credentials were invalid.' };
       return next(err);
     }
-
-// Include firstName and lastName 
-const safeUser = {
-  id: user.id,
-  firstName: user.firstName,
-  lastName: user.lastName,
-  email: user.email,
-  username: user.username,
-};
+    // console.log('logging in a user here', user);
+    const safeUser = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+    };
 
     await setTokenCookie(res, safeUser);
 
@@ -63,35 +62,37 @@ const safeUser = {
   }
 );
 
-  // Log out
+// Log out
 router.delete(
     '/',
     (_req, res) => {
       res.clearCookie('token');
       return res.json({ message: 'success' });
     }
-  );
-  
-  // Restore session user
+);
+
+// Restore session user
 router.get(
     '/',
     (req, res) => {
-      const { user } = req;
-      if (user) {
-        const safeUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          username: user.username
-        };
-        return res.json({
-          user: safeUser
-        });
-      } else return res.json({ user: null });
+        const { user } = req;
+        // console.log('--- user here', user);
+        if (user) {
+            const safeUser = {
+              id: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              username: user.username,
+            };
+            return res.status(200).json({
+              user: safeUser
+            });
+        } else {
+          return res.status(200).json({ user: null });
+        }
     }
-  );
-
-
+);
+  
 
 module.exports = router;

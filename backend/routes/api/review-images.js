@@ -1,36 +1,36 @@
-// backend/routes/api/review-images.js
-
-const express = require('express');
-const { ReviewImage, Review } = require('../../db/models');
+const router = require('express').Router();
+const models = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-const router = express.Router();
+const { isLoggedIn } = require('../../utils/endpoint-validation');
 
-router.delete('/:imageId', requireAuth, async (req, res, next) => {
-  const { imageId } = req.params;
-  const userId = req.user.id;
-
-  try {
-    const reviewImage = await ReviewImage.findByPk(imageId, {
-      include: {
-        model: Review,
-        attributes: ['userId'],
-      },
+router.delete('/:imageId', requireAuth, isLoggedIn, async (req, res, next) => {
+    const err = new Error();
+    err.title = "Couldn't delete a review image!";
+    
+    const reviewImage = await models.ReviewImage.findOne({
+        where: { id: req.params.imageId },
+        include: {
+            model: models.Review,
+        }
     });
-
+    // console.log(reviewImage);
+    // const reviewImage = await models.ReviewImage.destroy({
+    //     where: { id: req.params.imageId },
+    //     include: {
+    //         model: models.Review,
+    //         attributes: ['userId']
+    //     }
+    // });
     if (!reviewImage) {
-      return res.status(404).json({ message: "Review Image couldn't be found" });
+        err.status = 404;
+        err.message = "Review Image couldn't be found";
+        return next(err);
+    } else if (req.user.id !== reviewImage.Review.userId) {
+        req.throwErr = true;
+        return isLoggedIn(req, res, next);
     }
-
-    if (reviewImage.Review.userId !== userId) {
-      return res.status(403).json({ message: 'Forbidden' });
-    }
-
     await reviewImage.destroy();
-
-    res.json({ message: 'Successfully deleted' });
-  } catch (error) {
-    next(error);
-  }
+    res.status(200).json({ message: "Successfully deleted" })
 });
 
 module.exports = router;

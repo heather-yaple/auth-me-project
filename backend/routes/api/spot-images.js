@@ -1,40 +1,28 @@
-
-
-const express = require('express');
-const { SpotImage, Spot } = require('../../db/models');
+const router = require('express').Router();
+const models = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-const router = express.Router();
+const { isLoggedIn } = require('../../utils/endpoint-validation');
 
-// Delete an existing image for a Spot
-router.delete('/:imageId', requireAuth, async (req, res, next) => {
-  const { imageId } = req.params;
-  const userId = req.user.id;
-
-  try {
-    const spotImage = await SpotImage.findByPk(imageId, {
-      include: {
-        model: Spot,
-        attributes: ['ownerId']
-      }
-    });
-
-    // Check if SpotImage exists
+router.delete('/:imageId', requireAuth, isLoggedIn, async (req, res, next) => {
+    const err = new Error();
+    err.title = "Couldn't delete spot image!";
+    const spotImage = await models.SpotImage.findByPk(
+        req.params.imageId,
+        { include: { model: models.Spot } }
+    );
     if (!spotImage) {
-      return res.status(404).json({ message: "Spot Image couldn't be found" });
+        err.status = 404;
+        err.message = "Spot Image couldn't be found";
+        next(err);
+    } else if (req.user.id !== spotImage.Spot.ownerId) {
+        req.throwErr = true;
+        return isLoggedIn(req, res, next);
     }
 
-    // Check ownership
-    if (spotImage.Spot.ownerId !== userId) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-
-    // Delete the image
     await spotImage.destroy();
-
-    res.json({ message: "Successfully deleted" });
-  } catch (error) {
-    next(error);
-  }
+    res.status(200).json({
+        message: "Successfully deleted"
+    })
 });
 
 module.exports = router;
