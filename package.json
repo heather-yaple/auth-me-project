@@ -3,15 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "npm run build --prefix backend && npm run build --prefix frontend",
-    "install": "npm install --prefix backend && npm install --prefix frontend",
-    "sequelize": "sequelize",
-    "sequelize-cli": "sequelize-cli",
-    "start": "per-env",
-    "start:development": "nodemon ./bin/www",
-    "start:production": "node ./bin/www",
-    "build": "echo 'Building backend...'",
-    "db:migrate": "npx dotenv sequelize-cli db:migrate",
-    "db:seed:all": "npx dotenv sequelize-cli db:seed:all"
+    "install": "npm install --prefix backend && npm install --prefix frontend" 
   },
   "keywords": [],
   "author": "",
