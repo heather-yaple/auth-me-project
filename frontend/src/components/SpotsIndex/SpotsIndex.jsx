@@ -28,7 +28,7 @@ const SpotsIndex = () => {
   return (
     <div className="spots-index">
       <div className="welcome-message">
-        <h1>Parking, reimagined.</h1>
+        <h1>"Experience the Magic of Maine: Where Cozy Cabins and Nature's Wonder Embrace You"</h1>
       </div>
       <div className="spots-list">
         {spots.map((spot) => (
