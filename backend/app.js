@@ -1,8 +1,3 @@
-//backend/app.js
-
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('DB_FILE:', process.env.DB_FILE);
-
 const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
@@ -10,14 +5,15 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
+
+const routes = require('./routes');
+
+const { ValidationError } = require('sequelize');
+
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
-
-
-const { ValidationError } = require('sequelize');
 
 app.use(morgan('dev'));
 
@@ -26,33 +22,30 @@ app.use(express.json());
 
 // Security Middleware
 if (!isProduction) {
-    // enable cors only in development
-    app.use(cors());
-  }
-  
-  // helmet helps set a variety of headers to better secure your app
-  app.use(
-    helmet.crossOriginResourcePolicy({
-      policy: "cross-origin"
-    })
-  );
-  
-  // Set the _csrf token and create req.csrfToken method
-  app.use(
-    csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true
-      }
-    })
-  );
+  // enable cors only in development
+  app.use(cors());
+}
 
-  const routes = require('./routes');
-  app.use(routes);
+// helmet helps set a variety of headers to better secure your app
+app.use(
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
+  })
+);
 
-  // backend/app.js
-// ...
+// Set the _csrf token and create req.csrfToken method
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
+
+app.use(routes);
+
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
@@ -80,13 +73,17 @@ app.use((err, _req, _res, next) => {
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
-  res.json({
-    title: err.title || 'Server Error',
+  const errorObject = {
     message: err.message,
     errors: err.errors,
-    stack: isProduction ? null : err.stack
-  });
+  }
+  if (!isProduction) {
+    errorObject.title = err.title || 'Server Error';
+    errorObject.stack = isProduction ? null : err.stack;
+  }
+  res.json(errorObject);
 });
 
 
-  module.exports = app;
+  
+module.exports = app;

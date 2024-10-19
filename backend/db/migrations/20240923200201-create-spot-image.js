@@ -1,48 +1,47 @@
 'use strict';
-
-let options = {};
+let options = { tableName: 'SpotImages' };
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  
+  options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('SpotImages', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable(
+      options,
+      // 'SpotImages', 
+      {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER
+        },
+        spotId: {
+          type: Sequelize.INTEGER,
+          references: { model: 'Spots' },
+          onDelete: 'cascade',
+        },
+        url: {
+          type: Sequelize.STRING
+        },
+        preview: {
+          type: Sequelize.BOOLEAN
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE
+        }
       },
-      spotId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'Spots', key: 'id' },
-        onDelete: 'CASCADE'
-      },
-      url: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
-    }, options);
+      // options
+    );
   },
-
-  down: async (queryInterface, Sequelize) => {
-    options.tableName = 'SpotImages';
-    await queryInterface.dropTable(options);
+  async down(queryInterface, Sequelize) {
+    // options.tableName = "Users";
+    await queryInterface.dropTable('SpotImages');
   }
 };
