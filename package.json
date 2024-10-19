@@ -4,9 +4,9 @@
   "scripts": {
     "build": "npm run build --prefix backend && npm run build --prefix frontend",
     "install": "npm install --prefix backend && npm install --prefix frontend",
-    "migrate": "npx sequelize-cli --prefix backend db:migrate",
-    "seed:all": "npx sequelize-cli --prefix backend db:seed:all",
-    "seed:undo:all": "npx sequelize-cli --prefix backend db:seed:undo:all",
-    "migrate:undo:all": "npx sequelize-cli --prefix backend db:migrate:undo:all"
+    "migrate": "npx sequelize-cli db:migrate --prefix backend",
+    "seed:all": "npx sequelize-cli db:seed:all --prefix backend",
+    "seed:undo:all": "npx sequelize-cli db:seed:undo:all --prefix backend",
+    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all --prefix backend"
   }
 }

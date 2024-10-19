@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "node psql-setup-script.js",
     "start": "per-env",
     "start:development": "nodemon ./bin/www",
     "start:production": "node ./bin/www",
-    "build": "node psql-setup-script.js"
+    "sequelize": "sequelize",
+    "sequelize-cli": "sequelize-cli"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
