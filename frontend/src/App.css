@@ -1,0 +1,103 @@
+/* App.css */
+
+/* Color Variables */
+:root {
+    --vibrant-green: #1AAB76; /* Main color */
+    --light-green: #F0F4EF; /* Light background */
+    --crayola-red: #E84855; /* For reds */
+    --indigo: #344966; /* Supporting text */
+    --dark-blue: #0D1821; /* Supporting text */
+    --white: #FFFFFF; /* Pure white */
+    --light-gray: #F0F2F5; /* Light gray */
+    --gray: #D1D5DB; /* Gray for borders and backgrounds */
+    --black: #000000; /* Pure black */
+  }
+  
+  /* Global Styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--indigo);
+    background-color: var(--light-green);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  button {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Accessibility Improvements */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus {
+    outline: 2px solid var(--vibrant-green);
+    outline-offset: 2px;
+  }
+  
+  /* Error Message Styles */
+  .error {
+    color: var(--crayola-red);
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  
+  /* Button Styles */
+  .button {
+    background-color: var(--vibrant-green);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: var(--dark-blue);
+  }
+  
+  .button.red {
+    background-color: var(--crayola-red);
+  }
+  
+  .button.red:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Utility Classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-20 {
+    margin-top: 20px;
+  }
+  
+  .mb-20 {
+    margin-bottom: 20px;
+  }
+  
+  .hidden {
+    display: none;
+  }

@@ -1,4 +1,4 @@
-// routes/api/review-images.js
+// backend/routes/api/review-images.js
 
 const express = require('express');
 const { ReviewImage, Review } = require('../../db/models');

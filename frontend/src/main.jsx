@@ -1,40 +1,34 @@
+//frontend/src/main.jsx
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import { Provider } from 'react-redux';
-import configureStore from './store/store';
-import * as sessionActions from './store/session';
+import configureStore from './store'; 
 import { restoreCSRF, csrfFetch } from './store/csrf';
-import { ModalProvider } from './context/Modal';
+import * as sessionActions from './store/session';
+import { ModalProvider, Modal } from './components/context/Modal';
 
-// Function to start the app
-async function startApp() {
-  // Configure the Redux store asynchronously
-  const store = await configureStore();
+const store = configureStore();
 
-  // Attach the store to the window for development
-  if (import.meta.env.NODE_ENV !== 'production') {
-    window.store = store;
-    window.sessionActions = sessionActions;
-  }
-
-  if (import.meta.env.MODE !== 'production') {
-    restoreCSRF();
-    window.csrfFetch = csrfFetch; // Make csrfFetch available globally
-  }
-
-  // Render the app
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <ModalProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </ModalProvider>
-    </React.StrictMode>
-  );
+if (process.env.NODE_ENV !== 'production') {
+  restoreCSRF();
+  window.csrfFetch = csrfFetch;
+  window.store = store;
+  window.sessionActions = sessionActions;
 }
 
-// Call the function to start the app
-startApp();
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ModalProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+          <Modal /> 
+        </BrowserRouter>
+      </Provider>
+    </ModalProvider>
+  </React.StrictMode>
+);

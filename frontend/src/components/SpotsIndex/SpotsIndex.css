@@ -1,0 +1,31 @@
+/* SpotsIndex.css */
+
+.spots-index {
+    margin-top: 20px;
+  }
+  
+  .spots-index h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .spots-index ul {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 20px; /* Space between items */
+  }
+  
+  .spots-index li {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1 0 30%; /* Each item takes up 30% of the row */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .spots-index img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  

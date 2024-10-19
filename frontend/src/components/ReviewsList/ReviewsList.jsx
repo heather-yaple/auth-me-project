@@ -1,32 +1,34 @@
-// ReviewsList.jsx
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchReviews } from '../store/reviews'; // Import deleteReview action
-import { deleteReviewThunk } from './store/reviews'; // Import the renamed thunk
-import './styles/ReviewsList.css';
-const ReviewsList = ({ spotId }) => {
-  const dispatch = useDispatch();
-  const reviews = useSelector(state => state.reviews[spotId] || []); // Handle undefined state gracefully
+// src/components/ReviewsList/ReviewsList.jsx
 
-  useEffect(() => {
-    dispatch(fetchReviews(spotId));
-  }, [dispatch, spotId]);
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+import { useSelector } from 'react-redux';
+import ReviewItem from '../ReviewItem/ReviewItem';
+import './ReviewsList.css';
+
+const ReviewsList = ({ spot, user }) => {
+  const reviewsObject = useSelector((state) => state.reviews.spotReviews);
+  const reviews = Object.values(reviewsObject).reverse(); // Show latest reviews first
+
+  if (!reviews.length) {
+    return (
+      <div>
+        {user && user.id !== spot.ownerId ? (
+          <p>Be the first to post a review!</p>
+        ) : (
+          <p>No reviews yet.</p>
+        )}
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h3>Reviews</h3>
-      <ul>
-        {reviews.map(review => (
-          <li key={review.id}>
-            {review.content}
-            <button onClick={() => dispatch(deleteReviewThunk(review.id))}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div className="reviews-list">
+      {reviews.map((review) => (
+        <ReviewItem key={review.id} review={review} />
+      ))}
     </div>
   );
 };
 
 export default ReviewsList;
-

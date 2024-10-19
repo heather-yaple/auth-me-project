@@ -1,65 +1,44 @@
+// frontend/src/App.jsx
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import * as sessionActions from './store/session';
-import { fetchSpots } from './store/spots';
-import { fetchReviews } from './store/reviews';
-import LoginFormPage from './components/LoginFormPage/LoginFormPage';
-import SignupFormPage from './components/SignupFormPage/SignupFormPage';
-import Navigation from './components/Navigation/Navigation';
-import SpotsIndexPage from './components/SpotsIndex/SpotsIndex';
-import SpotShowPage from './components/SpotShow/SpotShow';
-import ReviewsListPage from './components/ReviewsList/ReviewsList';
-import './styles/styles.css';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Routes, Route } from 'react-router-dom';
+import Navigation from "./components/Navigation/Navigation";
+import * as sessionActions from "./store/session";
+import SpotsIndex from './components/SpotsIndex/SpotsIndex';
+import { Modal } from './components/context/Modal';
+import './App.css'; 
+import SpotDetails from './components/SpotDetails/SpotDetails';
+import SpotForm from './components/SpotForm/SpotForm';
+import EditSpotForm from './components/EditSpotForm/EditSpotForm';
+import ManageSpots from './components/ManageSpots/ManageSpots';
 
-function Layout() {
+
+
+function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const initializeApp = async () => {
-      try {
-        await dispatch(sessionActions.restoreUser());
-        await dispatch(fetchSpots());
-        await dispatch(fetchReviews());
-      } catch (error) {
-        console.error("Error restoring user session:", error);
-      } finally {
-        setIsLoaded(true);
-      }
-    };
-
-    initializeApp();
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
     <>
-      <Navigation />
-      {!isLoaded ? <h1>Loading...</h1> : <Outlet />}
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && (
+        <Routes>
+          <Route path="/" element={<SpotsIndex />} />
+          <Route path="/spots/:spotId" element={<SpotDetails />} />
+          <Route path="/spots/new" element={<SpotForm />} />
+          <Route path="/spots/current" element={<ManageSpots />} /> 
+          <Route path="/spots/:spotId/edit" element={<EditSpotForm />} />
+
+        </Routes>
+      )}
+      <Modal /> 
     </>
   );
-}
-
-const router = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      { path: '/', element: <h1>Welcome!</h1> },
-      { path: '/login', element: <LoginFormPage /> },
-      { path: '/signup', element: <SignupFormPage /> },
-      { path: '/spots', element: <SpotsIndexPage /> },
-      { path: '/spots/:spotId', element: <SpotShowPage /> },
-      { path: '/reviews', element: <ReviewsListPage /> },
-      { path: '/logout', element: <h1>Logout</h1> },
-      // Add additional routes here as needed
-      { path: '*', element: <h1>404 Not Found</h1> }, // Catch-all for 404
-    ],
-  },
-]);
-
-function App() {
-  return <RouterProvider router={router} />;
 }
 
 export default App;

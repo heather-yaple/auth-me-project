@@ -1,0 +1,81 @@
+
+.spot-form-container {
+  max-width: 900px; /* Increased width */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 8px;
+}
+
+.spot-form-container h1 {
+  text-align: center;
+  color: var(--indigo);
+  margin-bottom: 20px;
+}
+
+.spot-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.spot-form-container .inline-fields {
+  display: flex;
+  gap: 20px;
+}
+
+.spot-form-container .field {
+  flex: 1;
+}
+
+.spot-form-container .inline-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.spot-form-container label {
+  margin-bottom: 5px;
+  color: var(--indigo);
+  font-weight: bold;
+}
+
+.spot-form-container input,
+.spot-form-container textarea {
+  width: 70%; /* Adjust width of input/textarea */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.spot-form-container textarea {
+  height: 120px;
+  resize: none;
+}
+
+.spot-form-container .error {
+  color: var(--hot-pink);
+  margin-top: 5px;
+}
+
+.spot-form-container .error-inline {
+  color: var(--hot-pink);
+  margin-left: 10px;
+  flex: 1; /* Use flex for alignment */
+}
+
+.spot-form-container button[type="submit"] {
+  padding: 10px;
+  background-color: var(--brown);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.spot-form-container button[type="submit"]:hover {
+  background-color: var(--dark-blue);
+}

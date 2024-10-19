@@ -1,0 +1,38 @@
+/* Airbnb Button Component Styles */
+.airbnb-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    background-color: #FF385C; /* Airbnb Red */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .airbnb-btn:hover {
+    background-color: #e03352;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+  }
+  
+  .airbnb-btn:active {
+    background-color: #d22a48;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow on active click */
+  }
+  
+  .airbnb-btn:focus {
+    outline: 3px solid rgba(255, 56, 92, 0.6); /* Airbnb red outline on focus */
+    outline-offset: 2px;
+  }
+  
+  /* Disabled state */
+  .airbnb-btn:disabled {
+    background-color: #f7f7f7;
+    color: #c4c4c4;
+    cursor: not-allowed;
+    box-shadow: none;
+  }

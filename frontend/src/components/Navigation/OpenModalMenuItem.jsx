@@ -1,23 +1,30 @@
+// src/components/Navigation/OpenModalMenuItem.jsx
+
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { useModal } from '../../context/Modal';
+import { useModal } from '../../components/context/Modal';
+import './OpenModalMenuItem.css'; // Optional: If you have specific styles
 
 function OpenModalMenuItem({
-  modalComponent,  // component to render inside the modal
-  itemText,        // text of the menu item that opens the modal
-  onItemClick,     // optional: callback function that will be called once the menu item that opens the modal is clicked
-  onModalClose     // optional: callback function that will be called once the modal is closed
+  modalComponent,
+  itemText,
+  onItemClick,
+  onModalClose
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
   const onClick = () => {
     if (onModalClose) setOnModalClose(onModalClose);
     setModalContent(modalComponent);
-    if (typeof onItemClick === "function") onItemClick();
+    if (onItemClick) onItemClick();
   };
 
   return (
-    <li onClick={onClick}>{itemText}</li>
+    <li className="menu-item">
+      <button onClick={onClick} className="dropdown-item">
+        {itemText}
+      </button>
+    </li>
   );
 }
 

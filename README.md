@@ -1,8 +1,20 @@
 # auth-me-project
 Repo for Auth Me project
-# StaySphere
+# Cozy Cabins
 
-## Database Schema Design
+## Overview
+
+## Table of Contents
+
+* [Overview](#overview)
+* [Database Schema Design](#database-schema-design)
+* [API Documentation](#api-documentation)
+* [USER AUTHENTICATION/AUTHORIZATION](#user-authenticationauthorization)
+    * [All endpoints that require authentication](#all-endpoints-that-require-authentication)
+
+
+## Overview
+# Database Schema Design
 
 ![airbnb-database-schema]
 

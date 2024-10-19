@@ -1,21 +1,16 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import eslint from 'vite-plugin-eslint';
+//frontend/vite.config.js
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    eslint({
-      lintOnStart: true,
-      failOnError: mode === "production"
-    })
-  ],
-  // To automatically open the app in the browser whenever the server starts,
-  // uncomment the following lines:
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
   server: {
+    port: 3000,
     proxy: {
-      '/api': 'http://localhost:8000', // Redirect API requests to backend
+      '/api': {
+        target: process.env.NODE_ENV === 'production' ? 'https://auth-me-project-yqht.onrender.com/' : 'http://localhost:8000',        changeOrigin: true,
+      },
     },
   },
-}));
+})

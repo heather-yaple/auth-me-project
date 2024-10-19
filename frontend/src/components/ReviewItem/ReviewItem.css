@@ -1,0 +1,36 @@
+/* ReviewItem.css */
+
+.review-item {
+    margin-bottom: 20px;
+  }
+  
+  .review-item h3 {
+    margin: 0;
+    color: var(--indigo);
+  }
+  
+  .review-item .review-date {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .review-item p {
+    font-size: 16px;
+    color: var(--indigo);
+    line-height: 1.6;
+  }
+  
+  .review-item .delete-review-button {
+    background-color: var(--crayola-red);
+    color: var(--white);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .review-item .delete-review-button:hover {
+    background-color: #c0392b;
+  }

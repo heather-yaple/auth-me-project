@@ -1,0 +1,81 @@
+/* ReviewFormModal.css */
+
+.review-form-modal {
+  padding: 20px;
+  max-width: 500px;
+  background-color: var(--white);
+}
+
+.review-form-modal h2 {
+  margin-bottom: 20px;
+  color: var(--indigo);
+}
+
+.review-form-modal p.subtitle {
+  margin-bottom: 10px;
+  color: var(--indigo);
+}
+
+.review-form-modal .errors {
+  color: var(--crayola-red);
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.review-form-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-form-modal textarea {
+  resize: none;
+  height: 100px;
+  margin-bottom: 20px;
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+}
+
+.review-form-modal .stars-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.review-form-modal .star-rating {
+  display: flex;
+}
+
+.review-form-modal .star-rating button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.review-form-modal .star-rating .on .star {
+  color: var(--vibrant-green);
+}
+
+.review-form-modal .star-rating .off .star {
+  color: var(--gray);
+}
+
+.review-form-modal button[type='submit'] {
+  padding: 10px;
+  background-color: var(--gray);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
+  font-size: 16px;
+}
+
+.review-form-modal button[type='submit'].active {
+  background-color: var(--vibrant-green);
+  cursor: pointer;
+}
+
+.review-form-modal button[type='submit']:hover {
+  background-color: var(--dark-blue);
+}

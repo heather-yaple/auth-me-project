@@ -1,50 +1,39 @@
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import './styles/Navigation.css';
+import './Navigation.css';
+import logoImage from '../../images/logo.png'; 
+import { FaEllipsisV } from 'react-icons/fa';
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul className="navigation">
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-      </li>
-
-      {/* Only show Spots and Reviews if the user is logged in */}
-      {sessionUser && (
-        <>
-          <li>
-            <NavLink to="/spots">Spots</NavLink>
-          </li>
-          <li>
-            <NavLink to="/reviews">Reviews</NavLink>
-          </li>
-        </>
-      )}
-
-      {/* Show Login and Signup if no user is logged in */}
-      {!sessionUser && (
-        <>
-          <li>
-            <NavLink to="/login">Login</NavLink>
-          </li>
-          <li>
-            <NavLink to="/signup">Signup</NavLink>
-          </li>
-        </>
-      )}
-
-      {/* Conditionally render the ProfileButton if user is loaded */}
-      {isLoaded && sessionUser && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
-    </ul>
+    <header className="header">
+      <div className="container header-content">
+        <NavLink to="/" className="logo-link">
+          <img src={logoImage} alt="Parkly Logo" className="logo-image" />
+        </NavLink>
+        <nav className="nav-menu">
+          {sessionUser && (
+            <NavLink to="/spots/new" className="create-spot-link">
+              Create a New Spot
+            </NavLink>
+          )}
+          <div className="menu-buttons">
+            <button className="hamburger-menu" aria-label="Menu">
+              <FaEllipsisV />
+            </button>
+            {isLoaded && (
+              <ProfileButton user={sessionUser} />
+            )}
+          </div>
+        </nav>
+      </div>
+    </header>
   );
 }
 
 export default Navigation;
-

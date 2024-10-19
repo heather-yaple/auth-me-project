@@ -1,3 +1,5 @@
+//backend/routes/api/reviews.js
+
 const express = require('express');
 const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');

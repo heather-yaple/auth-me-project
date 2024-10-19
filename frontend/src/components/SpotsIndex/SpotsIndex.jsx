@@ -1,27 +1,38 @@
-// SpotsIndex.jsx
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchSpots } from '../../store/spots'; // Action to fetch spots
-import './styles/SpotsIndex.css';
+// src/components/SpotsIndex/SpotsIndex.jsx
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllSpots } from '../../store/spots';
+import SpotTile from '../SpotTile/SpotTile';
+import './SpotsIndex.css';
+
 const SpotsIndex = () => {
   const dispatch = useDispatch();
-  const spots = useSelector(state => state.spots);
-  
+  const spots = useSelector((state) => Object.values(state.spots.allSpots));
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
   useEffect(() => {
-    dispatch(fetchSpots());
+    dispatch(getAllSpots())
+      .then(() => setIsLoaded(true))
+      .catch((err) => setError(err));
   }, [dispatch]);
 
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div>
-      <h1>Spots</h1>
+    <div className="spots-index">
+      <div className="welcome-message">
+        <h1>Parking, reimagined.</h1>
+      </div>
       <div className="spots-list">
-        {spots.map(spot => (
-          <div key={spot.id}>
-            <h2>{spot.name}</h2>
-            <img src={spot.previewImage} alt={spot.name} />
-            <p>{spot.description}</p>
-          </div>
+        {spots.map((spot) => (
+          <SpotTile key={spot.id} spot={spot} />
         ))}
       </div>
     </div>

@@ -1,0 +1,52 @@
+/* DeleteConfirmationModal.css & DeleteReviewConfirmationModal.css */
+
+.delete-confirmation-modal,
+.delete-review-confirmation-modal {
+  padding: 20px;
+  text-align: center;
+}
+
+.delete-confirmation-modal h2,
+.delete-review-confirmation-modal h2 {
+  margin-bottom: 15px;
+  color: var(--indigo);
+}
+
+.delete-confirmation-modal p,
+.delete-review-confirmation-modal p {
+  margin-bottom: 20px;
+  color: var(--indigo);
+}
+
+.delete-confirmation-modal .modal-buttons,
+.delete-review-confirmation-modal .modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.confirm-delete-button {
+  background-color: var(--crayola-red);
+  color: var(--white);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.confirm-delete-button:hover {
+  background-color: #c0392b;
+}
+
+.cancel-button {
+  background-color: var(--gray);
+  color: var(--indigo);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancel-button:hover {
+  background-color: var(--light-gray);
+}
