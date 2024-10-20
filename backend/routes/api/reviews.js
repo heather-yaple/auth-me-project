@@ -3,10 +3,12 @@ const models = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { isLoggedIn, prepareSubqStatement, createReviewValidation } = require('../../utils/endpoint-validation');
 
-router.get('/current', requireAuth, isLoggedIn, async (req, res, next) => {
-    const err = new Error();
-    err.title = "Couldn't get all reviews";
+// Helper function to handle errors
+const handleError = (res, message, status) => {
+    return res.status(status).json({ message });
+};
 
+router.get('/current', requireAuth, isLoggedIn, async (req, res) => {
     const subq = prepareSubqStatement();
     subq.previewImage = `(
         SELECT "url" FROM "${subq.schema}SpotImages" AS "SpotImage"
@@ -15,6 +17,7 @@ router.get('/current', requireAuth, isLoggedIn, async (req, res, next) => {
             AND
             "SpotImage"."spotId" = "Spot"."id"
     )`;
+
     const reviews = await models.Review.findAll({
         where: { userId: req.user.id },
         include: [
@@ -29,88 +32,60 @@ router.get('/current', requireAuth, isLoggedIn, async (req, res, next) => {
             { model: models.ReviewImage, attributes: ['id', 'url'] }
         ]
     });
+
     res.status(200).json({ Reviews: reviews });
 });
 
-// router.get('/user/:userId', async (req, res, next) => {
-//     const reviews = await models.Review.findAll({
-//         where: { userId: req.params.userId },
-//         include: [
-//             { model: Spot }
-//         ]
-//     });
-//     res.status(200).json(reviews);
-// })
-
 router.post('/:reviewId/images', requireAuth, isLoggedIn, async (req, res, next) => {
-    const err = new Error();
-    err.title = "Couldn't add an image to a review!";
-
     const review = await models.Review.findByPk(req.params.reviewId);
     if (!review) {
-        err.message = "Review couldn't be found";
-        err.status = 404;
-        next(err);
-    } else if (req.user.id !== review.userId) {
-        req.throwErr = true;
-        return isLoggedIn(req, res, next);
+        return handleError(res, "Review couldn't be found", 404);
+    } 
+    if (req.user.id !== review.userId) {
+        return handleError(res, "You do not have permission to add an image to this review", 403);
     }
-    
+
     const reviewImage = await models.ReviewImage.create({
         reviewId: Number(req.params.reviewId),
         ...req.body
     });
-    if (!reviewImage) {
-        err.message = "Forbidden";
-        err.status = 403;
-        next(err);
-    }
+    
     res.status(201).json({ id: reviewImage.id, url: reviewImage.url });
 });
 
 router.put('/:reviewId', requireAuth, isLoggedIn, createReviewValidation, async (req, res, next) => {
-    const err = new Error();
-    err.title = "Couldn't edit a review!";
     const review = await models.Review.findByPk(req.params.reviewId);
     if (!review) {
-        err.status = 404;
-        err.message = "Review couldn't be found";
-        next(err);
-    } else if (req.user.id !== review.userId) {
-        req.throwErr = true;
-        return isLoggedIn(req, res, next);
+        return handleError(res, "Review couldn't be found", 404);
+    }
+    if (req.user.id !== review.userId) {
+        return handleError(res, "You do not have permission to edit this review", 403);
     }
 
-    for (const [k, v] of Object.entries({ review: req.body.review, stars: req.body.stars })) {
-        if (v) {
-            review[k] = v;
-        }
-    }
+    // Update review fields if they exist in the request
+    Object.entries({ review: req.body.review, stars: req.body.stars }).forEach(([k, v]) => {
+        if (v) review[k] = v;
+    });
+
     try {
         await review.save();
+        res.status(200).json(review);
     } catch (e) {
-        // errorResults.errors = { review, stars };
-        err.status = 400;
-        err.message = e.message;
-        return next(err);
+        return handleError(res, e.message, 400);
     }
-    res.status(200).json(review);
 });
 
 router.delete('/:reviewId', requireAuth, isLoggedIn, async (req, res, next) => {
-    const err = new Error();
-    err.title = "Couldn't delete a review!";
-
     const review = await models.Review.findByPk(req.params.reviewId);
     if (!review) {
-        err.message = "Review couldn't be found"
-        err.status = 404;
-        next(err);
-    } else if (req.user.id !== review.userId) {
-        req.throwErr = true;
-        return isLoggedIn(req, res, next);
+        return handleError(res, "Review couldn't be found", 404);
     }
+    if (req.user.id !== review.userId) {
+        return handleError(res, "You do not have permission to delete this review", 403);
+    }
+
     await review.destroy();
     res.status(200).json({ message: "Successfully deleted" });
-})
+});
+
 module.exports = router;

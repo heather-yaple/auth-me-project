@@ -1,94 +1,23 @@
-// const config = require('./index');
-
-// module.exports = {
-//   development: {
-//     storage: config.dbFile,
-//     dialect: "sqlite",
-//     seederStorage: "sequelize",
-//     logQueryParameters: true,
-//     typeValidation: true
-//   },
-// //   production: {
-// //     use_env_variable: 'DATABASE_URL',
-// //     dialect: 'postgres',
-// //     seederStorage: 'sequelize',
-// //     dialectOptions: {
-// //       ssl: {
-// //         require: true,
-// //         rejectUnauthorized: false
-// //       }
-// //     },
-// //     define: {
-// //       schema: process.env.SCHEMA
-// //     }
-// //   }
-// // };
-
-// production: {
-//   use_env_variable: 'DATABASE_URL',
-//   dialect: 'postgres',
-//   seederStorage: 'sequelize',
-//   dialectOptions: {
-//     ssl: {
-//       require: true,
-//       rejectUnauthorized: false
-//     }
-//   },
-//   define: {
-//     schema: process.env.SCHEMA
-//   }
-// },
-// production_url: {
-//   dialect: 'postgres',
-//   seederStorage: 'sequelize',
-//   dialectOptions: {
-//     ssl: {
-//       require: true,
-//       rejectUnauthorized: false
-//     }
-//   },
-//   define: {
-//     schema: process.env.SCHEMA
-//   }
-// },
-// production_url_ssl: {
-//   dialect: 'postgres',
-//   seederStorage: 'sequelize',
-//   dialectOptions: {
-//     ssl: {
-//       require: true,
-//       rejectUnauthorized: false
-//     }
-//   },
-//   define: {
-//     schema: process.env.SCHEMA
-//   }
-// }
-// };
-
-
-const config = require('./index');
-
 module.exports = {
   development: {
-    storage: config.dbFile,
-    dialect: "sqlite",
-    seederStorage: "sequelize",
-    logQueryParameters: true,
-    typeValidation: true
+    username: "root",
+    password: null,
+    database: "database_development",
+    host: "127.0.0.1",
+    dialect: "sqlite"
+  },
+  test: {
+    username: "root",
+    password: null,
+    database: "database_test",
+    host: "127.0.0.1",
+    dialect: "sqlite"
   },
   production: {
-    use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
-    seederStorage: 'sequelize',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    define: {
-      schema: process.env.SCHEMA
-    }
+    username: "root",
+    password: null,
+    database: "database_production",
+    host: "127.0.0.1",
+    dialect: "sqlite"
   }
 };

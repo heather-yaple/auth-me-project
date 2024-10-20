@@ -1,65 +1,47 @@
-'use strict';
-
-const { Model, Validator } = require('sequelize');
+const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      // define association here
-      User.hasMany(models.Spot, { foreignKey: 'ownerId', as: 'Owner' });
-      User.hasMany(models.Review, { foreignKey: 'userId' });
-      User.hasMany(models.Booking, { foreignKey: 'userId' });
-    }
-  }
-  User.init(
-    {
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          len: [4, 30],
-          isNotEmail(value) {
-            if (Validator.isEmail(value)) {
-              throw new Error('Cannot be an email.');
-            }
-          },
-        },
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          len: [3, 256],
-          isEmail: true,
-        },
-      },
-      hashedPassword: {
-        type: DataTypes.STRING.BINARY,
-        allowNull: false,
-        validate: {
-          len: [60, 60],
-        },
-      },
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false
-      }
+  const User = sequelize.define("User", {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
-    {
-      sequelize,
-      modelName: 'User',
-      defaultScope: {
-        attributes: {
-          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
-        },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
       },
+    },
+    hashedPassword: {
+      type: DataTypes.STRING.BINARY,  // to store hashed passwords
+      allowNull: false,
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    // Optional: This will remove the password hash from the JSON returned in API responses
+    defaultScope: {
+      attributes: { exclude: ["hashedPassword"] },
+    },
+    scopes: {
+      withPassword: { attributes: {} },
     }
-  );
+  });
+
+  // Instance method to check if the provided password matches the hashed password
+  User.prototype.validatePassword = function(password) {
+    return bcrypt.compare(password, this.hashedPassword);
+  };
+
   return User;
 };

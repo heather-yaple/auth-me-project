@@ -7,59 +7,53 @@ const reviewsRouter = require('./reviews.js');
 const bookingsRouter = require('./bookings.js');
 const spotImagesRouter = require('./spot-images.js');
 const reviewImagesRouter = require('./review-images.js');
-const { restoreUser } = require("../../utils/auth.js");
+const { restoreUser, requireAuth, setTokenCookie } = require("../../utils/auth.js");
+const { User } = require('../../db/models');
 
-router.post('/test', function(req, res) {
+// Test route
+router.post('/test', (req, res) => {
     res.json({ requestBody: req.body });
 });
 
 // GET /api/set-token-cookie
-const { setTokenCookie } = require('../../utils/auth.js');
-const { User } = require('../../db/models');
 router.get('/set-token-cookie', async (_req, res) => {
-  const user = await User.findOne({
-    where: {
-      username: 'Demo-lition'
-    }
-  });
-  setTokenCookie(res, user);
-  return res.json({ user: user });
+    const user = await User.findOne({
+        where: {
+            username: 'Demo-lition'
+        }
+    });
+    setTokenCookie(res, user);
+    return res.json({ user });
 });
 
+// Middleware to restore user
 router.use(restoreUser);
 
-router.get(
-  '/restore-user',
-  (req, res) => {
+// Restore session user
+router.get('/restore-user', (req, res) => {
     return res.json(req.user);
-  }
-);
-
-// GET /api/require-auth
-const { requireAuth } = require('../../utils/auth.js');
-router.get(
-  '/require-auth',
-  requireAuth,
-  (req, res) => {
-    return res.json(req.user);
-  }
-);
-
-router.use('/session', sessionRouter);
-
-router.use('/users', usersRouter);
-
-router.use('/reviews', reviewsRouter);
-
-router.use('/bookings', bookingsRouter);
-
-router.use('/spot-images', spotImagesRouter);
-router.use('/review-images', reviewImagesRouter);
-
-router.post('/test', (req, res) => {
-  res.json({ requestBody: req.body });
 });
 
+// GET /api/require-auth
+router.get('/require-auth', requireAuth, (req, res) => {
+    return res.json(req.user);
+});
+
+// API route handlers
+router.use('/session', sessionRouter);
+router.use('/users', usersRouter);
+router.use('/reviews', reviewsRouter);
+router.use('/bookings', bookingsRouter);
+router.use('/spot-images', spotImagesRouter);
+router.use('/review-images', reviewImagesRouter);
 router.use('/spots', spotsRouter);
+
+// Error handling middleware
+router.use((err, req, res, next) => {
+    console.error(err);
+    res.status(err.status || 500).json({
+        message: err.message || 'Internal Server Error'
+    });
+});
 
 module.exports = router;
