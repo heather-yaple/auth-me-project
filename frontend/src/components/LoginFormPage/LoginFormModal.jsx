@@ -16,14 +16,14 @@ function LoginFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
+    setErrors({}); // Clear previous errors
     return dispatch(sessionActions.login({ credential, password }))
-      .then(closeModal)
+      .then(closeModal) // Close the modal on successful login
       .catch(async (res) => {
-        const data = await res.json();
+        const data = await res.json(); // Handle errors
         if (data && data.errors) setErrors(data.errors);
       });
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -52,11 +52,5 @@ function LoginFormModal() {
     </form>
   );
 }
-const fetchUsers = async (page = 1, size = 10) => {
-  const response = await csrfFetch(`/api/users?page=${page}&size=${size}`);
-  const data = await response.json();
-  return data;
-};
-
 
 export default LoginFormModal;

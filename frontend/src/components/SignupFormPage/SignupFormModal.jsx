@@ -19,54 +19,53 @@ function SignupFormModal() {
   const { closeModal } = useModal();
 
   // Add state for input validity
-const [isEmailValid, setIsEmailValid] = useState(true);
-const [isPasswordValid, setIsPasswordValid] = useState(true);
-const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
 
-// Email validation
-const handleEmailChange = (e) => {
-  const value = e.target.value;
-  setEmail(value);
-  setIsEmailValid(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)); // Basic email regex validation
-};
+  // Email validation
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    setIsEmailValid(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)); // Basic email regex validation
+  };
 
-// Password validation (ensure password is at least 6 characters)
-const handlePasswordChange = (e) => {
-  const value = e.target.value;
-  setPassword(value);
-  setIsPasswordValid(value.length >= 6);
-};
+  // Password validation (ensure password is at least 6 characters)
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    setIsPasswordValid(value.length >= 6);
+  };
 
-// Confirm password validation (check if it matches the password)
-const handleConfirmPasswordChange = (e) => {
-  const value = e.target.value;
-  setConfirmPassword(value);
-  setIsConfirmPasswordValid(value === password);
-};
+  // Confirm password validation (check if it matches the password)
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+    setIsConfirmPasswordValid(value === password);
+  };
 
-const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);  // Show loader/spinner
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);  // Show loader/spinner
 
-  if (password === confirmPassword) {
-    setErrors({});
-    return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
-      .then(() => {
-        setIsSubmitting(false);  // Stop loader
-        closeModal();
-      })
-      .catch(async (res) => {
-        const data = await res.json();
-        setIsSubmitting(false);  // Stop loader
-        if (data && data.errors) setErrors(data.errors);
-      });
-  }
-  setIsSubmitting(false);  // Stop loader in case of validation error
-  return setErrors({ confirmPassword: "Confirm Password field must be the same as the Password field" });
-};
-
+    if (password === confirmPassword) {
+      setErrors({});
+      return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+        .then(() => {
+          setIsSubmitting(false);  // Stop loader
+          closeModal();
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+          setIsSubmitting(false);  // Stop loader
+          if (data && data.errors) setErrors(data.errors);
+        });
+    }
+    setIsSubmitting(false);  // Stop loader in case of validation error
+    return setErrors({ confirmPassword: "Confirm Password field must be the same as the Password field" });
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -134,23 +133,8 @@ const handleSubmit = async (e) => {
       <button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Submitting..." : "Sign Up"}
       </button>
-
     </form>
   );
 }
-router.get('/confirm/:token', async (req, res) => {
-  const { token } = req.params;
-  const user = await User.findOne({ where: { confirmationToken: token } });
-
-  if (!user) {
-    return res.status(400).json({ message: 'Invalid token' });
-  }
-
-  user.confirmationToken = null; // Clear the token after verification
-  user.isVerified = true; // Add this field to your model to track verification
-  await user.save();
-
-  return res.json({ message: 'Email confirmed' });
-});
 
 export default SignupFormModal;
