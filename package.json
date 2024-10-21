@@ -1,17 +1,17 @@
 {
-  "name": "root",
+  "name": "johnny-ha-airbnb",
   "version": "1.0.0",
+  "description": "## Database Schema Design",
+  "main": "index.js",
   "scripts": {
-    "install": "npm install --prefix backend && npm install --prefix frontend",
-    "build": "npm run build --prefix backend && npm run build --prefix frontend",
-    "migrate": "cd backend && npx sequelize-cli db:migrate",
-    "seed:all": "cd backend && npx sequelize-cli db:seed:all",
-    "seed:undo:all": "cd backend && npx sequelize-cli db:seed:undo:all",
-    "migrate:undo:all": "cd backend && npx sequelize-cli db:migrate:undo:all"
+      "install": "npm --prefix backend install backend",
+      "dev:backend": "npm install --prefix backend start",
+      "sequelize": "npm run --prefix backend sequelize",
+      "sequelize-cli": "npm run --prefix backend sequelize-cli",
+      "start": "npm start --prefix backend",
+      "build": "npm run --prefix backend build"
   },
-  "dependencies": {
-    "@reduxjs/toolkit": "^2.3.0",
-    "nodemailer": "^6.9.15",
-    "react-redux": "^9.1.2"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
