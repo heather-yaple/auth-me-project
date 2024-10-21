@@ -1,28 +1,28 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    const Spot = sequelize.define('Spot', {
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
-        location: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
-        },
-    });
-
-    Spot.associate = models => {
-        Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
-        Spot.hasMany(models.Review, { foreignKey: 'spotId' });
-        Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
-    };
-
-    return Spot;
+  class Spot extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  Spot.init({
+    ownerId: DataTypes.INTEGER,
+    address: DataTypes.STRING,
+    city: DataTypes.STRING,
+    state: DataTypes.STRING,
+    zipCode: DataTypes.STRING,
+    price: DataTypes.DECIMAL
+  }, {
+    sequelize,
+    modelName: 'Spot',
+  });
+  return Spot;
 };
