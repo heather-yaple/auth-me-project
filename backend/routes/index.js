@@ -1,34 +1,43 @@
 // backend/routes/index.js
 const express = require('express');
 const router = express.Router();
-
 const apiRouter = require('./api');
 
-// Middleware to log incoming requests (optional)
-router.use((req, res, next) => {
-    console.log(`${req.method} request made to: ${req.url}`);
-    next();
-});
+router.use('/api', apiRouter);
 
-// Add a XSRF-TOKEN cookie
-router.get("/api/csrf/restore", (req, res) => {
+// Static routes
+// Serve React build files in production
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  // Serve the frontend's index.html file at the root route
+  router.get('/', (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    res.sendFile(
+      path.resolve(__dirname, '../../frontend', 'dist', 'index.html')
+    );
+  });
+
+  // Serve the static assets in the frontend's build folder
+  router.use(express.static(path.resolve("../frontend/dist")));
+
+  // Serve the frontend's index.html file at all other routes NOT starting with /api
+  router.get(/^(?!\/?api).*/, (req, res) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    res.sendFile(
+      path.resolve(__dirname, '../../frontend', 'dist', 'index.html')
+    );
+  });
+}
+
+// Add a XSRF-TOKEN cookie in development
+if (process.env.NODE_ENV !== 'production') {
+  router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
     res.cookie("XSRF-TOKEN", csrfToken);
     res.status(200).json({
-        'XSRF-Token': csrfToken
+      'XSRF-Token': csrfToken
     });
-});
-
-// Use the API router for all /api routes
-router.use('/api', apiRouter);
-
-// Error handling middleware
-router.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(err.status || 500).json({
-        message: err.message || 'Internal Server Error',
-        error: process.env.NODE_ENV === 'development' ? err : {}
-    });
-});
+  });
+}
 
 module.exports = router;

@@ -10,16 +10,7 @@
     "start": "per-env",
     "start:development": "nodemon ./bin/www",
     "start:production": "node ./bin/www",
-    "build": "node psql-setup-script.js",
-    "data": "sqlite3 db/dev.db \".mode box\" \"select * from $TBL;\"",
-    "d": "rm db/dev.db",
-    "m": "npx dotenv sequelize db:migrate",
-    "s": "npx dotenv sequelize db:seed:all",
-    "dm": "npm run d && npm run m",
-    "dms": "npm run d && npm run m && npm run s",
-    "um": "npx dotenv sequelize db:migrate:undo",
-    "uma": "npx dotenv sequelize db:migrate:undo:all",
-    "us": "npx dotenv sequelize db:seed:undo:all"
+    "build": "node psql-setup-script.js"
   },
   "keywords": [],
   "author": "",
@@ -29,22 +20,21 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
-    "express-validator": "^7.2.0",
+    "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
-    "pg": "^8.13.0",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.4",
+    "pg": "^8.11.3",
+    "sequelize": "^6.35.2",
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
-    "dotenv-cli": "^7.4.2",
-    "nodemon": "^3.1.5",
+    "dotenv-cli": "^7.3.0",
+    "nodemon": "^3.0.3",
     "sqlite3": "^5.1.7"
   }
 }

@@ -1,42 +1,42 @@
 const express = require('express');
-require('express-async-errors'); // For handling async errors
-const morgan = require('morgan'); // For logging
-const cors = require('cors'); // For enabling CORS
-const csurf = require('csurf'); // For CSRF protection
-const helmet = require('helmet'); // For setting security headers
-const cookieParser = require('cookie-parser'); // For parsing cookies
-
-const routes = require('./routes'); // Import your routes
-
-const { ValidationError } = require('sequelize');
+require('express-async-errors');
+const morgan = require('morgan');
+const cors = require('cors');
+const csurf = require('csurf');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const { environment } = require('./config');
 const isProduction = environment === 'production';
-
+const routes = require('./routes');
+const { ValidationError } = require('sequelize');
 const app = express();
 
-app.use(morgan('dev')); // Logging middleware
-app.use(cookieParser()); // Cookie parsing middleware
-app.use(express.json()); // Body parsing middleware
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(express.json());
 
-// Security Middleware
 if (!isProduction) {
-  app.use(cors()); // Enable CORS only in development
-}
+  app.use(cors());
+};
 
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" })); // Set security headers
+app.use(
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
+  })
+);
 
-// CSRF Protection Middleware
-app.use(csurf({ 
-  cookie: {
-    secure: isProduction, // Use secure cookies in production
-    sameSite: isProduction && "Lax",
-    httpOnly: true
-  }
-}));
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true,
+    }
+  })
+);
 
-app.use(routes); // Use the imported routes
+app.use(routes);
 
-// 404 Error Handler
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
@@ -45,7 +45,6 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-// Sequelize Error Handler
 app.use((err, _req, _res, next) => {
   if (err instanceof ValidationError) {
     let errors = {};
@@ -58,19 +57,15 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 
-// General Error Handler
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
-  const errorObject = {
+  res.json({
+    title: err.title || 'Server Error',
     message: err.message,
     errors: err.errors,
-  };
-  if (!isProduction) {
-    errorObject.title = err.title || 'Server Error';
-    errorObject.stack = isProduction ? null : err.stack;
-  }
-  res.json(errorObject);
+    stack: isProduction ? null : err.stack
+  });
 });
 
-module.exports = app; // Export the app
+module.exports = app;
