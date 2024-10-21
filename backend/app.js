@@ -1,52 +1,42 @@
 const express = require('express');
-require('express-async-errors');
-const morgan = require('morgan');
-const cors = require('cors');
-const csurf = require('csurf');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
+require('express-async-errors'); // For handling async errors
+const morgan = require('morgan'); // For logging
+const cors = require('cors'); // For enabling CORS
+const csurf = require('csurf'); // For CSRF protection
+const helmet = require('helmet'); // For setting security headers
+const cookieParser = require('cookie-parser'); // For parsing cookies
 
-const routes = require('./routes');
+const routes = require('./routes'); // Import your routes
 
 const { ValidationError } = require('sequelize');
-
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
 
-app.use(morgan('dev'));
-
-app.use(cookieParser());
-app.use(express.json());
+app.use(morgan('dev')); // Logging middleware
+app.use(cookieParser()); // Cookie parsing middleware
+app.use(express.json()); // Body parsing middleware
 
 // Security Middleware
 if (!isProduction) {
-  // enable cors only in development
-  app.use(cors());
+  app.use(cors()); // Enable CORS only in development
 }
 
-// helmet helps set a variety of headers to better secure your app
-app.use(
-  helmet.crossOriginResourcePolicy({
-    policy: "cross-origin"
-  })
-);
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" })); // Set security headers
 
-// Set the _csrf token and create req.csrfToken method
-app.use(
-  csurf({
-    cookie: {
-      secure: isProduction,
-      sameSite: isProduction && "Lax",
-      httpOnly: true
-    }
-  })
-);
+// CSRF Protection Middleware
+app.use(csurf({ 
+  cookie: {
+    secure: isProduction, // Use secure cookies in production
+    sameSite: isProduction && "Lax",
+    httpOnly: true
+  }
+}));
 
-app.use(routes);
+app.use(routes); // Use the imported routes
 
-// Catch unhandled requests and forward to error handler.
+// 404 Error Handler
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
@@ -55,9 +45,8 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-// Process sequelize errors
+// Sequelize Error Handler
 app.use((err, _req, _res, next) => {
-  // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     let errors = {};
     for (let error of err.errors) {
@@ -69,14 +58,14 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 
-// Error formatter
+// General Error Handler
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
   const errorObject = {
     message: err.message,
     errors: err.errors,
-  }
+  };
   if (!isProduction) {
     errorObject.title = err.title || 'Server Error';
     errorObject.stack = isProduction ? null : err.stack;
@@ -84,6 +73,4 @@ app.use((err, _req, res, _next) => {
   res.json(errorObject);
 });
 
-
-  
-module.exports = app;
+module.exports = app; // Export the app

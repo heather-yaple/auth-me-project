@@ -27,11 +27,18 @@ router.post('/', validateLogin, async (req, res) => {
     try {
         const user = await User.findOne({ where: { [Op.or]: { username: credential, email: credential } } });
 
+        // Check if user exists and password matches
         if (!user || !bcrypt.compareSync(password, user.hashedPassword)) {
             return res.status(401).json({ message: 'Login failed' });
         }
 
-        const safeUser = { id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, username: user.username };
+        const safeUser = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+        };
         await setTokenCookie(res, safeUser);
         return res.json({ user: safeUser });
     } catch (error) {
@@ -42,7 +49,7 @@ router.post('/', validateLogin, async (req, res) => {
 // Log out route
 router.delete('/', (req, res) => {
     res.clearCookie('token');
-    return res.json({ message: 'Success' });
+    return res.json({ message: 'Successfully logged out' });
 });
 
 // Restore session user route
@@ -51,7 +58,6 @@ router.get('/me', requireAuth, (req, res) => {
     return res.json({ user: user || {} });
 });
 
-// Other session-related routes...
+// Additional routes can be added here for other functionalities
 
 module.exports = router;
-
