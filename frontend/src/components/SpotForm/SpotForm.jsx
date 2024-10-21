@@ -85,7 +85,7 @@ const SpotForm = () => {
   const isValidUrl = (url) => {
     try {
       const parsedUrl = new URL(url);
-      return parsedUrl.pathname.match(/\.(png|jpg|jpeg)$/);
+      return parsedUrl.pathname.match(/.(png|jpg|jpeg)$/);
     } catch (err) {
       return false;
     }

@@ -1,7 +1,7 @@
 // src/components/ReviewsList/ReviewsList.jsx
 
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+
 import { useSelector } from 'react-redux';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import './ReviewsList.css';

@@ -1,6 +1,6 @@
 // src/components/Navigation/OpenModalMenuItem.jsx
 
-import React from 'react';
+
 import PropTypes from 'prop-types'; // Import PropTypes for type checking
 import { useModal } from '../../components/context/Modal';
 import './OpenModalMenuItem.css'; // Optional: If you have specific styles

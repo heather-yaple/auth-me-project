@@ -1,13 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import { useModal } from '../context/Modal';
 
-function OpenModalButton({
+const OpenModalButton = ({
   modalComponent,
   buttonText,
   onButtonClick,
   onModalClose
-}) {
+}) => {
   const { setModalContent, setOnModalClose } = useModal();
 
   const onClick = () => {
@@ -17,7 +16,7 @@ function OpenModalButton({
   };
 
   return <button onClick={onClick}>{buttonText}</button>;
-}
+};
 
 // PropTypes for better type checking
 OpenModalButton.propTypes = {
@@ -27,4 +26,17 @@ OpenModalButton.propTypes = {
   onModalClose: PropTypes.func,
 };
 
+// Display name for debugging purposes
+OpenModalButton.displayName = "OpenModalButton";
+
+const OpenModalMenuItem = () => {
+  // Define functionality or UI for OpenModalMenuItem here
+  return <div>Menu Item Component</div>; // Placeholder for rendering
+};
+
+// Display name for debugging purposes
+OpenModalMenuItem.displayName = "OpenModalMenuItem";
+
+// Export both components
+export { OpenModalMenuItem };
 export default OpenModalButton;

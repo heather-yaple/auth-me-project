@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // src/components/ReviewItem/ReviewItem.jsx
-import React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../context/Modal'; // Import useModal if using modal context
 import DeleteReviewConfirmationModal from '../DeleteReviewConfirmationModal/DeleteReviewConfirmationModal';
