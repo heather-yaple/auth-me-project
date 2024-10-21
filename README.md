@@ -1,6 +1,14 @@
-# auth-me-project
-Repo for Auth Me project
-# Cozy Cabins
+## Cozy Cabins
+
+Welcome to Cozy Cabins, a platform dedicated to helping you discover the perfect cabin getaway! Whether you're seeking a serene retreat in the mountains, a rustic escape by the lake, or a charming hideaway in the woods, Cozy Cabins offers a diverse selection of cozy accommodations that cater to all preferences and budgets.
+
+At Cozy Cabins, we believe in the magic of nature and the comfort of a home away from home. Our user-friendly website allows you to browse a variety of unique cabins, complete with stunning images and detailed descriptions to help you make an informed choice. Each listing includes essential information such as location, amenities, pricing, and availability, ensuring that your booking experience is as smooth as possible.
+
+Join us in creating unforgettable memories in our cozy cabins. Whether it's a weekend family getaway, a romantic escape, or a solo adventure, we have the perfect cabin waiting for you!
+
+Happy exploring!
+
+
 
 ## Overview
 
