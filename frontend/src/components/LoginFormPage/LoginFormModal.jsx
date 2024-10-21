@@ -1,10 +1,10 @@
 // frontend/src/components/LoginFormPage/LoginFormModal.jsx
 
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../components/context/Modal';
+import { fetchUsers } from '../../store/users'; // Import fetchUsers if needed
 import './LoginForm.css';
 
 function LoginFormModal() {
@@ -17,8 +17,13 @@ function LoginFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({}); // Clear previous errors
+
     return dispatch(sessionActions.login({ credential, password }))
-      .then(closeModal) // Close the modal on successful login
+      .then(async () => {
+        // Optionally fetch users after login
+        await dispatch(fetchUsers());
+        closeModal(); // Close the modal on successful login
+      })
       .catch(async (res) => {
         const data = await res.json(); // Handle errors
         if (data && data.errors) setErrors(data.errors);

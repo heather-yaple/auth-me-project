@@ -11,7 +11,6 @@
   padding: 5px;
 }
 
-
 .profile-dropdown {
   position: absolute;
   right: 0;
@@ -23,6 +22,14 @@
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
   width: 200px;
   z-index: 1000;
+  opacity: 0; /* Initially hidden */
+  visibility: hidden; /* Initially hidden */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+.profile-dropdown.show {
+  opacity: 1; /* Show opacity */
+  visibility: visible; /* Make visible */
 }
 
 .profile-dropdown li {
@@ -44,4 +51,12 @@
 .profile-dropdown a:hover,
 .profile-dropdown button:hover {
   color: var(--vibrant-green);
+  background-color: rgba(255, 255, 255, 0.1); /* Optional: Light background on hover */
+  border-radius: 4px; /* Slight rounding on hover */
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 32px; /* Adjust as needed */
+  height: 32px; /* Adjust as needed */
 }

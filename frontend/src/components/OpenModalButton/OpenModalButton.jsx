@@ -1,9 +1,6 @@
-//frontend/src/components/OpenModalButton/OpenModalButton.jsx
-
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import { useModal } from '../context/Modal';
-
 
 function OpenModalButton({
   modalComponent,
@@ -21,5 +18,13 @@ function OpenModalButton({
 
   return <button onClick={onClick}>{buttonText}</button>;
 }
+
+// PropTypes for better type checking
+OpenModalButton.propTypes = {
+  modalComponent: PropTypes.element.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  onButtonClick: PropTypes.func,
+  onModalClose: PropTypes.func,
+};
 
 export default OpenModalButton;

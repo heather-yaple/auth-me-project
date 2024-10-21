@@ -1,16 +1,11 @@
 // src/components/Navigation/OpenModalMenuItem.jsx
 
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes for type checking
 import { useModal } from '../../components/context/Modal';
 import './OpenModalMenuItem.css'; // Optional: If you have specific styles
 
-function OpenModalMenuItem({
-  modalComponent,
-  itemText,
-  onItemClick,
-  onModalClose
-}) {
+const OpenModalMenuItem = React.memo(({ modalComponent, itemText, onItemClick, onModalClose }) => {
   const { setModalContent, setOnModalClose } = useModal();
 
   const onClick = () => {
@@ -21,11 +16,23 @@ function OpenModalMenuItem({
 
   return (
     <li className="menu-item">
-      <button onClick={onClick} className="dropdown-item">
+      <button 
+        onClick={onClick} 
+        className="dropdown-item" 
+        aria-label={`Open ${itemText} modal`} // Accessibility enhancement
+      >
         {itemText}
       </button>
     </li>
   );
-}
+});
+
+// PropTypes for type checking
+OpenModalMenuItem.propTypes = {
+  modalComponent: PropTypes.element.isRequired,
+  itemText: PropTypes.string.isRequired,
+  onItemClick: PropTypes.func,
+  onModalClose: PropTypes.func,
+};
 
 export default OpenModalMenuItem;

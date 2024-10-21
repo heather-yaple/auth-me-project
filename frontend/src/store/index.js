@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotsReducer,
   reviews: reviewsReducer,
+  users: usersReducer
 });
 
 let enhancer;
