@@ -31,6 +31,7 @@ export const signup = (user) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data.user));
+    localStorage.setItem('user', JSON.stringify(data.user)); // Store user in localStorage
   } else {
     const data = await response.json();
     throw new Error(data.errors ? data.errors : 'Failed to sign up');
@@ -51,6 +52,7 @@ export const login = (user) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(setUser(data.user));
+    localStorage.setItem('user', JSON.stringify(data.user)); // Store user in localStorage
   } else {
     const data = await response.json();
     throw new Error(data.errors ? data.errors : 'Failed to log in');
@@ -63,16 +65,24 @@ export const logout = () => async (dispatch) => {
     method: 'DELETE',
   });
   dispatch(removeUser());
+  localStorage.removeItem('user'); // Clear user from localStorage
   return response;
 };
 
-// Restore user
+// Restore user session from localStorage or API
 export const restoreUser = () => async (dispatch) => {
-  const response = await csrfFetch('/api/session');
+  const storedUser = JSON.parse(localStorage.getItem('user'));
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data.user));
+  if (storedUser) {
+    dispatch(setUser(storedUser)); // Restore from localStorage
+  } else {
+    const response = await csrfFetch('/api/session');
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data.user));
+      localStorage.setItem('user', JSON.stringify(data.user)); // Store user in localStorage
+    }
   }
 };
 

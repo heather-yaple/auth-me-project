@@ -1,1 +1,189 @@
 /* TODO: Add sitewide styles */
+/* General Reset */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Header */
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.8em;
+    font-family: 'Georgia', serif;
+}
+
+header nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #ffeb3b;
+}
+
+/* Hero Section */
+#hero {
+    background: url('hero-image.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+#hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+#hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+#hero button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#hero button:hover {
+    background-color: #45a049;
+}
+
+/* Listings Section */
+#listings {
+    padding: 20px;
+    background-color: #fff;
+}
+
+#listings h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #4CAF50;
+}
+
+.listing-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 300px;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card h3 {
+    margin: 15px 0;
+    font-size: 1.5em;
+}
+
+.card p {
+    padding: 0 10px 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.card button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0 0 5px 5px;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.card button:hover {
+    background-color: #45a049;
+}
+
+/* About Section */
+#about {
+    padding: 40px 20px;
+    background: #4CAF50;
+    color: white;
+    text-align: center;
+}
+
+#about h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+#about p {
+    font-size: 1em;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Contact Section */
+#contact {
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+#contact h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #4CAF50;
+}
+
+#contact p {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9em;
+}
