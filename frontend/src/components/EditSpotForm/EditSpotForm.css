@@ -1,46 +1,120 @@
 /* src/components/EditSpotForm/EditSpotForm.css */
 
+/* Container for the form */
 .edit-spot-form {
-    max-width: 600px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Form title */
+.edit-spot-form h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Error message list */
+.errors {
+  color: red;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+/* Input and textarea styling */
+.edit-spot-form label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.edit-spot-form input,
+.edit-spot-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.edit-spot-form input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Focus state for inputs */
+.edit-spot-form input:focus,
+.edit-spot-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button styling */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
+  background-color: #0056b3;
+}
+
+/* Loading spinner or text */
+button[disabled] {
+  position: relative;
+}
+
+button[disabled]:before {
+  content: "Updating...";
+  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #333;
+}
+
+.edit-spot-form input[type="text"],
+.edit-spot-form input[type="number"],
+.edit-spot-form textarea {
+  font-family: 'Arial', sans-serif;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .edit-spot-form {
+    padding: 15px;
   }
-  
+
   .edit-spot-form h1 {
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
   }
-  
-  .edit-spot-form form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .edit-spot-form label {
-    margin-bottom: 15px;
-  }
-  
+
   .edit-spot-form input,
-  .edit-spot-form textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+  .edit-spot-form textarea,
+  button {
+    font-size: 0.9rem;
   }
-  
-  .edit-spot-form button {
-    padding: 10px 20px;
-    background-color: #386641;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .edit-spot-form button:hover {
-    background-color: #6A994E;
-  }
-  
-  .errors {
-    color: red;
-    margin-bottom: 20px;
-  }
-  
+}
