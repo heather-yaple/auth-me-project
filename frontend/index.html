@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cozy Cabins - Find Your Perfect Cabin</title>
-    <link rel="stylesheet" href="./src/index.css"> <!-- External CSS file for styling -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./src/images/logo.png">
+    <!-- External CSS file for styling -->
+    <link rel="stylesheet" href="./src/index.css">
 </head>
 <body>
     <!-- Header Section -->
     <header>
-        <div class="logo">
+        <img src="./src/images/logo.png" alt="Cozy Cabins Logo" class="logo">
+        <div class="logo-text">
             <h1>Cozy Cabins</h1>
         </div>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#listings">Listings</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#bookings">Cabins</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -28,7 +33,7 @@
         <div class="hero-content">
             <h2>Escape to the Great Outdoors</h2>
             <p>Find the perfect cozy cabin for your next getaway</p>
-            <button>Explore Listings</button>
+            <button>Explore Available Cabins</button>
         </div>
     </section>
 
@@ -37,21 +42,33 @@
         <h2>Featured Cabins</h2>
         <div class="listing-cards">
             <div class="card">
-                <img src="https://www.google.com/imgres?q=cabin%20images%20remote&imgurl=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fremote-mountain-cabin-surrounded-snow-capped-peaks-high-up-majestic-mountains-isolated-sits-perched-hilltop-285456079.jpg&imgrefurl=https%3A%2F%2Fwww.dreamstime.com%2Fremote-mountain-cabin-surrounded-snow-capped-peaks-high-up-majestic-mountains-isolated-sits-perched-hilltop-image285456079&docid=AiUoZ915ODzOBM&tbnid=dS2EtvGHDr8PoM&vet=12ahUKEwjQtqm6r_CJAxXzHNAFHVK4BdcQM3oECHAQAA..i&w=800&h=800&hcb=2&ved=2ahUKEwjQtqm6r_CJAxXzHNAFHVK4BdcQM3oECHAQAA" alt="Cabin in the woods">
+                <img src="./src/images/review1_image1.png" alt="Cabin in the woods">
                 <h3>Mountain Retreat</h3>
                 <p>Cozy cabin in the mountains, perfect for hiking and relaxation.</p>
                 <button>Book Now</button>
             </div>
             <div class="card">
-                <img src="https://www.google.com/imgres?q=cabin%20images%20remote&imgurl=https%3A%2F%2Fimages.adsttc.com%2Fmedia%2Fimages%2F5ff7%2Fe1dd%2F63c0%2F1741%2F1600%2F0263%2Fnewsletter%2FSunrise_Towards_Lake.jpg%3F1610080711&imgrefurl=https%3A%2F%2Fwww.archdaily.com%2F954686%2Fremote-lake-cabin-stonorov-workshop&docid=QdFj1fDUqXd6pM&tbnid=bHzHGwnVHVa-5M&vet=12ahUKEwjQtqm6r_CJAxXzHNAFHVK4BdcQM3oFCIMBEAA..i&w=750&h=513&hcb=2&ved=2ahUKEwjQtqm6r_CJAxXzHNAFHVK4BdcQM3oFCIMBEAA" alt="Cabin by the lake">
-                <h3>Lakefront Escape</h3>
+                <img src="./src/images/review3_image1.png" alt="Cabin by the lake">
+                <h3>Lakefront Cabin</h3>
                 <p>Enjoy the serenity of a cabin by the lake with beautiful views.</p>
                 <button>Book Now</button>
             </div>
             <div class="card">
-                <img src="https://www.google.com/imgres?q=cabin%20images%20remote&imgurl=https%3A%2F%2Fimages.squarespace-cdn.com%2Fcontent%2Fv1%2F57abe0552994ca25a466ffd4%2F1636879974299-JP4QTXTNN3B1EQG7HGNB%2Ffrog%2Briver.jpg%3Fformat%3D1500w&imgrefurl=https%3A%2F%2Fwww.nradventures.com%2Foutposts&docid=9aDwB6T99ZlVwM&tbnid=QiaJ-XC7CKSywM&vet=12ahUKEwjQtqm6r_CJAxXzHNAFHVK4BdcQM3oECBwQAA..i&w=1500&h=2000&hcb=2&ved=2ahUKEwjQtqm6r_CJAxXzHNAFHVK4BdcQM3oECBwQAA" alt="Cabin in the forest">
+                <img src="./src/images/review49_image1.png" alt="Cabin in the forest">
                 <h3>Forest Getaway</h3>
                 <p>Secluded cabin in the forest for a peaceful retreat.</p>
+                <button>Book Now</button>
+            </div>
+            <div class="card">
+                <img src="./src/images/review4_image1.png" alt="Cabin on the Beach">
+                <h3>Beach Getaway</h3>
+                <p>Secluded cabin on the beach for a peaceful retreat.</p>
+                <button>Book Now</button>
+            </div>
+            <div class="card">
+                <img src="./src/images/review59_image1.png" alt="Cabin off the Grid">
+                <h3>Off Grid Getaway</h3>
+                <p>Secluded cabin with a peaceful retreat.</p>
                 <button>Book Now</button>
             </div>
         </div>
@@ -61,6 +78,40 @@
     <section id="about">
         <h2>About Cozy Cabins</h2>
         <p>At Cozy Cabins, we offer a variety of charming cabins perfect for all types of vacations. Whether you're looking for a peaceful retreat or an adventure in the great outdoors, our cabins provide a cozy home away from home.</p>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <h2>Review Our Cabins</h2>
+        <p>At Cozy Cabins, we pride ourselves on our customer reviews.</p>
+        <div class="review-cards">
+            <div class="card">
+                <img src="./src/images/review2_image1.png" alt="Cabin in the woods">
+                <h3>Mountain Retreat</h3>
+                <p>Cozy cabin in the mountains, perfect for hiking and relaxation.</p>
+                <div class="star-rating">
+                    <span>&#9733;</span>
+                    <span>&#9733;</span>
+                    <span>&#9733;</span>
+                    <span>&#9733;</span>
+                    <span>&#9734;</span>
+                </div>
+                <button>Review Now</button>
+            </div>
+            <div class="card">
+                <img src="./src/images/review5_image1.png" alt="Cabin by the lake">
+                <h3>Lakefront Cabin</h3>
+                <p>Enjoy the serenity of a cabin by the lake with beautiful views.</p>
+                <div class="star-rating">
+                    <span>&#9733;</span>
+                    <span>&#9733;</span>
+                    <span>&#9733;</span>
+                    <span>&#9734;</span>
+                    <span>&#9734;</span>
+                </div>
+                <button>Review Now</button>
+            </div>
+        </div>
     </section>
 
     <!-- Contact Section -->
@@ -74,6 +125,6 @@
     <footer>
         <p>&copy; 2024 Cozy Cabins. All rights reserved.</p>
     </footer>
-
 </body>
 </html>
+
