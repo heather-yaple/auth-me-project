@@ -1,27 +1,31 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpots } from '../../store/spots';
 import SpotTile from '../SpotTile/SpotTile';
 import './SpotsIndex.css';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 const SpotsIndex = () => {
   const dispatch = useDispatch();
   const spots = useSelector((state) => Object.values(state.spots.allSpots));
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    dispatch(getAllSpots())
-      .then(() => setIsLoaded(true))
-      .catch((err) => setError(err));
-  }, [dispatch]);
+useEffect(() => {
+  dispatch(getAllSpots())
+    .then(() => setIsLoaded(true))
+    .then(() => setIsLoading(false))
+    .catch((error) => setError(error))
+    .catch(() => setIsLoading(false));
+}, [dispatch]);
 
-  if (error) {
+if (isLoading) {
+  return <LoadingSpinner />;
+} else if (error) {
     return <div>Error: {error.message || 'Something went wrong!'}</div>;
-  }
-
-  if (!isLoaded) {
+  } else if (!isLoaded) {
     return <div>Loading...</div>;
   }
 

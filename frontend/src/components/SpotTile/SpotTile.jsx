@@ -6,6 +6,7 @@ import './SpotTile.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
+
 const SpotTile = ({ spot }) => {
   const navigate = useNavigate();
 

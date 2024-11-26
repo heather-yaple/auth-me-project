@@ -1,7 +1,4 @@
-// src/components/SpotDetails/SpotDetails.jsx
-
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getSpotDetails } from '../../store/spots';
@@ -23,6 +20,7 @@ const SpotDetails = () => {
   const reviews = useMemo(() => Object.values(reviewsObject), [reviewsObject]);
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null); // New state to manage errors
 
   useEffect(() => {
     Promise.all([
@@ -30,13 +28,14 @@ const SpotDetails = () => {
       dispatch(getReviewsBySpotId(spotId)),
     ])
       .then(() => setIsLoaded(true))
-      // eslint-disable-next-line no-unused-vars
       .catch((err) => {
-        // Handle errors
+        console.error('Error loading spot details or reviews:', err);
+        setError('There was an error loading the spot details. Please try again later.');
       });
   }, [dispatch, spotId]);
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (error) return <div className="error-message">{error}</div>;
+  if (!isLoaded) return <div className="loading-spinner">Loading...</div>; // Replace with spinner if necessary
   if (!spot.id) return <div>Spot not found</div>;
 
   // Review eligibility checks
@@ -104,8 +103,8 @@ const SpotDetails = () => {
         </div>
       </div>
 
-   {/* Reviews Section */}
-   <div className="reviews-section">
+      {/* Reviews Section */}
+      <div className="reviews-section">
         <h2>
           <i className="fas fa-star"></i>{' '}
           {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}

@@ -1,9 +1,14 @@
-// frontend/src/store/rootReducer.js
 import { combineReducers } from '@reduxjs/toolkit';
-import someSlice from './someSlice';
+import reviewsReducer from './reviews';  // Assuming you have a file at ./reviews
+import spotsReducer from './spots';      // Assuming you have a file at ./spots
+import sessionReducer from './session';  // Assuming you have a file at ./session
 
+// Combine all reducers here
 const rootReducer = combineReducers({
-  some: someSlice, // Add your slices here
+  reviews: reviewsReducer,
+  spots: spotsReducer,
+  session: sessionReducer,
 });
 
 export default rootReducer;
+

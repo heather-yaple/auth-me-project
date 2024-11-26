@@ -1,34 +1,52 @@
-// frontend/src/store/csrf.js
-
 import Cookies from 'js-cookie';
 
+/**
+ * The `csrfFetch` function adds the CSRF token to the request headers
+ * and performs a fetch request with the appropriate headers, including
+ * the XSRF-TOKEN cookie for protection against CSRF attacks.
+ */
 export async function csrfFetch(url, options = {}) {
-  // set options.method to 'GET' if there is no method
+  // Ensure the method is GET by default
   options.method = options.method || 'GET';
-  // set options.headers to an empty object if there is no headers
+  
+  // Set headers to empty object if not present
   options.headers = options.headers || {};
 
-  // if the options.method is not 'GET', then set the "Content-Type" header to
-  // "application/json", and set the "XSRF-TOKEN" header to the value of the
-  // "XSRF-TOKEN" cookie
+  // If the request is not GET, set the appropriate headers for JSON data
   if (options.method.toUpperCase() !== 'GET') {
-    options.headers['Content-Type'] =
-      options.headers['Content-Type'] || 'application/json';
-    options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
+    options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
+
+    // Attach the XSRF-TOKEN cookie to protect against CSRF attacks
+    const csrfToken = Cookies.get('XSRF-TOKEN');
+    if (csrfToken) {
+      options.headers['XSRF-Token'] = csrfToken;
+    } else {
+      console.error('CSRF token not found.');
+    }
   }
-  // call the default window's fetch with the url and the options passed in
+
+  // Perform the fetch request
   const res = await window.fetch(url, options);
 
-  // if the response status code is 400 or above, then throw an error with the
-  // error being the response
-  if (res.status >= 400) throw res;
+  // Handle errors by parsing the response and throwing a more readable message
+  if (res.status >= 400) {
+    try {
+      const errorResponse = await res.json();
+      throw new Error(errorResponse.message || 'Something went wrong!');
+    } catch (error) {
+      throw new Error('Failed to fetch. Please try again later.');
+    }
+  }
 
-  // if the response status code is under 400, then return the response to the
-  // next promise chain
+  // If successful, return the response
   return res;
 }
 
-//Only use in development
+/**
+ * Restore the CSRF token by sending a GET request to the server
+ * for the csrf/restore endpoint.
+ */
 export function restoreCSRF() {
   return csrfFetch('/api/csrf/restore');
 }
+

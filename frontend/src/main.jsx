@@ -1,5 +1,3 @@
-// frontend/src/main.jsx
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
@@ -8,38 +6,24 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session'; 
-import { Modal, ModalProvider } from './context/Modal';
+import { ModalProvider } from './context/Modal';
 
-// const store = configureStore();
-
+// Set up CSRF protection and initialize global store and session actions if not in production
 if (import.meta.env.MODE !== "production") {
   restoreCSRF();
-
+  
   window.csrfFetch = csrfFetch;
   window.store = store;
-  window.sessionActions = sessionActions; 
-  window.Modal = Modal;
-  window.ModalProvider = ModalProvider;
+  window.sessionActions = sessionActions;
 }
 
-
-// if (import.meta.env.MODE !== 'production') {
-//   restoreCSRF();
-
-//   window.csrfFetch = csrfFetch;
-//   window.store = store;
-// }
-
-// if (process.env.NODE_ENV !== 'production') {
-//   window.store = store;
-// }
-
+// Create and render the root component, wrapping it with Redux Provider and ModalProvider
 ReactDOM.createRoot(document.getElementById('root')).render(
-<React.StrictMode>
-  <Provider store={store}>              
-    <ModalProvider>
-      <App />
-    </ModalProvider>
-  </Provider>
+  <React.StrictMode>
+    <Provider store={store}>  {/* Providing the store to all child components */}
+      <ModalProvider>           {/* Providing modal context to manage modals globally */}
+        <App />                 {/* The main application component */}
+      </ModalProvider>
+    </Provider>
   </React.StrictMode>
 );

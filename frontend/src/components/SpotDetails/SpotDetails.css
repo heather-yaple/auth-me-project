@@ -1,129 +1,157 @@
-/* SpotDetails.css */
-
+/* Main container for SpotDetails */
 .spot-details {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Title and location of the spot */
+.spot-details h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.spot-location {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Spot images section */
+.spot-images {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-images {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.thumbnail-images img {
+  width: 24%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.thumbnail-images img:hover {
+  opacity: 0.7;
+}
+
+/* Information section: host details, price, and rating */
+.spot-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.spot-host h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.spot-host p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.spot-callout {
+  text-align: right;
+}
+
+.price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2b9e6f;
+  margin-bottom: 10px;
+}
+
+.spot-rating {
+  font-size: 1.2rem;
+  color: #f39c12;
+  margin-bottom: 10px;
+}
+
+.reserve-button {
+  background-color: #2b9e6f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.reserve-button:hover {
+  background-color: #248c58;
+}
+
+/* Reviews section */
+.reviews-section {
+  margin-top: 40px;
+}
+
+.reviews-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.reviews-section button {
+  background-color: #f39c12;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.reviews-section button:hover {
+  background-color: #e67e22;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .spot-details {
+    padding: 10px;
   }
-  
-  .spot-details h1 {
-    color: var(--indigo);
-    margin-bottom: 10px;
-  }
-  
-  .spot-details .spot-location {
-    color: var(--indigo);
-    margin-bottom: 20px;
-  }
-  
-  .spot-details .spot-images {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .spot-details .main-image {
-    flex: 1;
-  }
-  
-  .spot-details .main-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .spot-details .thumbnail-images {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-  }
-  
-  .spot-details .thumbnail-images img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .spot-details .spot-info {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 30px;
-  }
-  
-  .spot-details .spot-host {
-    flex: 2;
-  }
-  
-  .spot-details .spot-host h2 {
-    color: var(--indigo);
-    margin-bottom: 10px;
-  }
-  
-  .spot-details .spot-host p {
-    color: var(--indigo);
-    line-height: 1.6;
-  }
-  
-  .spot-details .spot-callout {
-    flex: 1;
-    border: 1px solid var(--gray);
-    border-radius: 8px;
-    padding: 20px;
-    background-color: var(--light-green);
-  }
-  
-  .spot-details .spot-callout .price {
-    font-size: 24px;
-    color: var(--indigo);
-    margin-bottom: 10px;
-  }
-  
-  .spot-details .spot-callout .spot-rating {
-    color: var(--indigo);
-    margin-bottom: 20px;
-  }
-  
-  .spot-details .spot-callout .reserve-button {
-    background-color: var(--vibrant-green);
-    color: var(--white);
-    padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  
-  .spot-details .spot-callout .reserve-button:hover {
-    background-color: var(--dark-blue);
-  }
-  
-  .spot-details .reviews-section {
-    margin-top: 50px;
-  }
-  
-  .spot-details .reviews-section h2 {
-    color: var(--indigo);
-    margin-bottom: 20px;
-  }
-  
-  .spot-details .reviews-section .post-review-button {
-    background-color: var(--vibrant-green);
-    color: var(--white);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 30px;
-  }
-  
-  .spot-details .reviews-section .post-review-button:hover {
-    background-color: var(--dark-blue);
-  }
-  
-  .spot-details .reviews-list {
-    display: flex;
+
+  .spot-images {
     flex-direction: column;
-    gap: 30px;
   }
-  
+
+  .thumbnail-images img {
+    width: 48%;
+    margin-bottom: 10px;
+  }
+}
+
