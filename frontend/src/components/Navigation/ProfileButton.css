@@ -60,3 +60,21 @@
   width: 32px; /* Adjust as needed */
   height: 32px; /* Adjust as needed */
 }
+
+.profile-name {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.profile-email {
+  margin-left: 10px;
+}
+
+.profile-logout {
+  margin-left: 10px;
+}
+
+.profile-logout:hover {
+  color: var(--crayola-red);
+} 
+

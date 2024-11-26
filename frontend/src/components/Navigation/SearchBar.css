@@ -1,0 +1,73 @@
+/* Container for the search bar form */
+form {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  
+  /* Input field styles */
+  input[type="text"] {
+    flex-grow: 1;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="text"]:focus {
+    border-color: var(--indigo); /* Focus effect with your color variable */
+    box-shadow: 0 0 5px rgba(63, 81, 181, 0.5); /* Light blue glow effect */
+  }
+  
+  /* Search button styling */
+  button[type="submit"] {
+    background-color: var(--indigo); /* Primary button color */
+    color: white;
+    font-size: 16px;
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  }
+  
+  button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button[type="submit"]:hover:not(:disabled) {
+    background-color: var(--vibrant-green); /* Hover effect */
+    transform: scale(1.05); /* Slight enlarge effect on hover */
+  }
+  
+  /* Styling for the input and button container */
+  form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  /* Optional: Add responsiveness for smaller screens */
+  @media (max-width: 600px) {
+    form {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    input[type="text"] {
+      font-size: 14px;
+    }
+  
+    button[type="submit"] {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+  }
+  

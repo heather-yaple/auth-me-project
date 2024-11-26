@@ -1,0 +1,17 @@
+.modal-menu-item {
+    background: none;
+    border: none;
+    color: var(--indigo);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 16px;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .modal-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--vibrant-green);
+  }
+  

@@ -1,16 +1,21 @@
 // src/components/Navigation/Navigation.jsx
 
-
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logoImage from '../../images/logo.png'; 
+import logoImage from '../../images/logo.png';
 import { FaEllipsisV } from 'react-icons/fa';
 import SearchBar from './SearchBar';
 
 function Navigation({ isLoaded }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const sessionUser = useSelector(state => state.session.user);
+
+  const toggleMenu = () => {
+    setMenuOpen(prevState => !prevState);
+  };
 
   return (
     <header className="header">
@@ -26,15 +31,23 @@ function Navigation({ isLoaded }) {
           )}
 
           <div className="menu-buttons">
-            <button className="hamburger-menu" aria-label="Menu">
+            <button 
+              className="hamburger-menu" 
+              aria-label="Menu" 
+              aria-expanded={menuOpen ? "true" : "false"} 
+              onClick={toggleMenu}
+            >
               <FaEllipsisV />
             </button>
-            {isLoaded && (
-              <ProfileButton user={sessionUser} />
-            )}
+            {isLoaded && <ProfileButton user={sessionUser} />}
           </div>
 
-          <SearchBar />
+          {menuOpen && (
+            <div className="mobile-menu">
+              <SearchBar />
+              {isLoaded && <ProfileButton user={sessionUser} />}
+            </div>
+          )}
         </nav>
       </div>
     </header>
@@ -42,3 +55,4 @@ function Navigation({ isLoaded }) {
 }
 
 export default Navigation;
+

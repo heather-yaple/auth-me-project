@@ -1,3 +1,4 @@
+/* Header Styling */
 .header {
   background-color: var(--vibrant-green);
   padding: 1rem;
@@ -7,27 +8,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px; /* Adds some padding to align with grid */
+  padding: 0 20px; /* Align content inside the header */
 }
 
 .logo-link {
   text-decoration: none;
-
-
 }
 
 .logo-image {
   height: 50px;
-margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
   margin-right: 1rem;
-
 }
 
+/* Create Spot Link */
 .create-spot-link {
   text-decoration: none;
   color: var(--white);
@@ -36,10 +35,10 @@ margin-top: 1rem;
   margin-right: 1rem;
 }
 
+/* Menu Buttons */
 .menu-buttons {
   display: flex;
   align-items: center;
- 
 }
 
 .hamburger-menu {
@@ -48,16 +47,40 @@ margin-top: 1rem;
   cursor: pointer;
   font-size: 24px;
   color: var(--white);
-
 }
 
+/* Hover Effects */
 .hamburger-menu:hover,
 .profile-button button:hover {
   color: var(--crayola-red);
 }
 
+/* Mobile Menu and Responsive Design */
 @media (max-width: 768px) {
   .create-spot-link {
-    display: none;
+    display: none; /* Hide Create Spot button on small screens */
+  }
+  
+  .menu-buttons {
+    display: none; /* Hide menu buttons on small screens */
+  }
+  
+  .mobile-menu {
+    display: block;
+    background-color: var(--light-gray);
+    padding: 10px;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .mobile-menu.open {
+    transform: translateY(0); /* Show menu when opened */
+  }
+
+  .hamburger-menu[aria-expanded="true"] + .mobile-menu {
+    transform: translateY(0);
   }
 }

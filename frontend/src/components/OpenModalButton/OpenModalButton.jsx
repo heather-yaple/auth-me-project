@@ -1,42 +1,44 @@
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import { useModal } from '../context/Modal';
 
-const OpenModalButton = ({
+const OpenModalMenuItem = ({
   modalComponent,
-  buttonText,
-  onButtonClick,
+  itemText,
+  onItemClick,
   onModalClose
 }) => {
   const { setModalContent, setOnModalClose } = useModal();
 
   const onClick = () => {
-    if (typeof onButtonClick === 'function') onButtonClick();
-    if (typeof onModalClose === 'function') setOnModalClose(onModalClose);
+    // Call the onItemClick function if provided
+    if (typeof onItemClick === 'function') onItemClick();
+
+    // Set the modal content
     setModalContent(modalComponent);
+
+    // Set the onModalClose handler if provided
+    if (typeof onModalClose === 'function') setOnModalClose(onModalClose);
   };
 
-  return <button onClick={onClick}>{buttonText}</button>;
+  return (
+    <li>
+      <button onClick={onClick} className="modal-menu-item">
+        {itemText}
+      </button>
+    </li>
+  );
 };
 
-// PropTypes for better type checking
-OpenModalButton.propTypes = {
+// PropTypes for type-checking
+OpenModalMenuItem.propTypes = {
   modalComponent: PropTypes.element.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  onButtonClick: PropTypes.func,
+  itemText: PropTypes.string.isRequired,
+  onItemClick: PropTypes.func,
   onModalClose: PropTypes.func,
-};
-
-// Display name for debugging purposes
-OpenModalButton.displayName = "OpenModalButton";
-
-const OpenModalMenuItem = () => {
-  // Define functionality or UI for OpenModalMenuItem here
-  return <div>Menu Item Component</div>; // Placeholder for rendering
 };
 
 // Display name for debugging purposes
 OpenModalMenuItem.displayName = "OpenModalMenuItem";
 
-// Export both components
-export { OpenModalMenuItem };
-export default OpenModalButton;
+export default OpenModalMenuItem;
+

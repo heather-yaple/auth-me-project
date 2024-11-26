@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -75,12 +74,11 @@ function ProfileButton({ user }) {
   return (
     <div className="profile-button">
       <button onClick={toggleMenu} aria-expanded={showMenu}>
-      <button onClick={toggleMenu}>
-                {user.profileImage ? (
-                    <img src={user.profileImage} alt="Profile" className="profile-image" />
-                ) : (
-        <FaUserCircle />
-                )}</button>
+        {user.profileImage ? (
+          <img src={user.profileImage} alt="Profile" className="profile-image" />
+        ) : (
+          <FaUserCircle />
+        )}
       </button>
       {showMenu && (
         <ul className="profile-dropdown" ref={ulRef}>
