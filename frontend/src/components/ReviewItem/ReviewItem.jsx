@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 // src/components/ReviewItem/ReviewItem.jsx
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,12 +14,17 @@ const ReviewItem = ({ review }) => {
   const sessionUser = useSelector((state) => state.session.user);
 
   const openDeleteModal = () => {
-    setModalContent(
-      <DeleteReviewConfirmationModal
-        reviewId={review.id}
-        closeModal={closeModal}
-      />
-    );
+    // Improved modal open logic with validation
+    try {
+      setModalContent(
+        <DeleteReviewConfirmationModal
+          reviewId={review.id}
+          closeModal={closeModal}
+        />
+      );
+    } catch (error) {
+      console.error("Failed to open modal:", error);
+    }
   };
 
   return (
@@ -29,7 +35,11 @@ const ReviewItem = ({ review }) => {
       </div>
       <p>{review.review}</p>
       {sessionUser && sessionUser.id === review.userId && (
-        <button onClick={openDeleteModal} className="delete-review-button">
+        <button
+          onClick={openDeleteModal}
+          className="delete-review-button"
+          aria-label="Delete Review"
+        >
           Delete
         </button>
       )}

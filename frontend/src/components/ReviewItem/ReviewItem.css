@@ -1,36 +1,45 @@
 /* ReviewItem.css */
 
 .review-item {
-    margin-bottom: 20px;
-  }
-  
-  .review-item h3 {
-    margin: 0;
-    color: var(--indigo);
-  }
-  
-  .review-item .review-date {
-    color: var(--gray);
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
-  .review-item p {
-    font-size: 16px;
-    color: var(--indigo);
-    line-height: 1.6;
-  }
-  
-  .review-item .delete-review-button {
-    background-color: var(--crayola-red);
-    color: var(--white);
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .review-item .delete-review-button:hover {
-    background-color: #c0392b;
-  }
+  border-bottom: 1px solid var(--light-gray);
+  padding: 15px 0;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-header h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.review-header p {
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.review-item p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.delete-review-button {
+  background-color: transparent;
+  border: none;
+  color: var(--crayola-red);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.delete-review-button:hover {
+  color: var(--vibrant-red);
+}
+
+.delete-review-button:focus {
+  outline: 2px solid var(--vibrant-green);
+}

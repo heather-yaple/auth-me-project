@@ -1,43 +1,31 @@
 /* ReviewsList.css */
 
+.no-reviews {
+  text-align: center;
+  padding: 20px;
+}
+
+.no-reviews p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.leave-review-btn {
+  padding: 10px 20px;
+  background-color: var(--vibrant-green);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.leave-review-btn:hover {
+  background-color: var(--dark-green);
+}
+
 .reviews-list {
   margin-top: 20px;
 }
 
-.reviews-list .review-item {
-  border-bottom: 1px solid var(--gray);
-  padding-bottom: 20px;
-}
-
-.reviews-list .review-item:last-child {
-  border-bottom: none;
-}
-
-.reviews-list .review-item h3 {
-  color: var(--indigo);
-  margin-bottom: 5px;
-}
-
-.reviews-list .review-item .review-date {
-  color: var(--gray);
-  margin-bottom: 10px;
-}
-
-.reviews-list .review-item p {
-  color: var(--indigo);
-  line-height: 1.6;
-}
-
-.reviews-list .delete-review-button {
-  background-color: var(--crayola-red);
-  color: var(--white);
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.reviews-list .delete-review-button:hover {
-  background-color: #c0392b;
-}

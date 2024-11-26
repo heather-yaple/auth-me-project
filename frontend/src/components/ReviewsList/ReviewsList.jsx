@@ -1,6 +1,3 @@
-// src/components/ReviewsList/ReviewsList.jsx
-
-// eslint-disable-next-line no-unused-vars
 
 import { useSelector } from 'react-redux';
 import ReviewItem from '../ReviewItem/ReviewItem';
@@ -12,9 +9,12 @@ const ReviewsList = ({ spot, user }) => {
 
   if (!reviews.length) {
     return (
-      <div>
+      <div className="no-reviews">
         {user && user.id !== spot.ownerId ? (
-          <p>Be the first to post a review!</p>
+          <>
+            <p>Be the first to post a review!</p>
+            <button className="leave-review-btn">Leave a Review</button>
+          </>
         ) : (
           <p>No reviews yet.</p>
         )}
