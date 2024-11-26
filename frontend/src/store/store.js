@@ -1,37 +1,32 @@
-// frontend/src/store/store.js
-
-// import { configureStore } from '@reduxjs/toolkit';
-// import rootReducer from './rootReducer'; // Assume you will create this file for your combined reducers
-// import counterReducer from './counter';
-// import thunk from 'redux-thunk/es';
-
-
-// const store = configureStore({
-//   reducer: rootReducer,
-//   counter: counterReducer,
-//   devTools: import.meta.env.MODE !== 'production',
-//   middleware: (getDefaultMiddleware) => {
-//     if (import.meta.env.MODE === 'production') {
-//       return getDefaultMiddleware();
-//     } else {
-//       const logger = require('redux-logger').default;
-//       return getDefaultMiddleware().concat(logger);
-//     }
-//   },
-// });
-
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+// import { csrfFetch } from './csrf';
+import usersReducer from './users.js';
+import errorReducer from './errorSlice.js';  // Assuming you've added this
+import thunk from 'redux-thunk';
+import spotsReducer from './spots.js';
+import reviewsReducer from './reviews.js';
+import authSlice from './auth.js';
+import rootReducer from './rootReducer.js';
+import sessionReducer from './session.js';
 
+// Adding thunk to the middleware stack
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    users: usersReducer,
+    error: errorReducer,
+    spots: spotsReducer,
+    reviews: reviewsReducer,
+    auth: authSlice,
+    root: rootReducer,
+    session: sessionReducer
+
+
+    // Add other reducers here
+
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      thunk: true, // Enable thunk middleware
-    }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+  devTools: import.meta.env.MODE !== 'production',  // Ensures DevTools are only enabled in development
 });
 
-
 export default store;
+
