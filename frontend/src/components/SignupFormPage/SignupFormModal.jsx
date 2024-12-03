@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session'; // Assuming your actions are in this location
-import { useModal } from '../../context/Modal'; // Assuming modal context is used
+import { useModal } from './components/context/Modal'; // Assuming modal context is used
 
 function SignupFormModal() {
   const dispatch = useDispatch();

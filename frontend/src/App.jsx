@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './store/auth';
-import { useModal } from './context/Modal';
+import { useModal } from './components/context/Modal.jsx';
 import Navigation from './components/Navigation/Navigation';
 import SearchBar from './components/Navigation/SearchBar';
 import ProfileButton from './components/Navigation/ProfileButton';
@@ -11,14 +11,14 @@ import LoginFormModal from './components/LoginFormPage/LoginFormModal';
 import SignupFormModal from './components/SignupFormPage/SignupFormModal';
 import SpotsIndex from './components/SpotsIndex/SpotsIndex';
 import SpotDetails from './components/SpotDetails/SpotDetails';
-import SpotFormModal from './components/SpotFormModal/SpotFormModal';
-import EditSpotFormModal from './components/EditSpotFormModal/EditSpotFormModal';
-import DeleteSpotConfirmationModal from './components/DeleteSpotConfirmationModal/DeleteSpotConfirmationModal';
+import SpotFormModal from './components/SpotForm/SpotForm.jsx';
+import EditSpotFormModal from './components/EditSpotForm/EditSpotForm';
+import DeleteSpotConfirmationModal from './components/DeleteConfirmationModal/DeleteConfirmationModal';
 import ManageSpots from './components/ManageSpots/ManageSpots';
 import ReviewFormModal from './components/ReviewFormModal/ReviewFormModal';
-import EditReviewFormModal from './components/EditReviewFormModal/EditReviewFormModal';
+// import EditReviewFormModal from './components/EditReviewFormModal/EditReviewFormModal';
 import DeleteReviewConfirmationModal from './components/DeleteReviewConfirmationModal/DeleteReviewConfirmationModal';
-import LoadingSpinner from './components/LoadingSpinner';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -70,7 +70,7 @@ const App = () => {
               <Route path="/spots/:spotId/delete" element={<DeleteSpotConfirmationModal />} />
               <Route path="/spots/:spotId/manage" element={<ManageSpots />} />
               <Route path="/spots/:spotId/reviews/new" element={<ReviewFormModal />} />
-              <Route path="/spots/:spotId/reviews/:reviewId/edit" element={<EditReviewFormModal />} />
+              {/* <Route path="/spots/:spotId/reviews/:reviewId/edit" element={<EditReviewFormModal />} /> */}
               <Route path="/spots/:spotId/reviews/:reviewId/delete" element={<DeleteReviewConfirmationModal />} />
             </Routes>
           </CSSTransition>

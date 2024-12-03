@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createSpot } from '../store/spotActions';
+import { createSpot } from '../../store/spots.js';
 import { useNavigate } from 'react-router-dom';
 
 const SpotForm = () => {
