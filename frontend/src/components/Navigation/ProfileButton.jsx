@@ -15,18 +15,22 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const toggleMenu = () => {
-    setShowMenu((prev) => !prev);
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    setShowMenu(!showMenu);
   };
 
   useEffect(() => {
+    if (!showMenu) return;
+
     const closeMenu = (e) => {
-      if (ulRef.current && !ulRef.current.contains(e.target) && showMenu) {
+      if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
 
     document.addEventListener('click', closeMenu);
+
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
@@ -37,52 +41,40 @@ function ProfileButton({ user }) {
     navigate('/');
   };
 
-  const renderMenuItems = () => {
-    if (user) {
-      return (
-        <>
-          <li>Hello, {user.firstName}</li>
-          <li>{user.email}</li>
-          <li>
-            <NavLink to="/spots/current" onClick={() => setShowMenu(false)}>
-              Manage Cabins
-            </NavLink>
-          </li>
-          <li>
-            <button onClick={logout}>Log Out</button>
-          </li>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <OpenModalMenuItem
-          itemText="Log In"
-          onItemClick={() => setShowMenu(false)}
-          modalComponent={<LoginFormModal />}
-        />
-        <OpenModalMenuItem
-          itemText="Sign Up"
-          onItemClick={() => setShowMenu(false)}
-          modalComponent={<SignupFormModal />}
-        />
-      </>
-    );
-  };
-
   return (
     <div className="profile-button">
-      <button onClick={toggleMenu} aria-expanded={showMenu}>
-        {user.profileImage ? (
-          <img src={user.profileImage} alt="Profile" className="profile-image" />
-        ) : (
-          <FaUserCircle />
-        )}
+      <button onClick={toggleMenu}>
+        <FaUserCircle />
       </button>
       {showMenu && (
         <ul className="profile-dropdown" ref={ulRef}>
-          {renderMenuItems()}
+          {user ? (
+            <>
+              <li>Hello, {user.firstName}</li>
+              <li>{user.email}</li>
+              <li>
+                <NavLink to="/spots/current" onClick={() => setShowMenu(false)}>
+                  Manage Cabins
+                </NavLink>
+              </li>
+              <li>
+                <button onClick={logout}>Log Out</button>
+              </li>
+            </>
+          ) : (
+            <>
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={() => setShowMenu(false)}
+                modalComponent={<LoginFormModal />}
+              />
+              <OpenModalMenuItem
+                itemText="Sign Up"
+                onItemClick={() => setShowMenu(false)}
+                modalComponent={<SignupFormModal />}
+              />
+            </>
+          )}
         </ul>
       )}
     </div>

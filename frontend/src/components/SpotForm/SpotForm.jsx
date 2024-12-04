@@ -237,7 +237,7 @@ const SpotForm = () => {
         />
       </div>
 
-      <button type="submit">Create Spot</button>
+      <button type="submit">Create Cabin</button>
     </form>
   );
 };

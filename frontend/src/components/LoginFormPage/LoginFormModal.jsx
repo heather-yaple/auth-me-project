@@ -1,10 +1,7 @@
-// frontend/src/components/LoginFormPage/LoginFormModal.jsx
-
-import { useState } from 'react';
+import  { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../components/context/Modal';
-import { fetchUsers } from '../../store/users'; // Import fetchUsers if needed
 import './LoginForm.css';
 
 function LoginFormModal() {
@@ -12,40 +9,33 @@ function LoginFormModal() {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false); // Loading state
-  const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
   const { closeModal } = useModal();
+
+  const isFormValid = credential.length >= 4 && password.length >= 6;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({}); // Clear previous errors
-    setLoading(true); // Start loading state
-
+    setErrors({});
     return dispatch(sessionActions.login({ credential, password }))
-      .then(async () => {
-        // Optionally fetch users after login
-        await dispatch(fetchUsers());
-        closeModal(); // Close the modal on successful login
-      })
+      .then(closeModal)
       .catch(async (res) => {
-        const data = await res.json(); // Handle errors
+        const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
-      })
-      .finally(() => setLoading(false)); // Stop loading state
+      });
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev); // Toggle visibility
+  const handleDemoUser = (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
+      .then(closeModal);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="login-form">
+    <form onSubmit={handleSubmit} className="login-modal">
       <h1>Log In</h1>
       
-      {/* Display errors */}
-      {errors.credential && <p className="error">{errors.credential}</p>}
-      {errors.password && <p className="error">{errors.password}</p>}
-
+      {errors.credential && <p className="error">The provided credentials were invalid.</p>}
+      
       <label>
         Username or Email
         <input
@@ -53,34 +43,24 @@ function LoginFormModal() {
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
           required
-          autoFocus
         />
       </label>
-
+      
       <label>
         Password
-        <div className="password-container">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button
-            type="button"
-            className="toggle-password"
-            onClick={togglePasswordVisibility}
-            aria-label="Toggle password visibility"
-          >
-            {showPassword ? 'Hide' : 'Show'}
-          </button>
-        </div>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
       </label>
-
-      {/* Submit button */}
-      <button type="submit" disabled={loading}>
-        {loading ? 'Logging In...' : 'Log In'}
-      </button>
+      
+      <button type="submit" disabled={!isFormValid} className={isFormValid ? 'active' : ''}>Log In</button>
+      
+      <div className="demo-user">
+        <button onClick={handleDemoUser}>Demo User</button>
+      </div>
     </form>
   );
 }

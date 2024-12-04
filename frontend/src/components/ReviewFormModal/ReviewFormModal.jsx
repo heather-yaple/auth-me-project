@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createReview } from '../../store/reviews';
 import './ReviewFormModal.css';
@@ -9,7 +10,11 @@ const ReviewFormModal = ({ spotId, onClose }) => {
   const [reviewText, setReviewText] = useState('');
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState([]);
-  const [hoveredStar, setHoveredStar] = useState(0); // For hover feedback
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    setIsFormValid(reviewText.length >= 10 && stars > 0);
+  }, [reviewText, stars]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,8 +38,6 @@ const ReviewFormModal = ({ spotId, onClose }) => {
     try {
       await dispatch(createReview(spotId, reviewData));
       onClose(); // Close the modal upon successful submission
-      setReviewText(''); // Reset the form
-      setStars(0); // Reset star rating
     } catch (res) {
       const data = await res.json();
       if (data && data.errors) setErrors(Object.values(data.errors));
@@ -55,9 +58,8 @@ const ReviewFormModal = ({ spotId, onClose }) => {
         <textarea
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
-          placeholder="Leave your review here..."
+          placeholder="Just a quick review"
           required
-          aria-label="Review text"
         ></textarea>
         <div className="stars-input">
           <div className="star-rating">
@@ -67,11 +69,8 @@ const ReviewFormModal = ({ spotId, onClose }) => {
                 <button
                   type="button"
                   key={idx}
-                  className={idx <= (hoveredStar || stars) ? 'on' : 'off'}
+                  className={idx <= stars ? 'on' : 'off'}
                   onClick={() => setStars(idx)}
-                  onMouseEnter={() => setHoveredStar(idx)}
-                  onMouseLeave={() => setHoveredStar(0)}
-                  aria-label={`Select ${idx} star`}
                 >
                   <span className="star">&#9733;</span>
                 </button>
@@ -82,8 +81,8 @@ const ReviewFormModal = ({ spotId, onClose }) => {
         </div>
         <button
           type="submit"
-          disabled={reviewText.length < 10 || stars === 0}
-          aria-label="Submit review"
+          disabled={!isFormValid}
+          className={isFormValid ? 'active' : ''}
         >
           Submit Your Review
         </button>

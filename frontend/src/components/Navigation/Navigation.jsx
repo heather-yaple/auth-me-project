@@ -1,27 +1,20 @@
-// src/components/Navigation/Navigation.jsx
-
-import { useState } from 'react';
+//frontend/src/components/Navigation/Navigation.jsx
+// import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logoImage from '../../images/logo.png';
-import { FaEllipsisV } from 'react-icons/fa';
-import SearchBar from './SearchBar';
+import logoImage from '../../images/logo.png'; 
+// import { FaEllipsisV } from 'react-icons/fa';
 
 function Navigation({ isLoaded }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const sessionUser = useSelector(state => state.session.user);
-
-  const toggleMenu = () => {
-    setMenuOpen(prevState => !prevState);
-  };
 
   return (
     <header className="header">
       <div className="container header-content">
-        <NavLink to="/" className="logo-link" aria-label="Home">
-          <img src={logoImage} alt="Cozy Cabins Logo" className="logo-image" />
+        <NavLink to="/" className="logo-link">
+          <img src={logoImage} alt="Parkly Logo" className="logo-image" />
         </NavLink>
         <nav className="nav-menu">
           {sessionUser && (
@@ -29,25 +22,14 @@ function Navigation({ isLoaded }) {
               Create a New Cabin
             </NavLink>
           )}
-
           <div className="menu-buttons">
-            <button 
-              className="hamburger-menu" 
-              aria-label="Menu" 
-              aria-expanded={menuOpen ? "true" : "false"} 
-              onClick={toggleMenu}
-            >
+            {/* <button className="hamburger-menu" aria-label="Menu">
               <FaEllipsisV />
-            </button>
-            {isLoaded && <ProfileButton user={sessionUser} />}
+            </button> */}
+            {isLoaded && (
+              <ProfileButton user={sessionUser} />
+            )}
           </div>
-
-          {menuOpen && (
-            <div className="mobile-menu">
-              <SearchBar />
-              {isLoaded && <ProfileButton user={sessionUser} />}
-            </div>
-          )}
         </nav>
       </div>
     </header>

@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session'; // Assuming your actions are in this location
-import { useModal } from './components/context/Modal'; // Assuming modal context is used
+// frontend/src/components/SignupFormPage/SignupFormModal.jsx
+
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../components/context/Modal";
+import * as sessionActions from "../../store/session";
+import './SignupForm.css';
 
 function SignupFormModal() {
   const dispatch = useDispatch();
-  const { closeModal } = useModal();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -13,131 +15,123 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { closeModal } = useModal();
 
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
-
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    setIsEmailValid(/^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value));
+  const isFormValid = () => {
+    return (
+      email &&
+      username.length >= 4 &&  
+      password.length >= 6 && 
+      confirmPassword &&
+      password === confirmPassword
+    );
   };
 
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-    setIsPasswordValid(value.length >= 6);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    const value = e.target.value;
-    setConfirmPassword(value);
-    setIsConfirmPasswordValid(value === password);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setErrors({});
 
-    // Check if all inputs are valid before submission
-    if (password === confirmPassword) {
-      setErrors({});
-      return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
-        .then(() => {
-          setIsSubmitting(false);
-          closeModal();
-        })
-        .catch(async (res) => {
-          const data = await res.json();
-          setIsSubmitting(false);
-          if (data && data.errors) setErrors(data.errors);
-        });
+    if (password !== confirmPassword) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        confirmPassword: "Confirm Password field must be the same as the Password field"
+      }));
+      return;
     }
 
-    setIsSubmitting(false);
-    setErrors({ confirmPassword: "Confirm Password must match Password" });
+    return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          const updatedErrors = {};
+          if (data.errors.email) {
+            updatedErrors.email = "The provided email is invalid.";
+          }
+          if (data.errors.username) {
+            updatedErrors.username = "Username must be unique.";
+          }
+          setErrors(updatedErrors);
+        }
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="signup-modal" noValidate>
       <h1>Sign Up</h1>
 
-      <label htmlFor="email">Email</label>
-      <input
-        type="text"
-        id="email"
-        value={email}
-        onChange={handleEmailChange}
-        required
-        aria-describedby="email-error"
-      />
-      {!isEmailValid && <p id="email-error" className="error">Please enter a valid email address.</p>}
-      {errors.email && <p className="error">{errors.email}</p>}
+      <div className="error-container">
+        {Object.keys(errors).map((key) => (
+          <p key={key} className="error-message">{errors[key]}</p>
+        ))}
+      </div>
 
-      <label htmlFor="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-        aria-describedby="username-error"
-      />
-      {errors.username && <p id="username-error" className="error">{errors.username}</p>}
+      <label>
+        First Name
+        <input
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+      </label>
 
-      <label htmlFor="firstName">First Name</label>
-      <input
-        type="text"
-        id="firstName"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        required
-        aria-describedby="firstName-error"
-      />
-      {errors.firstName && <p id="firstName-error" className="error">{errors.firstName}</p>}
+      <label>
+        Last Name
+        <input
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+      </label>
 
-      <label htmlFor="lastName">Last Name</label>
-      <input
-        type="text"
-        id="lastName"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        required
-        aria-describedby="lastName-error"
-      />
-      {errors.lastName && <p id="lastName-error" className="error">{errors.lastName}</p>}
+      <label>
+        Email
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </label>
 
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={handlePasswordChange}
-        required
-        aria-describedby="password-error"
-      />
-      {!isPasswordValid && <p id="password-error" className="error">Password must be at least 6 characters long.</p>}
-      {errors.password && <p className="error">{errors.password}</p>}
+      <label>
+        Username
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </label>
 
-      <label htmlFor="confirmPassword">Confirm Password</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        value={confirmPassword}
-        onChange={handleConfirmPasswordChange}
-        required
-        aria-describedby="confirmPassword-error"
-      />
-      {!isConfirmPasswordValid && <p id="confirmPassword-error" className="error">Passwords do not match.</p>}
-      {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+      <label>
+        Password
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </label>
+
+      <label>
+        Confirm Password
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+      </label>
 
       <button
         type="submit"
-        disabled={isSubmitting || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid}
+        disabled={!isFormValid()} 
+        className={isFormValid() ? "active" : ""}
       >
-        {isSubmitting ? "Submitting..." : "Sign Up"}
+        Sign Up
       </button>
     </form>
   );

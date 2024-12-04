@@ -1,44 +1,25 @@
-import PropTypes from 'prop-types';
+//frontend/src/components/OpenModalButton/OpenModalButton.jsx
+
+
 import { useModal } from '../context/Modal';
 
-const OpenModalMenuItem = ({
+
+function OpenModalButton({
   modalComponent,
-  itemText,
-  onItemClick,
+  buttonText,
+  onButtonClick,
   onModalClose
-}) => {
+}) {
   const { setModalContent, setOnModalClose } = useModal();
 
   const onClick = () => {
-    // Call the onItemClick function if provided
-    if (typeof onItemClick === 'function') onItemClick();
-
-    // Set the modal content
-    setModalContent(modalComponent);
-
-    // Set the onModalClose handler if provided
+    if (typeof onButtonClick === 'function') onButtonClick();
     if (typeof onModalClose === 'function') setOnModalClose(onModalClose);
+    setModalContent(modalComponent);
   };
 
-  return (
-    <li>
-      <button onClick={onClick} className="modal-menu-item">
-        {itemText}
-      </button>
-    </li>
-  );
-};
+  return <button onClick={onClick}>{buttonText}</button>;
+}
 
-// PropTypes for type-checking
-OpenModalMenuItem.propTypes = {
-  modalComponent: PropTypes.element.isRequired,
-  itemText: PropTypes.string.isRequired,
-  onItemClick: PropTypes.func,
-  onModalClose: PropTypes.func,
-};
-
-// Display name for debugging purposes
-OpenModalMenuItem.displayName = "OpenModalMenuItem";
-
-export default OpenModalMenuItem;
+export default OpenModalButton;
 
