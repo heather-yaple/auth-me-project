@@ -13,6 +13,7 @@ import { ModalProvider, Modal } from './components/context/Modal';
 
 
 
+
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
   window.csrfFetch = csrfFetch;
