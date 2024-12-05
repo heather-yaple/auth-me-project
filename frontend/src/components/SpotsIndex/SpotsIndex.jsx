@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpots } from '../../store/spots';
@@ -13,17 +12,17 @@ const SpotsIndex = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-useEffect(() => {
-  dispatch(getAllSpots())
-    .then(() => setIsLoaded(true))
-    .then(() => setIsLoading(false))
-    .catch((error) => setError(error))
-    .catch(() => setIsLoading(false));
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllSpots())
+      .then(() => setIsLoaded(true))
+      .then(() => setIsLoading(false))
+      .catch((error) => setError(error))
+      .catch(() => setIsLoading(false));
+  }, [dispatch]);
 
-if (isLoading) {
-  return <LoadingSpinner />;
-} else if (error) {
+  if (isLoading) {
+    return <LoadingSpinner />;
+  } else if (error) {
     return <div>Error: {error.message || 'Something went wrong!'}</div>;
   } else if (!isLoaded) {
     return <div>Loading...</div>;
@@ -44,3 +43,4 @@ if (isLoading) {
 };
 
 export default SpotsIndex;
+

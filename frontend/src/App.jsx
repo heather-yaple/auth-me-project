@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser, logout } from './store/auth';
+import { restoreUser, logout } from './store/session';
 import { useModal } from './components/context/Modal.jsx';
 import Navigation from './components/Navigation/Navigation';
 import SearchBar from './components/Navigation/SearchBar';
@@ -16,7 +16,6 @@ import EditSpotFormModal from './components/EditSpotForm/EditSpotForm';
 import DeleteSpotConfirmationModal from './components/DeleteConfirmationModal/DeleteConfirmationModal';
 import ManageSpots from './components/ManageSpots/ManageSpots';
 import ReviewFormModal from './components/ReviewFormModal/ReviewFormModal';
-// import EditReviewFormModal from './components/EditReviewFormModal/EditReviewFormModal';
 import DeleteReviewConfirmationModal from './components/DeleteReviewConfirmationModal/DeleteReviewConfirmationModal';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 
@@ -28,29 +27,26 @@ import './index.css';
 const App = () => {
   const { setModalContent, setOnModalClose } = useModal();
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.session.user);
+  const isAuthenticated = !!user;
+  const loading = useSelector((state) => state.session.loading);
   const location = useLocation();
 
-  // Check authentication status on app load
+  // Restore user on app load
   useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      dispatch(setUser(JSON.parse(userData)));
-    }
+    dispatch(restoreUser());
   }, [dispatch]);
 
   // Handle logout
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem('user');
   };
 
   return (
     <div>
       <header>
         <h1>Cozy Cabins</h1>
-        <Navigation isLoaded={true} />
+        <Navigation isLoaded={!loading} />
         <SearchBar />
       </header>
 
@@ -70,14 +66,12 @@ const App = () => {
               <Route path="/spots/:spotId/delete" element={<DeleteSpotConfirmationModal />} />
               <Route path="/spots/:spotId/manage" element={<ManageSpots />} />
               <Route path="/spots/:spotId/reviews/new" element={<ReviewFormModal />} />
-              {/* <Route path="/spots/:spotId/reviews/:reviewId/edit" element={<EditReviewFormModal />} /> */}
               <Route path="/spots/:spotId/reviews/:reviewId/delete" element={<DeleteReviewConfirmationModal />} />
             </Routes>
           </CSSTransition>
         </TransitionGroup>
 
-        {/* Spinner for loading state */}
-        {!isAuthenticated && <LoadingSpinner />}
+        {loading && <LoadingSpinner />}
       </main>
 
       <footer>
@@ -101,6 +95,7 @@ const App = () => {
 };
 
 export default App;
+
 
 
 

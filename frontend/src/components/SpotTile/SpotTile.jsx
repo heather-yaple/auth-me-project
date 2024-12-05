@@ -1,37 +1,41 @@
-// src/components/SpotTile/SpotTile.jsx
-// eslint-disable-next-line no-unused-vars
-
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import './SpotTile.css';
-// import '@fortawesome/fontawesome-free/css/all.min.css';
-
-
 
 const SpotTile = ({ spot }) => {
-  const navigate = useNavigate();
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  const handleClick = () => {
-    navigate(`/spots/${spot.id}`);
+  // Handle the image click (cycle through the images)
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
   };
 
   return (
-    <div className="spot-tile" onClick={handleClick} title={spot.name}>
-      <img
-        src={spot.previewImage || 'default-image-url'}
-        alt={spot.name}
-        className="spot-image"
-      />
-      <div className="spot-info">
-        <div className="spot-location">
-          {spot.city}, {spot.state}
-        </div>
-        <div className="spot-rating">
-  <i className="fas fa-star"></i>{' '}
-  {spot.avgRating ? Number(spot.avgRating).toFixed(1) : 'New'}
-</div>
-
+    <div className="spot-tile">
+      <h2>{spot.name}</h2>
+      <div className="spot-images">
+        {/* Render up to 5 images */}
+        {spot.images.slice(0, 5).map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Spot ${spot.name} Image ${index + 1}`}
+            onClick={() => handleImageClick(index)}
+            className={`spot-image ${selectedImageIndex === index ? 'selected' : ''}`}
+          />
+        ))}
       </div>
-      <div className="spot-price">${spot.price} night</div>
+      <div className="selected-image-container">
+        {/* Display the selected image */}
+        <img
+          src={spot.images[selectedImageIndex]}
+          alt={`Selected ${spot.name}`}
+          className="selected-image"
+        />
+      </div>
+      <div className="spot-rating">
+        <span>⭐ {spot.rating} / 5</span>
+      </div>
+      <button className="reserve-button">Reserve Now</button>
     </div>
   );
 };
