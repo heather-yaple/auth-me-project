@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -13,16 +12,48 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Spot.init({
-    ownerId: DataTypes.INTEGER,
-    address: DataTypes.STRING,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
-    zipCode: DataTypes.STRING,
-    price: DataTypes.DECIMAL
-  }, {
-    sequelize,
-    modelName: 'Spot',
-  });
+
+  Spot.init(
+    {
+      ownerId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      state: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      zipCode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+      },
+      images: {
+        type: DataTypes.ARRAY(DataTypes.STRING), // Array of image URLs
+        allowNull: true,
+      },
+      rating: {
+        type: DataTypes.FLOAT, // Rating should be a float
+        allowNull: true,
+        defaultValue: 0, // Default to 0 if no rating exists
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Spot',
+    }
+  );
+
   return Spot;
 };
