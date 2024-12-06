@@ -45,4 +45,5 @@ export function Modal() {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useModal = () => useContext(ModalContext);
