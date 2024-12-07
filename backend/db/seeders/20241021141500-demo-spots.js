@@ -108,8 +108,6 @@ module.exports = {
         lng: -70.5895,
         numReviews: 2,
         avgStarRating: 4.1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
         images: {
           url: 'https://www.ncrivers.com/images/shawnee_thum01b.jpg',
           preview: true
@@ -122,7 +120,13 @@ module.exports = {
         description: 'Charming riverside cabin ideal for fishing and relaxing.',
         ownerId: 5,
         lat: 45.4573,
-        lng: -69.7064
+        lng: -69.7064,
+        numReviews: 1,
+        avgStarRating: 4.0,
+        images: {
+          url: 'https://www.ncrivers.com/images/westforks_thum01b.jpg',
+          preview: true
+        }
       },
       {
         name: 'Sunny Shores Cabin',
@@ -131,7 +135,13 @@ module.exports = {
         description: 'Cabin with direct lakefront access and a spacious deck.',
         ownerId: 6,
         lat: 44.9481,
-        lng: -70.6251
+        lng: -70.6251,
+        numReviews: 3,
+        avgStarRating: 4.2,
+        images: {
+          url: 'https://www.ncrivers.com/images/rangeley_thum01b.jpg',
+          preview: true
+        }
       },
       {
         name: 'Wilderness Retreat',
@@ -140,7 +150,13 @@ module.exports = {
         description: 'Luxury cabin with lake views and plenty of outdoor activities.',
         ownerId: 7,
         lat: 45.9261,
-        lng: -69.6332
+        lng: -69.6332,
+        numReviews: 4,
+        avgStarRating: 4.5,
+        images: {
+          url: 'https://www.ncrivers.com/images/moosehead_thum01b.jpg',
+          preview: true
+        }
       },
       {
         name: 'Snowy Ridge Cabin',
@@ -149,7 +165,13 @@ module.exports = {
         description: 'Ski-in/ski-out cabin with a cozy fireplace and mountain views.',
         ownerId: 8,
         lat: 45.0854,
-        lng: -70.2980
+        lng: -70.2980,
+        numReviews: 2,
+        avgStarRating: 4.3,
+        images: {
+          url: 'https://www.ncrivers.com/images/sugarloaf_thum01b.jpg',
+          preview: true
+        }
       },
       {
         name: 'Quiet Cove Cabin',
@@ -158,7 +180,13 @@ module.exports = {
         description: 'A peaceful retreat in a private cove with access to the bay.',
         ownerId: 9,
         lat: 44.5594,
-        lng: -68.2341
+        lng: -68.2341,
+        numReviews: 1,
+        avgStarRating: 4.0,
+        images: {
+          url: 'https://www.ncrivers.com/images/penobscot_thum01b.jpg',
+          preview: true
+        }
       },
       {
         name: 'Rustic Pines Cabin',
@@ -167,7 +195,13 @@ module.exports = {
         description: 'Rustic cabin surrounded by pine trees, perfect for a weekend getaway.',
         ownerId: 10,
         lat: 44.4701,
-        lng: -69.3356
+        lng: -69.3356,
+        numReviews: 3,
+        avgStarRating: 4.2,
+        images: {
+          url: 'https://www.ncrivers.com/images/lincoln_thum01b.jpg',
+          preview: true
+        }
       }
     ];
 

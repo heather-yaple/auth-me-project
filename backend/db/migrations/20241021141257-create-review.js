@@ -21,6 +21,9 @@ module.exports = {
       rating: {
         type: Sequelize.DECIMAL
       },
+      reviewImages: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

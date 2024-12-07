@@ -9,8 +9,11 @@ module.exports = {
         spotId: 1,  // Assuming the spot ID is 1 for this cabin
         userId: 1,  // Assuming userId 1 is associated with this review
         rating: 5,
-        comment: 'Amazing cabin with a beautiful view of the bay. Had the best time here!',
-        reviewImages: JSON.stringify(['image1.jpg', 'image2.jpg']),  // Assuming the images are stored as a JSON array
+        reviewText: 'Amazing cabin with a beautiful view of the bay. Had the best time here!',
+        reviewImages: [
+          { url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1130407315' },  // Assuming the image is stored as a URL
+          { url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153' }
+        ],  // Assuming the images are stored as a JSON array
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -18,8 +21,11 @@ module.exports = {
         spotId: 1,
         userId: 2,
         rating: 4,
-        comment: 'The cabin was wonderful, but we wish the kitchen was a bit bigger.',
-        reviewImages: JSON.stringify(['image3.jpg', 'image4.jpg']),
+        reviewText: 'The cabin was wonderful, but we wish the kitchen was a bit bigger.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -27,8 +33,11 @@ module.exports = {
         spotId: 1,
         userId: 3,
         rating: 5,
-        comment: 'Perfect getaway for a weekend. Loved every second of it.',
-        reviewImages: JSON.stringify(['image5.jpg']),
+        reviewText: 'Perfect getaway for a weekend. Loved every second of it.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -38,8 +47,11 @@ module.exports = {
         spotId: 2,
         userId: 4,
         rating: 5,
-        comment: 'Beautiful cabin with stunning mountain views. Would definitely stay again!',
-        reviewImages: JSON.stringify(['image6.jpg', 'image7.jpg']),
+        reviewText: 'Beautiful cabin with stunning mountain views. Would definitely stay again!',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -47,8 +59,11 @@ module.exports = {
         spotId: 2,
         userId: 5,
         rating: 3,
-        comment: 'The cabin was cozy but the road leading up was a bit too steep.',
-        reviewImages: JSON.stringify(['image8.jpg']),
+        reviewText: 'The cabin was cozy but the road leading up was a bit too steep.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -56,8 +71,11 @@ module.exports = {
         spotId: 2,
         userId: 6,
         rating: 4,
-        comment: 'Nice cabin, although the hot tub wasn’t as hot as we hoped.',
-        reviewImages: JSON.stringify(['image9.jpg']),
+        reviewText: 'Nice cabin, although the hot tub wasn’t as hot as we hoped.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -67,8 +85,11 @@ module.exports = {
         spotId: 3,
         userId: 7,
         rating: 5,
-        comment: 'This was the most peaceful stay we’ve had. The lake view was serene.',
-        reviewImages: JSON.stringify(['image10.jpg', 'image11.jpg']),
+        reviewText: 'This was the most peaceful stay we’ve had. The lake view was serene.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -76,8 +97,11 @@ module.exports = {
         spotId: 3,
         userId: 8,
         rating: 4,
-        comment: 'Great place to stay, although the Wi-Fi signal was weak.',
-        reviewImages: JSON.stringify(['image12.jpg']),
+        reviewText: 'Great place to stay, although the Wi-Fi signal was weak.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -85,8 +109,11 @@ module.exports = {
         spotId: 3,
         userId: 9,
         rating: 5,
-        comment: 'Loved every moment at Lakeside Retreat. Highly recommend it.',
-        reviewImages: JSON.stringify(['image13.jpg']),
+        reviewText: 'Loved every moment at Lakeside Retreat. Highly recommend it.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -96,8 +123,11 @@ module.exports = {
         spotId: 4,
         userId: 10,
         rating: 4,
-        comment: 'Great cabin in the forest. Very peaceful, but a bit isolated.',
-        reviewImages: JSON.stringify(['image14.jpg']),
+        reviewText: 'Great cabin in the forest. Very peaceful, but a bit isolated.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -105,8 +135,11 @@ module.exports = {
         spotId: 4,
         userId: 1,
         rating: 3,
-        comment: 'The cabin was nice, but it was hard to find in the dark.',
-        reviewImages: JSON.stringify(['image15.jpg']),
+        reviewText: 'The cabin was nice, but it was hard to find in the dark.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -114,8 +147,11 @@ module.exports = {
         spotId: 4,
         userId: 2,
         rating: 5,
-        comment: 'Perfect spot for a weekend retreat. Loved the quiet atmosphere.',
-        reviewImages: JSON.stringify(['image16.jpg', 'image17.jpg']),
+        reviewText: 'Perfect spot for a weekend retreat. Loved the quiet atmosphere.',
+        reviewImages: [
+          {url: 'https://www.airbnb.com/rooms/48067864?s=67&unique_share_id=de09404f-ac72-4ff1-8531-617b1bcc1a31&source_impression_id=p3_1733530944_P3GdO2Oyvub_EX1R&modal=PHOTO_TOUR_SCROLLABLE&modalItem=1143000153'},    
+          
+        ],
         createdAt: new Date(),
         updatedAt: new Date(),
       },
