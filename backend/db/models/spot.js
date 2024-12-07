@@ -2,7 +2,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Spot extends Model {
+  class cabin extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  Spot.init(
+  cabin.init(
     {
       // Reordered fields as per the seeder data
       name: {
@@ -67,10 +67,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Spot',
+      modelName: 'cabin',
     }
   );
 
-  return Spot;
+  return cabin;
 };
 

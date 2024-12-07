@@ -26,8 +26,8 @@
   margin-right: 1rem;
 }
 
-/* Create Spot Link */
-.create-spot-link {
+/* Create cabin Link */
+.create-cabin-link {
   text-decoration: none;
   color: var(--white);
   margin-top: 1rem;
@@ -57,8 +57,8 @@
 
 /* Mobile Menu and Responsive Design */
 @media (max-width: 768px) {
-  .create-spot-link {
-    display: none; /* Hide Create Spot button on small screens */
+  .create-cabin-link {
+    display: none; /* Hide Create cabin button on small screens */
   }
   
   .menu-buttons {

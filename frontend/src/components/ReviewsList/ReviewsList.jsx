@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import ReviewItem from '../ReviewItem/ReviewItem';
 import './ReviewsList.css';
 
-const ReviewsList = ({ spot, user }) => {
-  const reviewsObject = useSelector((state) => state.reviews.spotReviews);
+const ReviewsList = ({ cabin, user }) => {
+  const reviewsObject = useSelector((state) => state.reviews.cabinReviews);
   const reviews = Object.values(reviewsObject).reverse(); 
 
   if (!reviews.length) {
     return (
       <div>
-        {user && user.id !== spot.ownerId ? (
+        {user && user.id !== cabin.ownerId ? (
           <p>Be the first to post a review!</p>
         ) : (
           <p>No reviews yet.</p>

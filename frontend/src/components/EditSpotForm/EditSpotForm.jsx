@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSpotDetails, updateSpot } from "../../store/spots";
-import "./EditSpotForm.css";
+import { getcabinDetails, updatecabin } from "../../store/cabins";
+import "./EditcabinForm.css";
 
-const EditSpotForm = () => {
+const EditcabinForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { spotId } = useParams();
+  const { cabinId } = useParams();
 
-  const spot = useSelector((state) => state.spots.singleSpot);
+  const cabin = useSelector((state) => state.cabins.singlecabin);
 
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
@@ -26,25 +26,25 @@ const EditSpotForm = () => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    dispatch(getSpotDetails(spotId));
-  }, [dispatch, spotId]);
+    dispatch(getcabinDetails(cabinId));
+  }, [dispatch, cabinId]);
 
   useEffect(() => {
-    if (spot && spot.id) {
-      setCountry(spot.country || "");
-      setAddress(spot.address || "");
-      setCity(spot.city || "");
-      setStateName(spot.state || "");
-      setLat(spot.lat || "");
-      setLng(spot.lng || "");
-      setDescription(spot.description || "");
-      setName(spot.name || "");
-      setPrice(spot.price || "");
-      setPreviewImageUrl(spot.SpotImages && spot.SpotImages[0] ? spot.SpotImages[0].url : "");
-      const restImages = spot.SpotImages ? spot.SpotImages.slice(1, 5).map(img => img.url) : [];
+    if (cabin && cabin.id) {
+      setCountry(cabin.country || "");
+      setAddress(cabin.address || "");
+      setCity(cabin.city || "");
+      setStateName(cabin.state || "");
+      setLat(cabin.lat || "");
+      setLng(cabin.lng || "");
+      setDescription(cabin.description || "");
+      setName(cabin.name || "");
+      setPrice(cabin.price || "");
+      setPreviewImageUrl(cabin.cabinImages && cabin.cabinImages[0] ? cabin.cabinImages[0].url : "");
+      const restImages = cabin.cabinImages ? cabin.cabinImages.slice(1, 5).map(img => img.url) : [];
       setImageUrls([...restImages, ...Array(4 - restImages.length).fill("")]);
     }
-  }, [spot]);
+  }, [cabin]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +80,7 @@ const EditSpotForm = () => {
       return;
     }
 
-    const spotData = {
+    const cabinData = {
       country,
       address,
       city,
@@ -95,8 +95,8 @@ const EditSpotForm = () => {
     const imageUrlsArray = [previewImageUrl, ...imageUrls.filter((url) => url)];
 
     try {
-      await dispatch(updateSpot(spotId, spotData, imageUrlsArray));
-      navigate(`/spots/${spotId}`);
+      await dispatch(updatecabin(cabinId, cabinData, imageUrlsArray));
+      navigate(`/cabins/${cabinId}`);
     } catch (res) {
       if (!res.ok) {
         const data = await res.json();
@@ -106,7 +106,7 @@ const EditSpotForm = () => {
           setErrors(['An unknown error occurred. Please try again later.']);
         }
       } else {
-        setErrors(['Failed to update spot.']);
+        setErrors(['Failed to update cabin.']);
       }
     }
   };
@@ -120,11 +120,11 @@ const EditSpotForm = () => {
     }
   };
 
-  if (!spot || !spot.id) return <div>Loading...</div>;
+  if (!cabin || !cabin.id) return <div>Loading...</div>;
 
   return (
-    <div className="spot-form-container">
-      <h1>Update your Spot</h1>
+    <div className="cabin-form-container">
+      <h1>Update your cabin</h1>
       <form onSubmit={handleSubmit}>
         <section className="location-section">
           <h2>Where is your place located?</h2>
@@ -255,16 +255,16 @@ const EditSpotForm = () => {
         <hr className="divider" />
 
         <section className="title-section">
-          <h2>Create a title for your spot</h2>
+          <h2>Create a title for your cabin</h2>
           <p>
-            Catch guests attention with a spot title that highlights what makes
+            Catch guests attention with a cabin title that highlights what makes
             your place special.
           </p>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Name of your spot"
+            placeholder="Name of your cabin"
           />
           {submitted && !name && (
             <span className="error">Name is required</span>
@@ -354,7 +354,7 @@ const EditSpotForm = () => {
         <hr className="divider" />
 
         <div className="submit-section">
-          <button type="submit">Update Spot</button>
+          <button type="submit">Update cabin</button>
         </div>
       </form>
 
@@ -373,5 +373,5 @@ const EditSpotForm = () => {
   );
 };
 
-export default EditSpotForm;
+export default EditcabinForm;
 

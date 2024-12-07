@@ -12,7 +12,7 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      spotId: {
+      cabinId: {
         type: Sequelize.INTEGER
       },
       startDate: {

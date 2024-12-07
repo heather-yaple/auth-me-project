@@ -9,12 +9,12 @@ import ProfileButton from './components/Navigation/ProfileButton';
 import OpenModalMenuItem from './components/Navigation/OpenModalMenuItem';
 import LoginFormModal from './components/LoginFormPage/LoginFormModal';
 import SignupFormModal from './components/SignupFormPage/SignupFormModal';
-import SpotsIndex from './components/SpotsIndex/SpotsIndex';
-import SpotDetails from './components/SpotDetails/SpotDetails';
-import SpotFormModal from './components/SpotForm/SpotForm.jsx';
-import EditSpotFormModal from './components/EditSpotForm/EditSpotForm';
-import DeleteSpotConfirmationModal from './components/DeleteConfirmationModal/DeleteConfirmationModal';
-import ManageSpots from './components/ManageSpots/ManageSpots';
+import cabinsIndex from './components/cabinsIndex/cabinsIndex';
+import cabinDetails from './components/cabinDetails/cabinDetails';
+import cabinFormModal from './components/cabinForm/cabinForm.jsx';
+import EditcabinFormModal from './components/EditcabinForm/EditcabinForm';
+import DeletecabinConfirmationModal from './components/DeleteConfirmationModal/DeleteConfirmationModal';
+import Managecabins from './components/Managecabins/Managecabins';
 import ReviewFormModal from './components/ReviewFormModal/ReviewFormModal';
 import DeleteReviewConfirmationModal from './components/DeleteReviewConfirmationModal/DeleteReviewConfirmationModal';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
@@ -58,15 +58,15 @@ const App = () => {
             classNames="fade"
           >
             <Routes>
-              <Route path="/" element={<Navigate to="/spots" />} />
-              <Route path="/spots" element={<SpotsIndex />} />
-              <Route path="/spots/:spotId" element={<SpotDetails />} />
-              <Route path="/spots/new" element={<SpotFormModal />} />
-              <Route path="/spots/:spotId/edit" element={<EditSpotFormModal />} />
-              <Route path="/spots/:spotId/delete" element={<DeleteSpotConfirmationModal />} />
-              <Route path="/spots/:spotId/manage" element={<ManageSpots />} />
-              <Route path="/spots/:spotId/reviews/new" element={<ReviewFormModal />} />
-              <Route path="/spots/:spotId/reviews/:reviewId/delete" element={<DeleteReviewConfirmationModal />} />
+              <Route path="/" element={<Navigate to="/cabins" />} />
+              <Route path="/cabins" element={<cabinsIndex />} />
+              <Route path="/cabins/:cabinId" element={<cabinDetails />} />
+              <Route path="/cabins/new" element={<cabinFormModal />} />
+              <Route path="/cabins/:cabinId/edit" element={<EditcabinFormModal />} />
+              <Route path="/cabins/:cabinId/delete" element={<DeletecabinConfirmationModal />} />
+              <Route path="/cabins/:cabinId/manage" element={<Managecabins />} />
+              <Route path="/cabins/:cabinId/reviews/new" element={<ReviewFormModal />} />
+              <Route path="/cabins/:cabinId/reviews/:reviewId/delete" element={<DeleteReviewConfirmationModal />} />
             </Routes>
           </CSSTransition>
         </TransitionGroup>

@@ -2,7 +2,7 @@ const express = require('express');
 const Sequelize  = require('sequelize');
 const { Op } = require('sequelize');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, Review, User, SpotImage, ReviewImage, Booking } = require('../../db/models');
+const { cabin, Review, User, cabinImage, ReviewImage, Booking } = require('../../db/models');
 const { check, validationResult, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -43,7 +43,7 @@ query('maxPrice')
   handleValidationErrors
 ];
 
-const fetchSpots = async (req, res, next) => {
+const fetchcabins = async (req, res, next) => {
 try {
   let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
@@ -84,18 +84,18 @@ if (maxPrice) {
   queryOptions.where.price = { [Op.lte]: parseFloat(maxPrice) };
 }
 
-  const allSpots = await Spot.findAll({...queryOptions});
-  const detailedSpot = await Promise.all(allSpots.map(async (spot) => {
+  const allcabins = await cabin.findAll({...queryOptions});
+  const detailedcabin = await Promise.all(allcabins.map(async (cabin) => {
 
     const reviewsLength = await Review.count({
       where: {
-        spotId: spot.id,
+        cabinId: cabin.id,
       },
     });
 
     const starsColumn = await Review.sum("stars", {
       where: {
-        spotId: spot.id,
+        cabinId: cabin.id,
       },
     });
 
@@ -104,9 +104,9 @@ if (maxPrice) {
     if (starsColumn === null) avgRating = 0;
     else avgRating = (starsColumn / reviewsLength).toFixed(1);
 
-    const previewImage = await SpotImage.findAll({
+    const previewImage = await cabinImage.findAll({
       where: {
-        spotId: spot.id,
+        cabinId: cabin.id,
       },
          attributes: ["url"],
       });
@@ -120,24 +120,24 @@ if (maxPrice) {
       }
 
     return {
-      id: spot.id,
-      ownerId: spot.ownerId,
-      address: spot.address,
-      city: spot.city,
-      state: spot.state,
-      country: spot.country,
-      lat: parseFloat(spot.lat),
-      lng: parseFloat(spot.lng),
-      name: spot.name,
-      description: spot.description,
-      price: parseFloat(spot.price),
-      createdAt: spot.createdAt,
-      updatedAt: spot.updatedAt,
+      id: cabin.id,
+      ownerId: cabin.ownerId,
+      address: cabin.address,
+      city: cabin.city,
+      state: cabin.state,
+      country: cabin.country,
+      lat: parseFloat(cabin.lat),
+      lng: parseFloat(cabin.lng),
+      name: cabin.name,
+      description: cabin.description,
+      price: parseFloat(cabin.price),
+      createdAt: cabin.createdAt,
+      updatedAt: cabin.updatedAt,
       avgRating: avgRating,
       previewImage: imageSearch
     };
   }));
-  req.detailedSpot = detailedSpot;
+  req.detailedcabin = detailedcabin;
   req.pagination = {
     page: Number(page),
     size: Number(size),
@@ -145,11 +145,11 @@ if (maxPrice) {
 
   next();
 } catch (error) {
-  console.error('Error fetching spots:', error);
+  console.error('Error fetching cabins:', error);
   res.status(500).json({ error: 'Internal Server Error' });
 }};
 
-const validateSpots = [
+const validatecabins = [
   check('address')
     .isString()
     .exists({ checkFalsy: true })
@@ -193,69 +193,69 @@ const validateSpots = [
   handleValidationErrors
 ];
 
-router.get('/', paginationValidation, fetchSpots, (req, res) => {
-  const { detailedSpot, pagination } = req;
-  res.status(200).json({ Spots: detailedSpot, ...pagination });
+router.get('/', paginationValidation, fetchcabins, (req, res) => {
+  const { detailedcabin, pagination } = req;
+  res.status(200).json({ cabins: detailedcabin, ...pagination });
 });
 
-router.get('/current', requireAuth, fetchSpots, async (req, res) => {
-  const { detailedSpot } = req;
+router.get('/current', requireAuth, fetchcabins, async (req, res) => {
+  const { detailedcabin } = req;
   const userCurrent = req.user.id;
-    const userSpots = detailedSpot.filter(spot => spot.ownerId === userCurrent);
-  res.status(200).json({ Spots: userSpots });
+    const usercabins = detailedcabin.filter(cabin => cabin.ownerId === userCurrent);
+  res.status(200).json({ cabins: usercabins });
 });
 
-router.get('/:spotId', fetchSpots, async (req, res) => {
-  const { spotId } = req.params;
-  const { detailedSpot } = req;
-    const spotById = detailedSpot.find((spot) => spot.id == spotId);
+router.get('/:cabinId', fetchcabins, async (req, res) => {
+  const { cabinId } = req.params;
+  const { detailedcabin } = req;
+    const cabinById = detailedcabin.find((cabin) => cabin.id == cabinId);
 
-    if (!spotById) {
-      return res.status(404).json({ error: 'Spot not found' });
+    if (!cabinById) {
+      return res.status(404).json({ error: 'cabin not found' });
     }
 
     const relatedReviews = await Review.findAll({
       where: {
-        spotId: spotById.id,
+        cabinId: cabinById.id,
       }
     });
 
-    const relatedImages = await SpotImage.findAll({
+    const relatedImages = await cabinImage.findAll({
       where: {
-        spotId: spotById.id,
+        cabinId: cabinById.id,
       },
       attributes: {
-        exclude: ['spotId', 'createdAt', 'updatedAt'],
+        exclude: ['cabinId', 'createdAt', 'updatedAt'],
       },
     });
 
-    const relatedOwner = await User.findByPk(spotById.ownerId, {
+    const relatedOwner = await User.findByPk(cabinById.ownerId, {
       attributes: ['id', 'firstName', 'lastName'],
     });
 
   const response = {
-        id: spotById.id,
-        ownerId: spotById.ownerId,
-        address: spotById.address,
-        city: spotById.city,
-        state: spotById.state,
-        country: spotById.country,
-        lat: parseFloat(spotById.lat),
-        lng: parseFloat(spotById.lng),
-        name: spotById.name,
-        description: spotById.description,
-        price: parseFloat(spotById.price),
-        createdAt: spotById.createdAt,
-        updatedAt: spotById.updatedAt,
+        id: cabinById.id,
+        ownerId: cabinById.ownerId,
+        address: cabinById.address,
+        city: cabinById.city,
+        state: cabinById.state,
+        country: cabinById.country,
+        lat: parseFloat(cabinById.lat),
+        lng: parseFloat(cabinById.lng),
+        name: cabinById.name,
+        description: cabinById.description,
+        price: parseFloat(cabinById.price),
+        createdAt: cabinById.createdAt,
+        updatedAt: cabinById.updatedAt,
         numReviews: relatedReviews.length,
-        avgStarRating: spotById.avgRating,
-        SpotImages: relatedImages,
+        avgStarRating: cabinById.avgRating,
+        cabinImages: relatedImages,
         Owner: relatedOwner,
       }
   return res.status(200).json(response);
 });
 
-router.post('/', requireAuth, validateSpots, async (req, res) => {
+router.post('/', requireAuth, validatecabins, async (req, res) => {
 try{
   const userId = req.user.id;
     const {
@@ -270,12 +270,12 @@ try{
       price,
     } = req.body;
 
-    const newValidSpot = await Spot.create({
+    const newValidcabin = await cabin.create({
       ...req.body,
       ownerId: userId,
     });
 
-  return res.status(201).json(newValidSpot);
+  return res.status(201).json(newValidcabin);
 } catch (error) {
   if (error instanceof Sequelize.ValidationError) {
     const validationErrors = handleValidationErrors(error.errors);
@@ -287,45 +287,45 @@ try{
 }
 });
 
-router.post("/:spotId/images", requireAuth, async (req, res) => {
-  const { spotId } = req.params;
+router.post("/:cabinId/images", requireAuth, async (req, res) => {
+  const { cabinId } = req.params;
   const { url, preview } = req.body;
   const currentUser = req.user.id;
 
-  const spot = await Spot.findByPk(spotId);
-  if (!spot) {
-    return res.status(404).json({ message: "Spot couldn't be found" });
+  const cabin = await cabin.findByPk(cabinId);
+  if (!cabin) {
+    return res.status(404).json({ message: "cabin couldn't be found" });
   };
-  if(spot.ownerId !== currentUser){
+  if(cabin.ownerId !== currentUser){
     return res.status(403).json({ message: "You are not authorized."});
   } else {
 
-  const newSpotImage = await SpotImage.create({ spotId: spotId, url, preview });
+  const newcabinImage = await cabinImage.create({ cabinId: cabinId, url, preview });
 
   res.status(200).json({
-    id: newSpotImage.id,
-    url: newSpotImage.url,
-    preview: newSpotImage.preview
+    id: newcabinImage.id,
+    url: newcabinImage.url,
+    preview: newcabinImage.preview
 });
 }
 });
 
-router.put("/:spotId", requireAuth, validateSpots, async (req, res) => {
-  const { spotId } = req.params;
+router.put("/:cabinId", requireAuth, validatecabins, async (req, res) => {
+  const { cabinId } = req.params;
   const currentUser = req.user.id;
 try {
-  const spot = await Spot.findByPk(spotId);
-  if (!spot) {
-    return res.status(404).json({ message: "Spot couldn't be found" });
+  const cabin = await cabin.findByPk(cabinId);
+  if (!cabin) {
+    return res.status(404).json({ message: "cabin couldn't be found" });
   };
-  if(spot.ownerId !== currentUser){
+  if(cabin.ownerId !== currentUser){
     return res.status(403).json({ message: "You are not authorized."});
 };
-  await spot.update(req.body);
+  await cabin.update(req.body);
 
-  const updatedSpot = await Spot.findByPk(spotId);
+  const updatedcabin = await cabin.findByPk(cabinId);
 
-  return res.status(200).json(updatedSpot);
+  return res.status(200).json(updatedcabin);
 } catch (error) {
   if (error instanceof Sequelize.ValidationError) {
     const validationErrors = handleValidationErrors(error.errors);
@@ -337,18 +337,18 @@ try {
 }
 });
 
-router.delete("/:spotId", requireAuth, async (req, res) => {
-  const { spotId } = req.params;
+router.delete("/:cabinId", requireAuth, async (req, res) => {
+  const { cabinId } = req.params;
   const currentUser = req.user.id;
 
-  const spot = await Spot.findByPk(spotId);
-  if (!spot) {
-    return res.status(404).json({ message: "Spot couldn't be found" });
+  const cabin = await cabin.findByPk(cabinId);
+  if (!cabin) {
+    return res.status(404).json({ message: "cabin couldn't be found" });
   };
-  if(spot.ownerId !== currentUser){
+  if(cabin.ownerId !== currentUser){
     return res.status(403).json({ message: "You are not authorized."});
 };
-await spot.destroy();
+await cabin.destroy();
 
 return res.status(200).json({ message: "Successfully deleted" });
 });
@@ -363,18 +363,18 @@ const validateReview = [
       .withMessage('Stars must be an integer from 1 to 5')
   ];
 
-router.get('/:spotId/reviews', async (req, res) => {
-	const spotId = req.params.spotId;
+router.get('/:cabinId/reviews', async (req, res) => {
+	const cabinId = req.params.cabinId;
 
-	const spot = await Spot.findByPk(spotId);
+	const cabin = await cabin.findByPk(cabinId);
 
-	if (!spot) {
-		return res.status(404).json({ message: "Spot couldn't be found" });
+	if (!cabin) {
+		return res.status(404).json({ message: "cabin couldn't be found" });
 	}
 
-  const reviewsBySpotId = await Review.findAll({
+  const reviewsBycabinId = await Review.findAll({
     where: {
-      spotId: spotId,
+      cabinId: cabinId,
     },
     include: [
       {
@@ -388,11 +388,11 @@ router.get('/:spotId/reviews', async (req, res) => {
     ]
   });
 
-  res.status(200).json({ Reviews: reviewsBySpotId });
+  res.status(200).json({ Reviews: reviewsBycabinId });
 });
 
-router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
-  const { spotId } = req.params;
+router.post('/:cabinId/reviews', requireAuth, validateReview, async (req, res) => {
+  const { cabinId } = req.params;
   const { review, stars } = req.body
   const currentUser = req.user.id;
 
@@ -402,22 +402,22 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
 
   try{
     const existingReview = await Review.findOne({
-      where: { spotId: spotId, userId: currentUser },
+      where: { cabinId: cabinId, userId: currentUser },
     });
 
     if (existingReview) {
-      return res.status(500).json({ message: "User already has a review for this spot" });
+      return res.status(500).json({ message: "User already has a review for this cabin" });
     }
 
-    const existingSpot = await Spot.findOne({
-      where: { id: spotId },
+    const existingcabin = await cabin.findOne({
+      where: { id: cabinId },
     });
 
-    if (!existingSpot) {
-      return res.status(404).json({ message: "Spot couldn't be found" });
+    if (!existingcabin) {
+      return res.status(404).json({ message: "cabin couldn't be found" });
     }
 
-  const newReview = await Review.create({ userId: currentUser, spotId: spotId, review, stars });
+  const newReview = await Review.create({ userId: currentUser, cabinId: cabinId, review, stars });
 
     res.status(201).json(newReview);
   }
@@ -432,30 +432,30 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
   }
 });
 
-router.get('/:spotsId/bookings', requireAuth, async (req, res, next) => {
-  const { spotsId } = req.params;
+router.get('/:cabinsId/bookings', requireAuth, async (req, res, next) => {
+  const { cabinsId } = req.params;
   const { startDate, endDate } = req.body;
   const currentUser = req.user.id;
 
-const spot = await Spot.findByPk(spotsId);
-  if (!spot) {
-    return res.status(404).json({ message: "Spot couldn't be found" });
+const cabin = await cabin.findByPk(cabinsId);
+  if (!cabin) {
+    return res.status(404).json({ message: "cabin couldn't be found" });
 };
 
-if(spot.ownerId !== currentUser){
+if(cabin.ownerId !== currentUser){
   const notTheOwner = await Booking.findAll({
     where: {
-      spotId: spot.id
+      cabinId: cabin.id
     },
-    attributes: ['spotId', 'startDate', 'endDate']
+    attributes: ['cabinId', 'startDate', 'endDate']
   });
   res.status(200).json({ Bookings: notTheOwner });
 };
 
-if(spot.ownerId === currentUser){
+if(cabin.ownerId === currentUser){
   const theOwner = await Booking.findAll({
     where: {
-      spotId: spot.id
+      cabinId: cabin.id
     },
     include: [{
       model: User,
@@ -488,8 +488,8 @@ const validDates = [
   handleValidationErrors
 ];
 
-router.post('/:spotId/bookings', requireAuth, validDates, async (req, res) => {
-  const { spotId } = req.params;
+router.post('/:cabinId/bookings', requireAuth, validDates, async (req, res) => {
+  const { cabinId } = req.params;
   const { startDate, endDate } = req.body;
   const currentUser = req.user.id;
 
@@ -502,18 +502,18 @@ router.post('/:spotId/bookings', requireAuth, validDates, async (req, res) => {
     return res.status(401).json({ message: 'Unauthorized: User not authenticated' });
   }
 
-    const spot = await Spot.findByPk(spotId);
-    if (!spot) {
-      return res.status(404).json({ message: "Spot couldn't be found" });
+    const cabin = await cabin.findByPk(cabinId);
+    if (!cabin) {
+      return res.status(404).json({ message: "cabin couldn't be found" });
     }
 
-    if (spot.ownerId === currentUser) {
+    if (cabin.ownerId === currentUser) {
       return res.status(403).json({ message: 'Unable to Process this Request: This is your property.' });
     }
 
     const existingBooking = await Booking.findOne({
       where: {
-        spotId: spotId,
+        cabinId: cabinId,
         [Op.or]: [
           {
             startDate: { [Op.between]: [startDate, endDate] }
@@ -532,7 +532,7 @@ router.post('/:spotId/bookings', requireAuth, validDates, async (req, res) => {
     });
     if (existingBooking) {
       return res.status(403).json({
-        "message": "Sorry, this spot is already booked for the specified dates",
+        "message": "Sorry, this cabin is already booked for the specified dates",
         "errors": {
           "startDate": "Start date conflicts with an existing booking",
           "endDate": "End date conflicts with an existing booking"
@@ -541,7 +541,7 @@ router.post('/:spotId/bookings', requireAuth, validDates, async (req, res) => {
     }
 
     const successfulBooking = await Booking.create({
-      spotId,
+      cabinId,
       userId: currentUser,
       startDate,
       endDate,

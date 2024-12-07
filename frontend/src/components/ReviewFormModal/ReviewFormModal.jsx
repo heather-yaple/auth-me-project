@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { createReview } from '../../store/reviews';
 import './ReviewFormModal.css';
 
-const ReviewFormModal = ({ spotId, onClose }) => {
+const ReviewFormModal = ({ cabinId, onClose }) => {
   const dispatch = useDispatch();
 
   const [reviewText, setReviewText] = useState('');
@@ -36,7 +36,7 @@ const ReviewFormModal = ({ spotId, onClose }) => {
     };
 
     try {
-      await dispatch(createReview(spotId, reviewData));
+      await dispatch(createReview(cabinId, reviewData));
       onClose(); // Close the modal upon successful submission
     } catch (res) {
       const data = await res.json();

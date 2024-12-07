@@ -1,5 +1,5 @@
-/* SpotsIndex.css */
-.spots-index {
+/* cabinsIndex.css */
+.cabins-index {
   padding: 2rem;
   background-color: #f4f4f4;
 }
@@ -13,28 +13,28 @@
   font-family: 'Georgia', serif;
 }
 
-.spots-list {
+.cabins-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   justify-content: center;
 }
 
-.spots-list > div {
+.cabins-list > div {
   transition: transform 0.3s ease;
 }
 
-.spots-list > div:hover {
+.cabins-list > div:hover {
   transform: scale(1.05);
 }
 
-.spots-index .error {
+.cabins-index .error {
   color: #e74c3c;
   font-size: 1.2rem;
   text-align: center;
 }
 
-.spots-index .loading {
+.cabins-index .loading {
   font-size: 1.5rem;
   color: #3498db;
   text-align: center;

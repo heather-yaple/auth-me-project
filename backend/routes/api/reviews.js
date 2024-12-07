@@ -2,7 +2,7 @@ const express = require("express");
 const { Sequelize } = require("sequelize");
 const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
-const { Spot, Review, User, SpotImage, ReviewImage, Booking } = require('../../db/models');
+const { cabin, Review, User, cabinImage, ReviewImage, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -20,11 +20,11 @@ const validateReview = [
 
 const fetchUserReviews = async (req, res, next) => {
   try {
-    const allSpots = await Spot.findAll({});
-    const detailedSpot = await Promise.all(allSpots.map(async (spot) => {
-      const previewImage = await SpotImage.findOne({
+    const allcabins = await cabin.findAll({});
+    const detailedcabin = await Promise.all(allcabins.map(async (cabin) => {
+      const previewImage = await cabinImage.findOne({
         where: {
-          spotId: spot.id,
+          cabinId: cabin.id,
         },
         attributes: ['url'],
       });
@@ -32,16 +32,16 @@ const fetchUserReviews = async (req, res, next) => {
       const imageSearch = previewImage ? previewImage.url : null;
 
       const response = {
-        id: spot.id,
-        ownerId: spot.ownerId,
-        address: spot.address,
-        city: spot.city,
-        state: spot.state,
-        country: spot.country,
-        lat: spot.lat,
-        lng: spot.lng,
-        name: spot.name,
-        price: spot.price,
+        id: cabin.id,
+        ownerId: cabin.ownerId,
+        address: cabin.address,
+        city: cabin.city,
+        state: cabin.state,
+        country: cabin.country,
+        lat: cabin.lat,
+        lng: cabin.lng,
+        name: cabin.name,
+        price: cabin.price,
         field: {
           previewImage: imageSearch,
         },
@@ -60,13 +60,13 @@ const fetchUserReviews = async (req, res, next) => {
           attributes: ['id', 'firstName', 'lastName']
         },
         {
-          model: Spot,
+          model: cabin,
           attributes: {
             exclude: ['createdAt', 'updatedAt', 'description'],
           },
           include: [
             {
-              model: SpotImage,
+              model: cabinImage,
               attributes: ['url'],
             }
           ]
@@ -80,20 +80,20 @@ const fetchUserReviews = async (req, res, next) => {
 
     const reviews = userReviews.map((userReview) => {
       let json = userReview.toJSON();
-      let spotImages = json.Spot && json.Spot.SpotImages;
+      let cabinImages = json.cabin && json.cabin.cabinImages;
 
-      if (spotImages && spotImages.length > 0) {
-        json.Spot.previewImage = spotImages[0].url;
+      if (cabinImages && cabinImages.length > 0) {
+        json.cabin.previewImage = cabinImages[0].url;
       } else {
-        json.Spot.previewImage = null;
+        json.cabin.previewImage = null;
       }
-      delete json.Spot.SpotImages;
+      delete json.cabin.cabinImages;
       return json;
     });
 
     req.userReviews = reviews;
-    if (req.userReviews[0] && req.userReviews[0].Spot) {
-      req.userReviews[0].Spot.previewImage = req.userReviews[0].Spot.previewImage;
+    if (req.userReviews[0] && req.userReviews[0].cabin) {
+      req.userReviews[0].cabin.previewImage = req.userReviews[0].cabin.previewImage;
     }
     next();
   } catch (error) {

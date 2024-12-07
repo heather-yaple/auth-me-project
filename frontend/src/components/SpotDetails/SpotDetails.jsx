@@ -1,66 +1,66 @@
 import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getSpotDetails } from "../../store/spots";
-import { getReviewsBySpotId } from "../../store/reviews";
+import { getcabinDetails } from "../../store/cabins";
+import { getReviewsBycabinId } from "../../store/reviews";
 import ReviewsList from "../ReviewsList/ReviewsList";
 import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
 import { useModal } from "../context/Modal";
-import "./SpotDetails.css";
+import "./cabinDetails.css";
 
-const SpotDetails = () => {
-  const { spotId } = useParams();
+const cabinDetails = () => {
+  const { cabinId } = useParams();
   const dispatch = useDispatch();
   const { setModalContent, closeModal } = useModal();
 
-  const spot = useSelector((state) => state.spots.singleSpot);
+  const cabin = useSelector((state) => state.cabins.singlecabin);
   const user = useSelector((state) => state.session.user);
 
-  const reviewsObject = useSelector((state) => state.reviews.spotReviews);
+  const reviewsObject = useSelector((state) => state.reviews.cabinReviews);
   const reviews = useMemo(() => Object.values(reviewsObject), [reviewsObject]);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     Promise.all([
-      dispatch(getSpotDetails(spotId)),
-      dispatch(getReviewsBySpotId(spotId)),
+      dispatch(getcabinDetails(cabinId)),
+      dispatch(getReviewsBycabinId(cabinId)),
     ])
       .then(() => setIsLoaded(true))
       // eslint-disable-next-line no-unused-vars
       .catch((err) => {});
-  }, [dispatch, spotId]);
+  }, [dispatch, cabinId]);
 
   if (!isLoaded) return <div>Loading...</div>;
-  if (!spot.id) return <div>Spot not found</div>;
+  if (!cabin.id) return <div>cabin not found</div>;
 
   const hasUserReviewed = reviews.some((review) => review.userId === user?.id);
 
-  const canPostReview = user && user.id !== spot.ownerId && !hasUserReviewed;
+  const canPostReview = user && user.id !== cabin.ownerId && !hasUserReviewed;
 
   const openReviewModal = () => {
-    setModalContent(<ReviewFormModal spotId={spot.id} onClose={closeModal} />);
+    setModalContent(<ReviewFormModal cabinId={cabin.id} onClose={closeModal} />);
   };
 
   return (
-    <div className="spot-details">
-      <h1>{spot.name}</h1>
-      <div className="spot-location">
-        {spot.city}, {spot.state}, {spot.country}
+    <div className="cabin-details">
+      <h1>{cabin.name}</h1>
+      <div className="cabin-location">
+        {cabin.city}, {cabin.state}, {cabin.country}
       </div>
 
-      <div className="spot-images">
-        {spot.SpotImages && spot.SpotImages.length > 0 ? (
+      <div className="cabin-images">
+        {cabin.cabinImages && cabin.cabinImages.length > 0 ? (
           <>
             <div className="main-image">
-              <img src={spot.SpotImages[0].url} alt={spot.name} />
+              <img src={cabin.cabinImages[0].url} alt={cabin.name} />
             </div>
             <div className="thumbnail-images">
-              {spot.SpotImages.slice(1, 5).map((image, idx) => (
+              {cabin.cabinImages.slice(1, 5).map((image, idx) => (
                 <img
                   key={idx}
                   src={image.url}
-                  alt={`${spot.name} ${idx + 1}`}
+                  alt={`${cabin.name} ${idx + 1}`}
                 />
               ))}
             </div>
@@ -70,29 +70,29 @@ const SpotDetails = () => {
         )}
       </div>
 
-      <div className="spot-info">
-        <div className="spot-host">
+      <div className="cabin-info">
+        <div className="cabin-host">
           <h2>
-            Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}
+            Hosted by {cabin.Owner?.firstName} {cabin.Owner?.lastName}
           </h2>
-          <p>{spot.description}</p>
+          <p>{cabin.description}</p>
         </div>
 
-        <div className="spot-callout">
+        <div className="cabin-callout">
           <div className="price-rating-container">
             <div className="price">
-              ${spot.price}
+              ${cabin.price}
               <span className="night-text"> night</span>
             </div>
-            <div className="spot-rating-callout">
+            <div className="cabin-rating-callout">
               <i className="fas fa-star"></i>{" "}
-              {spot.avgStarRating
-                ? Number(spot.avgStarRating).toFixed(1)
+              {cabin.avgStarRating
+                ? Number(cabin.avgStarRating).toFixed(1)
                 : "New"}
-              {spot.numReviews > 0 && (
+              {cabin.numReviews > 0 && (
                 <>
                   {" · "}
-                  {spot.numReviews} review{spot.numReviews === 1 ? "" : "s"}
+                  {cabin.numReviews} review{cabin.numReviews === 1 ? "" : "s"}
                 </>
               )}
             </div>
@@ -110,11 +110,11 @@ const SpotDetails = () => {
       <div className="reviews-section">
   <h2>
     <i className="fas fa-star"></i>{' '}
-    {spot.avgStarRating ? Number(spot.avgStarRating).toFixed(1) : 'New'}
-    {spot.numReviews > 0 && (
+    {cabin.avgStarRating ? Number(cabin.avgStarRating).toFixed(1) : 'New'}
+    {cabin.numReviews > 0 && (
       <>
         {' · '}
-        {spot.numReviews} review{spot.numReviews === 1 ? '' : 's'}
+        {cabin.numReviews} review{cabin.numReviews === 1 ? '' : 's'}
       </>
     )}
   </h2>
@@ -125,14 +125,14 @@ const SpotDetails = () => {
     </button>
   )}
 
-  {spot.numReviews === 0 ? (
+  {cabin.numReviews === 0 ? (
     <p>Be the first to post a review!</p>
   ) : (
-    <ReviewsList reviews={reviews} spot={spot} user={user} />
+    <ReviewsList reviews={reviews} cabin={cabin} user={user} />
   )}
 </div>
     </div>
   );
 };
 
-export default SpotDetails;
+export default cabinDetails;

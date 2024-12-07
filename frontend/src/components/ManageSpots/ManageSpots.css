@@ -1,15 +1,15 @@
-/* ManageSpots.css */
+/* Managecabins.css */
 
-.manage-spots {
+.manage-cabins {
   padding: 20px;
 }
 
-.manage-spots h1 {
+.manage-cabins h1 {
   margin-bottom: 20px;
   color: var(--indigo);
 }
 
-.manage-spots .create-spot-button {
+.manage-cabins .create-cabin-button {
   padding: 10px 20px;
   background-color: var(--vibrant-green);
   color: var(--white);
@@ -23,18 +23,18 @@
   transition: background-color 0.3s, transform 0.2s ease-in-out; /* Added smooth transitions */
 }
 
-.manage-spots .create-spot-button:hover {
+.manage-cabins .create-cabin-button:hover {
   background-color: var(--dark-blue);
   transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-.manage-spots .spots-list {
+.manage-cabins .cabins-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
-.manage-spots .spot-card {
+.manage-cabins .cabin-card {
   background-color: var(--white);
   border: 1px solid var(--gray);
   border-radius: 8px;
@@ -42,38 +42,38 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.manage-spots .spot-card img {
+.manage-cabins .cabin-card img {
   width: 100%;
   height: 200px;
   object-fit: cover;
   transition: transform 0.3s ease; /* Added zoom effect */
 }
 
-.manage-spots .spot-card img:hover {
+.manage-cabins .cabin-card img:hover {
   transform: scale(1.05); /* Zoom effect on hover */
 }
 
-.manage-spots .spot-info {
+.manage-cabins .cabin-info {
   padding: 10px;
 }
 
-.manage-spots .spot-info h3 {
+.manage-cabins .cabin-info h3 {
   margin: 0;
   color: var(--indigo);
 }
 
-.manage-spots .spot-info p {
+.manage-cabins .cabin-info p {
   margin: 5px 0;
   color: var(--gray);
 }
 
-.manage-spots .spot-actions {
+.manage-cabins .cabin-actions {
   display: flex;
   justify-content: space-between;
   padding: 10px;
 }
 
-.manage-spots .spot-actions button {
+.manage-cabins .cabin-actions button {
   padding: 8px 12px;
   background-color: var(--vibrant-green);
   color: var(--white);
@@ -83,22 +83,22 @@
   transition: background-color 0.3s, transform 0.2s ease-in-out; /* Added smooth transitions */
 }
 
-.manage-spots .spot-actions button:hover {
+.manage-cabins .cabin-actions button:hover {
   background-color: var(--dark-blue);
   transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-.manage-spots .spot-actions .delete-button {
+.manage-cabins .cabin-actions .delete-button {
   background-color: var(--crayola-red);
   transition: background-color 0.3s ease; /* Added smooth transition */
 }
 
-.manage-spots .spot-actions .delete-button:hover {
+.manage-cabins .cabin-actions .delete-button:hover {
   background-color: #c0392b;
 }
 
 @media (max-width: 600px) {
-  .manage-spots .spots-list {
+  .manage-cabins .cabins-list {
     grid-template-columns: 1fr; /* Stack cards in a single column on small screens */
   }
 }

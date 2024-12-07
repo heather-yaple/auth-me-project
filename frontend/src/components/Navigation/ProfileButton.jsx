@@ -53,7 +53,7 @@ function ProfileButton({ user }) {
               <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
               <li>
-                <NavLink to="/spots/current" onClick={() => setShowMenu(false)}>
+                <NavLink to="/cabins/current" onClick={() => setShowMenu(false)}>
                   Manage Cabins
                 </NavLink>
               </li>

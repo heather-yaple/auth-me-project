@@ -1,9 +1,9 @@
 import  { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createSpot } from '../../store/spots.js';
+import { createcabin } from '../../store/cabins.js';
 import { useNavigate } from 'react-router-dom';
 
-const SpotForm = () => {
+const cabinForm = () => {
   const [country, setCountry] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -33,7 +33,7 @@ const SpotForm = () => {
     const validationErrors = [];
 
     // Basic validation checks
-    if (!name) validationErrors.push('Spot name is required');
+    if (!name) validationErrors.push('cabin name is required');
     if (!description) validationErrors.push('Description is required');
     if (!price || isNaN(price) || price <= 0) validationErrors.push('Price must be a valid number greater than 0');
     if (!lat || isNaN(lat)) validationErrors.push('Latitude must be a valid number');
@@ -52,7 +52,7 @@ const SpotForm = () => {
     }
 
     if (validationErrors.length === 0) {
-      const spotData = {
+      const cabinData = {
         country,
         address,
         city,
@@ -67,8 +67,8 @@ const SpotForm = () => {
       const imageUrlsArray = [previewImage, ...imageUrls.filter((url) => url)];
 
       try {
-        const newSpot = await dispatch(createSpot(spotData, imageUrlsArray));
-        navigate(`/spots/${newSpot.id}`);
+        const newcabin = await dispatch(createcabin(cabinData, imageUrlsArray));
+        navigate(`/cabins/${newcabin.id}`);
         
         // Reset form
         setCountry('');
@@ -242,4 +242,4 @@ const SpotForm = () => {
   );
 };
 
-export default SpotForm;
+export default cabinForm;
