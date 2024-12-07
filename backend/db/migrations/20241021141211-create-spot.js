@@ -34,6 +34,15 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      images: {
+        type: Sequelize.TEXT
+      },
+      numReviews: {
+        type: Sequelize.INTEGER
+      },
+      avgStarRating: {
+        type: Sequelize.INTEGER
       }
     });
   },

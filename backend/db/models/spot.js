@@ -15,8 +15,9 @@ module.exports = (sequelize, DataTypes) => {
 
   Spot.init(
     {
-      ownerId: {
-        type: DataTypes.INTEGER,
+      // Reordered fields as per the seeder data
+      name: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       address: {
@@ -39,14 +40,29 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL,
         allowNull: false,
       },
-      images: {
-        type: DataTypes.ARRAY(DataTypes.STRING), // Array of image URLs
+      description: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
-      rating: {
-        type: DataTypes.FLOAT, // Rating should be a float
-        allowNull: true,
-        defaultValue: 0, // Default to 0 if no rating exists
+      ownerId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      lat: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      lng: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
     {
@@ -57,3 +73,4 @@ module.exports = (sequelize, DataTypes) => {
 
   return Spot;
 };
+
