@@ -1,46 +1,44 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllcabins } from '../../store/cabins';
-import cabinTile from '../cabinTile/cabinTile';
-import './cabinsIndex.css';
+import { getAllSpots } from '../../store/spots';
+import SpotTile from '../SpotTile/SpotTile';
+import './SpotsIndex.css';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
-const cabinsIndex = () => {
+const SpotsIndex = () => {
   const dispatch = useDispatch();
-  const cabins = useSelector((state) => Object.values(state.cabins.allcabins));
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(null);
+  const spots = useSelector((state) => Object.values(state.spots.allSpots));
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    dispatch(getAllcabins())
-      .then(() => setIsLoaded(true))
-      .then(() => setIsLoading(false))
-      .catch((error) => setError(error))
-      .catch(() => setIsLoading(false));
+    dispatch(getAllSpots())
+      .catch((err) => setError(err))
+      .finally(() => setIsLoading(false));
   }, [dispatch]);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else if (error) {
-    return <div>Error: {error.message || 'Something went wrong!'}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <div className="error-message">Error: {error.message || 'Something went wrong!'}</div>;
 
   return (
-    <div className="cabins-index">
+    <div className="spots-index">
       <div className="welcome-message">
         <h1>&quot;Experience the Magic of Maine: Where Cozy Cabins and Nature&apos;s Wonder Embrace You&quot;</h1>
       </div>
-      <div className="cabins-list">
-        {cabins.map((cabin) => (
-          <cabinTile key={cabin.id} cabin={cabin} />
-        ))}
+      <div className="available-cabins">
+        <h2>Available Cabins</h2>
+      </div>
+      <div className="spots-list">
+        {spots.length > 0 ? (
+          spots.map((spot) => <SpotTile key={spot.id} spot={spot} />)
+        ) : (
+          <p>No cabins are currently available. Check back soon!</p>
+        )}
       </div>
     </div>
   );
 };
 
-export default cabinsIndex;
+export default SpotsIndex;
+
 

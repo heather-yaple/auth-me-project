@@ -2,16 +2,16 @@
 
 import  { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deletecabin } from '../../store/cabins';
+import { deleteSpot } from '../../store/spots';
 import './DeleteConfirmationModal.css';
 
-const DeleteConfirmationModal = ({ cabinId, closeModal }) => {
+const DeleteConfirmationModal = ({ spotId, closeModal }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState([]);
 
   const handleDelete = async () => {
     try {
-      await dispatch(deletecabin(cabinId));
+      await dispatch(deleteSpot(spotId));
       closeModal(); 
     } catch (err) {
       const errorMessages = err.errors ? Object.values(err.errors) : [];
@@ -32,10 +32,10 @@ const DeleteConfirmationModal = ({ cabinId, closeModal }) => {
       )}
       <div className="modal-buttons">
         <button onClick={handleDelete} className="confirm-delete-button">
-          Yes (Delete cabin)
+          Yes (Delete Cabin)
         </button>
         <button onClick={closeModal} className="cancel-button">
-          No (Keep cabin)
+          No (Keep Cabin)
         </button>
       </div>
     </div>

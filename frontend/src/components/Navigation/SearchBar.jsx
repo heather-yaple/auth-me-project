@@ -1,7 +1,7 @@
 // src/components/SearchBar.jsx
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as setUsercabins from '../../store/cabins.js'; // Adjust based on your actions file
+import * as setUserSpots from '../../store/spots.js'; // Adjust based on your actions file
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -11,7 +11,7 @@ const SearchBar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim()) {  // Prevent search if the query is empty or only contains whitespace
-      dispatch(setUsercabins.searchcabins(query));
+      dispatch(setUserSpots.searchSpots(query));
     }
   };
 

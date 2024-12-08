@@ -28,9 +28,9 @@ const setReviewsError = (error) => ({
 // Thunk actions
 import { csrfFetch } from './csrf';
 
-export const getReviewsBycabinId = (cabinId) => async (dispatch) => {
+export const getReviewsBySpotId = (spotId) => async (dispatch) => {
   try {
-    const response = await csrfFetch(`/api/cabins/${cabinId}/reviews`);
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
     if (response.ok) {
       const data = await response.json();
       dispatch(setReviews(data.Reviews));
@@ -45,11 +45,11 @@ export const getReviewsBycabinId = (cabinId) => async (dispatch) => {
 };
 
 // Add a new review
-import { getcabinDetails } from './cabins';
+import { getSpotDetails } from './spots';
 
-export const createReview = (cabinId, reviewData) => async (dispatch) => {
+export const createReview = (spotId, reviewData) => async (dispatch) => {
   try {
-    const response = await csrfFetch(`/api/cabins/${cabinId}/reviews`, {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(reviewData),
@@ -65,7 +65,7 @@ export const createReview = (cabinId, reviewData) => async (dispatch) => {
         lastName: userData.user.lastName,
       };
       dispatch(addReview(newReview));  // Add review to store immediately
-      dispatch(getcabinDetails(cabinId));  // Refresh cabin details
+      dispatch(getSpotDetails(spotId));  // Refresh spot details
       return newReview;
     } else {
       const errors = await response.json();
@@ -98,24 +98,24 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 
 // Reducer
 const initialState = {
-  cabinReviews: {},
+  spotReviews: {},
   error: null,  // Added error field in state to handle errors
 };
 
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_REVIEWS: {
-      const newState = { ...state, cabinReviews: {} };
+      const newState = { ...state, spotReviews: {} };
       action.reviews.forEach((review) => {
-        newState.cabinReviews[review.id] = review;
+        newState.spotReviews[review.id] = review;
       });
       return newState;
     }
     case ADD_REVIEW: {
       return {
         ...state,
-        cabinReviews: {
-          ...state.cabinReviews,
+        spotReviews: {
+          ...state.spotReviews,
           [action.review.id]: action.review,
         },
       };
@@ -123,9 +123,9 @@ const reviewsReducer = (state = initialState, action) => {
     case DELETE_REVIEW: {
       const newState = {
         ...state,
-        cabinReviews: { ...state.cabinReviews },
+        spotReviews: { ...state.spotReviews },
       };
-      delete newState.cabinReviews[action.reviewId];
+      delete newState.spotReviews[action.reviewId];
       return newState;
     }
     case SET_REVIEWS_ERROR: {  // Handling error action

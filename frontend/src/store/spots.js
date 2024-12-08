@@ -1,105 +1,105 @@
 /* eslint-disable no-case-declarations */
-// src/store/cabins.js
+// src/store/spots.js
 
 import { csrfFetch } from "./csrf";
 
 // action types
-const SET_cabins = "cabins/SET_cabins";
-const SET_cabin_DETAILS = "cabins/SET_cabin_DETAILS";
-const ADD_cabin = "cabins/ADD_cabin";
-const SET_USER_cabins = "cabins/SET_USER_cabins";
-const REMOVE_cabin = "cabins/REMOVE_cabin";
-const UPDATE_cabin = "cabins/UPDATE_cabin";
-const UPDATE_cabin_DETAILS = 'cabins/UPDATE_cabin_DETAILS';
+const SET_spots = "spots/SET_spots";
+const SET_spot_DETAILS = "spots/SET_spot_DETAILS";
+const ADD_spot = "spots/ADD_spot";
+const SET_USER_spots = "spots/SET_USER_spots";
+const REMOVE_spot = "spots/REMOVE_spot";
+const UPDATE_spot = "spots/UPDATE_spot";
+const UPDATE_spot_DETAILS = 'spots/UPDATE_spot_DETAILS';
 
 // action creators
-const setcabins = (cabins) => ({
-  type: SET_cabins,
-  cabins,
+const setSpots = (spots) => ({
+  type: SET_spots,
+  spots,
 });
 
-const setcabinDetails = (cabin) => ({
-  type: SET_cabin_DETAILS,
-  cabin,
+const setSpotDetails = (spot) => ({
+  type: SET_spot_DETAILS,
+  spot,
 });
 
-const addcabin = (cabin) => ({
-  type: ADD_cabin,
-  cabin,
+const addSpot = (spot) => ({
+  type: ADD_spot,
+  spot,
 });
 
-const setUsercabins = (cabins) => ({
-  type: SET_USER_cabins,
-  cabins,
+const setUserSpots = (spots) => ({
+  type: SET_USER_spots,
+  spots,
 });
 
-const removecabin = (cabinId) => ({
-  type: REMOVE_cabin,
-  cabinId,
+const removeSpot = (spotId) => ({
+  type: REMOVE_spot,
+  spotId,
 });
 
-const updatecabinAction = (cabin) => ({
-  type: UPDATE_cabin,
-  cabin,
+const updateSpotAction = (spot) => ({
+  type: UPDATE_spot,
+  spot,
 });
 
 
 
 
-// Fetch all cabins
-export const getAllcabins = () => async (dispatch) => {
-  const response = await fetch("/api/cabins");
+// Fetch all spots
+export const getAllSpots = () => async (dispatch) => {
+  const response = await fetch("/api/spots");
   if (response.ok) {
     const data = await response.json();
 
-    const cabins = {};
-    data.cabins.forEach((cabin) => {
-      cabins[cabin.id] = cabin;
+    const spots = {};
+    data.spots.forEach((spot) => {
+      spots[spot.id] = spot;
     });
 
-    dispatch(setcabins(cabins));
+    dispatch(setSpots(spots));
   }
 };
 
-// Fetch cabin details
-export const getcabinDetails = (cabinId) => async (dispatch) => {
-  const response = await fetch(`/api/cabins/${cabinId}`);
+// Fetch spot details
+export const getSpotDetails = (spotId) => async (dispatch) => {
+  const response = await fetch(`/api/spots/${spotId}`);
   if (response.ok) {
     const data = await response.json();
-    dispatch(setcabinDetails(data));
+    dispatch(setSpotDetails(data));
     return data;
   } else { /* empty */ }
 };
 
-// Create a new cabin
-export const createcabin = (cabinData, imageUrls) => async (dispatch) => {
-  const response = await csrfFetch("/api/cabins", {
+// Create a new spot
+export const createSpot = (spotData, imageUrls) => async (dispatch) => {
+  const response = await csrfFetch("/api/spots", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(cabinData),
+    body: JSON.stringify(spotData),
   });
 
   if (response.ok) {
-    const newcabin = await response.json();
+    const newSpot = await response.json();
 
-    // Upload images after creating the cabin
+    // Upload images after creating the spot
     for (let i = 0; i < imageUrls.length; i++) {
       const imageUrl = imageUrls[i];
       const preview = i === 0;
 
-      await csrfFetch(`/api/cabins/${newcabin.id}/images`, {
+      await csrfFetch(`/api/spots/${newSpot.id}/images`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: imageUrl, preview }),
       });
     }
 
-    // Fetch cabin details for updated data
-    const cabinDetailsResponse = await fetch(`/api/cabins/${newcabin.id}`);
-    if (cabinDetailsResponse.ok) {
-      const cabinDetails = await cabinDetailsResponse.json();
-      dispatch(addcabin(cabinDetails));
-      return cabinDetails;
+    // Fetch spot details for updated data
+    const SpotDetailsResponse = await fetch(`/api/spots/${newSpot.id}`);
+    if (SpotDetailsResponse.ok) {
+      const SpotDetails = await SpotDetailsResponse.json();
+      dispatch(addSpot(SpotDetails));
+      return SpotDetails;
     } else { /* empty */ }
   } else {
     const errors = await response.json();
@@ -107,135 +107,135 @@ export const createcabin = (cabinData, imageUrls) => async (dispatch) => {
   }
 };
 
-// fetch current user's cabins
-export const getCurrentUsercabins = () => async (dispatch) => {
-  const response = await csrfFetch("/api/cabins/current");
+// fetch current user's spots
+export const getCurrentUserSpots = () => async (dispatch) => {
+  const response = await csrfFetch("/api/spots/current");
   if (response.ok) {
     const data = await response.json();
 
-    const cabins = {};
-    data.cabins.forEach((cabin) => {
-      cabins[cabin.id] = cabin;
+    const spots = {};
+    data.spots.forEach((spot) => {
+      spots[spot.id] = spot;
     });
 
-    dispatch(setUsercabins(cabins));
+    dispatch(setUserSpots(spots));
   }
 };
 
-//update a cabin
-export const updatecabin = (cabinId, cabinData) => async (dispatch) => {
-  const response = await csrfFetch(`/api/cabins/${cabinId}`, {
+//update a spot
+export const updateSpot = (spotId, spotData) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(cabinData),
+    body: JSON.stringify(spotData),
   });
 
   if (response.ok) {
-    const updatedcabin = await response.json();
-    dispatch(updatecabinAction(updatedcabin));
-    return updatedcabin;
+    const updatedSpot = await response.json();
+    dispatch(updateSpotAction(updatedSpot));
+    return updatedSpot;
   } else {
     const errors = await response.json();
     throw errors;
   }
 };
 
-export const updatecabinDetails = (cabinId, avgStarRating, numReviews) => ({
-  type: UPDATE_cabin_DETAILS,
-  cabinId,
+export const updateSpotDetails = (spotId, avgStarRating, numReviews) => ({
+  type: UPDATE_spot_DETAILS,
+  spotId,
   avgStarRating,
   numReviews,
 });
 
 
-// delete a cabin
-export const deletecabin = (cabinId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/cabins/${cabinId}`, {
+// delete a spot
+export const deleteSpot = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "DELETE",
   });
   if (response.ok) {
-    dispatch(removecabin(cabinId));
+    dispatch(removeSpot(spotId));
   } else { /* empty */ }
 };
 
 // reducer
 const initialState = {
-  allcabins: {},
-  singlecabin: {},
-  usercabins: {},
+  allSpots: {},
+  singleSpot: {},
+  userSpots: {},
 };
 
-const cabinsReducer = (state = initialState, action) => {
+const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_cabins:
+    case SET_spots:
       return {
         ...state,
-        allcabins: { ...action.cabins },
+        allspots: { ...action.spots },
       };
-    case SET_cabin_DETAILS:
+    case SET_spot_DETAILS:
       return {
         ...state,
-        singlecabin: { ...action.cabin },
+        singlespot: { ...action.spot },
       };
-    case ADD_cabin:
+    case ADD_spot:
       return {
         ...state,
-        allcabins: {
-          ...state.allcabins,
-          [action.cabin.id]: action.cabin,
+        allSpots: {
+          ...state.allSpots,
+          [action.spot.id]: action.spot,
         },
-        singlecabin: { ...action.cabin },
+        singleSpot: { ...action.spot },
       };
-    case SET_USER_cabins:
+    case SET_USER_spots:
       return {
         ...state,
-        usercabins: { ...action.cabins },
+        userSpots: { ...action.spots },
       };
-    case UPDATE_cabin:
+    case UPDATE_spot:
       return {
         ...state,
-        allcabins: {
-          ...state.allcabins,
-          [action.cabin.id]: action.cabin,
+        allSpots: {
+          ...state.allSpots,
+          [action.spot.id]: action.spot,
         },
-        usercabins: {
-          ...state.usercabins,
-          [action.cabin.id]: action.cabin,
+        userSpots: {
+          ...state.userSpots,
+          [action.spot.id]: action.spot,
         },
-        singlecabin: {
-          ...action.cabin,
+        singleSpot: {
+          ...action.spot,
         },
       };
-    case REMOVE_cabin:
-      const newAllcabins = { ...state.allcabins };
-      const newUsercabins = { ...state.usercabins };
-      delete newAllcabins[action.cabinId];
-      delete newUsercabins[action.cabinId];
+    case REMOVE_spot:
+      const newAllSpots = { ...state.allSpots };
+      const newUserSpots = { ...state.userSpots };
+      delete newAllSpots[action.spotId];
+      delete newUserSpots[action.spotId];
       return {
         ...state,
-        allcabins: newAllcabins,
-        usercabins: newUsercabins,
+        allSpots: newAllSpots,
+        userSpots: newUserSpots,
       };
-      case UPDATE_cabin_DETAILS:
+      case UPDATE_spot_DETAILS:
         return {
           ...state,
-          singlecabin: {
-            ...state.singlecabin,
+          singleSpot: {
+            ...state.singleSpot,
             avgStarRating: action.avgStarRating,
             numReviews: action.numReviews,
           },
-          allcabins: {
-            ...state.allcabins,
-            [action.cabinId]: {
-              ...state.allcabins[action.cabinId],
+          allSpots: {
+            ...state.allSpots,
+            [action.spotId]: {
+              ...state.allSpots[action.spotId],
               avgStarRating: action.avgStarRating,
               numReviews: action.numReviews,
             },
           },
-          usercabins: {
-            ...state.usercabins,
-            [action.cabinId]: {
-              ...state.usercabins[action.cabinId],
+          userSpots: {
+            ...state.userSpots,
+            [action.spotId]: {
+              ...state.userSpots[action.spotId],
               avgStarRating: action.avgStarRating,
               numReviews: action.numReviews,
             },
@@ -246,4 +246,4 @@ const cabinsReducer = (state = initialState, action) => {
   }
 };
 
-export default cabinsReducer;
+export default spotsReducer;

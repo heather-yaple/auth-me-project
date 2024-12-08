@@ -1,26 +1,26 @@
-/* Main container for cabinDetails */
-.cabin-details {
+/* Main container for spotDetails */
+.spot-details {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-/* Title and location of the cabin */
-.cabin-details h1 {
+/* Title and location of the spot */
+.spot-details h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-.cabin-location {
+.spot-location {
   font-size: 1.2rem;
   color: #555;
   margin-bottom: 20px;
 }
 
-/* cabin images section */
-.cabin-images {
+/* spot images section */
+.spot-images {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
@@ -52,23 +52,23 @@
 }
 
 /* Information section: host details, price, and rating */
-.cabin-info {
+.spot-info {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
 }
 
-.cabin-host h2 {
+.spot-host h2 {
   font-size: 1.8rem;
   margin-bottom: 10px;
 }
 
-.cabin-host p {
+.spot-host p {
   font-size: 1rem;
   color: #666;
 }
 
-.cabin-callout {
+.spot-callout {
   text-align: right;
 }
 
@@ -79,7 +79,7 @@
   margin-bottom: 10px;
 }
 
-.cabin-rating {
+.spot-rating {
   font-size: 1.2rem;
   color: #f39c12;
   margin-bottom: 10px;
@@ -141,11 +141,11 @@
 }
 
 @media (max-width: 768px) {
-  .cabin-details {
+  .spot-details {
     padding: 10px;
   }
 
-  .cabin-images {
+  .spot-images {
     flex-direction: column;
   }
 

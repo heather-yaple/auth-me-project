@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import usersReducer from './users.js';
 import errorReducer from './errorSlice.js';  // Assuming you've added this
 import thunk from 'redux-thunk';
-import cabinsReducer from './cabins.js';
+import spotsReducer from './spots.js';
 import reviewsReducer from './reviews.js';
 import authSlice from './auth.js';
 import rootReducer from './rootReducer.js';
@@ -14,7 +14,7 @@ export const store = configureStore({
   reducer: {
     users: usersReducer,
     error: errorReducer,
-    cabins: cabinsReducer,
+    spots: spotsReducer,
     reviews: reviewsReducer,
     auth: authSlice,
     root: rootReducer,

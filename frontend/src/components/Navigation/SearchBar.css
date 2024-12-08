@@ -1,7 +1,7 @@
 /* Container for the search bar form */
 form {
     display: flex;
-    align-items: center;
+    align-items: right;
     max-width: 400px;
     margin: 0 auto;
     padding: 10px;
@@ -49,7 +49,7 @@ form {
   /* Styling for the input and button container */
   form {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     gap: 10px;
     width: 100%;
   }

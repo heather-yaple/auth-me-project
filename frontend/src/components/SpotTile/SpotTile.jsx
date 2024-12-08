@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import './cabinTile.css';
+import './SpotTile.css';
 
-const cabinTile = ({ cabin }) => {
+const SpotTile = ({ spot }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // Handle the image click (cycle through the images)
@@ -10,34 +10,34 @@ const cabinTile = ({ cabin }) => {
   };
 
   return (
-    <div className="cabin-tile">
-      <h2>{cabin.name}</h2>
-      <div className="cabin-images">
+    <div className="spot-tile">
+      <h2>{spot.name}</h2>
+      <div className="spot-images">
         {/* Render up to 5 images */}
-        {cabin.images.slice(0, 5).map((image, index) => (
+        {spot.images.slice(0, 5).map((image, index) => (
           <img
             key={index}
             src={image}
-            alt={`cabin ${cabin.name} Image ${index + 1}`}
+            alt={`spot ${spot.name} Image ${index + 1}`}
             onClick={() => handleImageClick(index)}
-            className={`cabin-image ${selectedImageIndex === index ? 'selected' : ''}`}
+            className={`spot-image ${selectedImageIndex === index ? 'selected' : ''}`}
           />
         ))}
       </div>
       <div className="selected-image-container">
         {/* Display the selected image */}
         <img
-          src={cabin.images[selectedImageIndex]}
-          alt={`Selected ${cabin.name}`}
+          src={spot.images[selectedImageIndex]}
+          alt={`Selected ${spot.name}`}
           className="selected-image"
         />
       </div>
-      <div className="cabin-rating">
-        <span>⭐ {cabin.rating} / 5</span>
+      <div className="spot-rating">
+        <span>⭐ {spot.rating} / 5</span>
       </div>
       <button className="reserve-button">Reserve Now</button>
     </div>
   );
 };
 
-export default cabinTile;
+export default SpotTile;

@@ -1,4 +1,4 @@
-.cabin-tile {
+.spot-tile {
   border: 1px solid #ddd;
   padding: 15px;
   margin: 10px;
@@ -7,13 +7,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.cabin-images {
+.spot-images {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
 }
 
-.cabin-image {
+.spot-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
@@ -22,7 +22,7 @@
   transition: transform 0.3s ease;
 }
 
-.cabin-image:hover {
+.spot-image:hover {
   transform: scale(1.1);
 }
 
@@ -37,7 +37,7 @@
   border-radius: 10px;
 }
 
-.cabin-rating {
+.spot-rating {
   margin-top: 10px;
   font-size: 1.2rem;
 }

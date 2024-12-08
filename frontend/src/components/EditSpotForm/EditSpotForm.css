@@ -1,7 +1,7 @@
-/* src/components/EditcabinForm/EditcabinForm.css */
+/* src/components/EditspotForm/EditspotForm.css */
 
 /* Container for the form */
-.edit-cabin-form {
+.edit-spot-form {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -12,7 +12,7 @@
 }
 
 /* Form title */
-.edit-cabin-form h1 {
+.edit-spot-form h1 {
   text-align: center;
   font-size: 2rem;
   color: #333;
@@ -29,15 +29,15 @@
 }
 
 /* Input and textarea styling */
-.edit-cabin-form label {
+.edit-spot-form label {
   display: block;
   font-size: 1rem;
   margin-bottom: 10px;
   color: #333;
 }
 
-.edit-cabin-form input,
-.edit-cabin-form textarea {
+.edit-spot-form input,
+.edit-spot-form textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -47,13 +47,13 @@
   box-sizing: border-box;
 }
 
-.edit-cabin-form input[type="number"] {
+.edit-spot-form input[type="number"] {
   -moz-appearance: textfield;
 }
 
 /* Focus state for inputs */
-.edit-cabin-form input:focus,
-.edit-cabin-form textarea:focus {
+.edit-spot-form input:focus,
+.edit-spot-form textarea:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
@@ -96,24 +96,24 @@ button[disabled]:before {
   color: #333;
 }
 
-.edit-cabin-form input[type="text"],
-.edit-cabin-form input[type="number"],
-.edit-cabin-form textarea {
+.edit-spot-form input[type="text"],
+.edit-spot-form input[type="number"],
+.edit-spot-form textarea {
   font-family: 'Arial', sans-serif;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .edit-cabin-form {
+  .edit-spot-form {
     padding: 15px;
   }
 
-  .edit-cabin-form h1 {
+  .edit-spot-form h1 {
     font-size: 1.5rem;
   }
 
-  .edit-cabin-form input,
-  .edit-cabin-form textarea,
+  .edit-spot-form input,
+  .edit-spot-form textarea,
   button {
     font-size: 0.9rem;
   }

@@ -1,65 +1,65 @@
-// src/components/Managecabins/Managecabins.jsx
+// src/components/ManageSpots/ManageSpots.jsx
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUsercabins } from '../../store/cabins';
+import { getCurrentUserSpots } from '../../store/spots';
 import { Link, useNavigate } from 'react-router-dom';
 import { useModal } from '../context/Modal';
 
 import DeleteConfirmationModal from '../DeleteConfirmationModal/DeleteConfirmationModal';
-import './Managecabins.css';
+import './ManageSpots.css';
 
-const Managecabins = () => {
+const ManageSpots = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const cabinsObj = useSelector((state) => state.cabins.usercabins);
-  const cabins = Object.values(cabinsObj);
+  const spotsObj = useSelector((state) => state.spots.userspots);
+  const spots = Object.values(spotsObj);
 
   const { setModalContent, closeModal } = useModal();
 
   useEffect(() => {
-    dispatch(getCurrentUsercabins());
+    dispatch(getCurrentUserSpots());
   }, [dispatch]);
 
-  const handleUpdate = (cabinId) => {
-    navigate(`/cabins/${cabinId}/edit`);
+  const handleUpdate = (spotId) => {
+    navigate(`/spots/${spotId}/edit`);
   };
 
-  const openDeleteModal = (cabinId) => {
+  const openDeleteModal = (spotId) => {
     setModalContent(
       <DeleteConfirmationModal
-        cabinId={cabinId}
+        spotId={spotId}
         closeModal={closeModal}
       />
     );
   };
 
   return (
-    <div className="manage-cabins">
-      <h1>Manage Your cabins</h1>
-      <Link to="/cabins/new">
-        <button className="create-cabin-button">Create a New cabin</button>
+    <div className="manage-spots">
+      <h1>Manage Your spots</h1>
+      <Link to="/spots/new">
+        <button className="create-spot-button">Create a New spot</button>
       </Link>
-      {cabins.length === 0 ? (
-        <p>You have no cabins yet.</p>
+      {spots.length === 0 ? (
+        <p>You have no spots yet.</p>
       ) : (
-        <div className="cabins-list">
-          {cabins.map((cabin) => (
-            <div key={cabin.id} className="cabin-card">
-              <Link to={`/cabins/${cabin.id}`}>
-                <img src={cabin.previewImage} alt={cabin.name} />
+        <div className="spots-list">
+          {spots.map((spot) => (
+            <div key={spot.id} className="spot-card">
+              <Link to={`/spots/${spot.id}`}>
+                <img src={spot.previewImage} alt={spot.name} />
               </Link>
-              <div className="cabin-info">
-                <h3>{cabin.name}</h3>
+              <div className="spot-info">
+                <h3>{spot.name}</h3>
                 <p>
-                  {cabin.city}, {cabin.state}
+                  {spot.city}, {spot.state}
                 </p>
-                <p>${cabin.price} / night</p>
+                <p>${spot.price} / night</p>
               </div>
-              <div className="cabin-actions">
-                <button onClick={() => handleUpdate(cabin.id)}>Update</button>
-                <button onClick={() => openDeleteModal(cabin.id)}>Delete</button>
+              <div className="spot-actions">
+                <button onClick={() => handleUpdate(spot.id)}>Update</button>
+                <button onClick={() => openDeleteModal(spot.id)}>Delete</button>
               </div>
             </div>
           ))}
@@ -69,4 +69,4 @@ const Managecabins = () => {
   );
 };
 
-export default Managecabins;
+export default ManageSpots;

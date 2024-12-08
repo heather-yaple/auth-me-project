@@ -1,4 +1,4 @@
-/* Cozy Cabins Button Component Styles */
+/* Cozy spots Button Component Styles */
 .cozy-btn {
   display: inline-block;
   padding: 12px 24px;
@@ -6,7 +6,7 @@
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  background-color: var(--vibrant-green); /* Cozy Cabins Green */
+  background-color: var(--vibrant-green); /* Cozy spots Green */
   color: white;
   border: none;
   border-radius: 8px;

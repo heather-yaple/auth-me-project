@@ -18,8 +18,8 @@ function Navigation({ isLoaded }) {
         </NavLink>
         <nav className="nav-menu">
           {sessionUser && (
-            <NavLink to="/cabins/new" className="create-cabin-link">
-              Create a New Cabin
+            <NavLink to="/spots/new" className="create-spot-link">
+              Create a New spot
             </NavLink>
           )}
           <div className="menu-buttons">
