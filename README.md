@@ -1,10 +1,10 @@
-## Cozy Cabins
+## Cozy spots
 
-Welcome to Cozy Cabins, a platform dedicated to helping you discover the perfect cabin getaway! Whether you're seeking a serene retreat in the mountains, a rustic escape by the lake, or a charming hideaway in the woods, Cozy Cabins offers a diverse selection of cozy accommodations that cater to all preferences and budgets.
+Welcome to Cozy Cabins, a platform dedicated to helping you discover the perfect spot getaway! Whether you're seeking a serene retreat in the mountains, a rustic escape by the lake, or a charming hideaway in the woods, Cozy spots offers a diverse selection of cozy accommodations that cater to all preferences and budgets.
 
-At Cozy Cabins, we believe in the magic of nature and the comfort of a home away from home. Our user-friendly website allows you to browse a variety of unique cabins, complete with stunning images and detailed descriptions to help you make an informed choice. Each listing includes essential information such as location, amenities, pricing, and availability, ensuring that your booking experience is as smooth as possible.
+At Cozy spots, we believe in the magic of nature and the comfort of a home away from home. Our user-friendly website allows you to browse a variety of unique spots, complete with stunning images and detailed descriptions to help you make an informed choice. Each listing includes essential information such as location, amenities, pricing, and availability, ensuring that your booking experience is as smooth as possible.
 
-Join us in creating unforgettable memories in our cozy cabins. Whether it's a weekend family getaway, a romantic escape, or a solo adventure, we have the perfect cabin waiting for you!
+Join us in creating unforgettable memories in our cozy spots. Whether it's a weekend family getaway, a romantic escape, or a solo adventure, we have the perfect spot waiting for you!
 
 Happy exploring!
 
@@ -249,16 +249,16 @@ user's information.
     }
     ```
 
-## cabins
+## spots
 
-### Get all cabins
+### Get all spots
 
-Returns all the cabins.
+Returns all the spots.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: /api/cabins
+  * Route path: /api/spots
   * Body: none
 
 * Successful Response
@@ -269,7 +269,7 @@ Returns all the cabins.
 
     ```json
     {
-      "cabins": [
+      "spots": [
         {
           "id": 1,
           "ownerId": 1,
@@ -291,14 +291,14 @@ Returns all the cabins.
     }
     ```
 
-### Get all cabins owned by the Current User
+### Get all spots owned by the Current User
 
-Returns all the cabins owned (created) by the current user.
+Returns all the spots owned (created) by the current user.
 
 * Require Authentication: true
 * Request
   * Method: GET
-  * Route path: /api/cabins/current
+  * Route path: /api/spots/current
   * Body: none
 
 * Successful Response
@@ -309,7 +309,7 @@ Returns all the cabins owned (created) by the current user.
 
     ```json
     {
-      "cabins": [
+      "spots": [
         {
           "id": 1,
           "ownerId": 1,
@@ -331,14 +331,14 @@ Returns all the cabins owned (created) by the current user.
     }
     ```
 
-### Get details of a cabin from an id
+### Get details of a spot from an id
 
-Returns the details of a cabin specified by its id.
+Returns the details of a spot specified by its id.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: /api/cabins/:cabinId
+  * Route path: /api/spots/:spotId
   * Body: none
 
 * Successful Response
@@ -364,7 +364,7 @@ Returns the details of a cabin specified by its id.
       "updatedAt": "2021-11-19 20:39:36" ,
       "numReviews": 5,
       "avgStarRating": 4.5,
-      "cabinImages": [
+      "spotImages": [
         {
           "id": 1,
           "url": "image url",
@@ -384,7 +384,7 @@ Returns the details of a cabin specified by its id.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -392,18 +392,18 @@ Returns the details of a cabin specified by its id.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
-### Create a cabin
+### Create a spot
 
-Creates and returns a new cabin.
+Creates and returns a new spot.
 
 * Require Authentication: true
 * Request
   * Method: POST
-  * Route path: /api/cabins
+  * Route path: /api/spots
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -469,15 +469,15 @@ Creates and returns a new cabin.
     }
     ```
 
-### Add an Image to a cabin based on the cabin's id
+### Add an Image to a spot based on the spot's id
 
-Create and return a new image for a cabin specified by id.
+Create and return a new image for a spot specified by id.
 
 * Require Authentication: true
-* Require proper authorization: cabin must belong to the current user
+* Require proper authorization: spot must belong to the current user
 * Request
   * Method: POST
-  * Route path: /api/cabins/:cabinId/images
+  * Route path: /api/spots/:spotId/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -503,7 +503,7 @@ Create and return a new image for a cabin specified by id.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -511,19 +511,19 @@ Create and return a new image for a cabin specified by id.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
-### Edit a cabin
+### Edit a spot
 
-Updates and returns an existing cabin.
+Updates and returns an existing spot.
 
 * Require Authentication: true
-* Require proper authorization: cabin must belong to the current user
+* Require proper authorization: spot must belong to the current user
 * Request
   * Method: PUT
-  * Route path: /api/cabins/:cabinId
+  * Route path: /api/spots/:spotId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -589,7 +589,7 @@ Updates and returns an existing cabin.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -597,19 +597,19 @@ Updates and returns an existing cabin.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
-### Delete a cabin
+### Delete a spot
 
-Deletes an existing cabin.
+Deletes an existing spot.
 
 * Require Authentication: true
-* Require proper authorization: cabin must belong to the current user
+* Require proper authorization: spot must belong to the current user
 * Request
   * Method: DELETE
-  * Route path: /api/cabins/:cabinId
+  * Route path: /api/spots/:spotId
   * Body: none
 
 * Successful Response
@@ -624,7 +624,7 @@ Deletes an existing cabin.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -632,7 +632,7 @@ Deletes an existing cabin.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
@@ -660,8 +660,8 @@ Returns all the reviews written by the current user.
         {
           "id": 1,
           "userId": 1,
-          "cabinId": 1,
-          "review": "This was an awesome cabin!",
+          "spotId": 1,
+          "review": "This was an awesome spot!",
           "stars": 5,
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36" ,
@@ -670,7 +670,7 @@ Returns all the reviews written by the current user.
             "firstName": "John",
             "lastName": "Smith"
           },
-          "cabin": {
+          "spot": {
             "id": 1,
             "ownerId": 1,
             "address": "123 Disney Lane",
@@ -694,14 +694,14 @@ Returns all the reviews written by the current user.
     }
     ```
 
-### Get all Reviews by a cabin's id
+### Get all Reviews by a spot's id
 
-Returns all the reviews that belong to a cabin specified by id.
+Returns all the reviews that belong to a spot specified by id.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: /api/cabins/:cabinId/reviews
+  * Route path: /api/spots/:spotId/reviews
   * Body: none
 
 * Successful Response
@@ -716,8 +716,8 @@ Returns all the reviews that belong to a cabin specified by id.
         {
           "id": 1,
           "userId": 1,
-          "cabinId": 1,
-          "review": "This was an awesome cabin!",
+          "spotId": 1,
+          "review": "This was an awesome spot!",
           "stars": 5,
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36" ,
@@ -737,7 +737,7 @@ Returns all the reviews that belong to a cabin specified by id.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -745,25 +745,25 @@ Returns all the reviews that belong to a cabin specified by id.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
-### Create a Review for a cabin based on the cabin's id
+### Create a Review for a spot based on the spot's id
 
-Create and return a new review for a cabin specified by id.
+Create and return a new review for a spot specified by id.
 
 * Require Authentication: true
 * Request
   * Method: POST
-  * Route path: /api/cabins/:cabinId/reviews
+  * Route path: /api/spots/:spotId/reviews
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "review": "This was an awesome cabin!",
+      "review": "This was an awesome spot!",
       "stars": 5,
     }
     ```
@@ -778,8 +778,8 @@ Create and return a new review for a cabin specified by id.
     {
       "id": 1,
       "userId": 1,
-      "cabinId": 1,
-      "review": "This was an awesome cabin!",
+      "spotId": 1,
+      "review": "This was an awesome spot!",
       "stars": 5,
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36"
@@ -802,7 +802,7 @@ Create and return a new review for a cabin specified by id.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -810,11 +810,11 @@ Create and return a new review for a cabin specified by id.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
-* Error response: Review from the current user already exists for the cabin
+* Error response: Review from the current user already exists for the spot
   * Status Code: 500
   * Headers:
     * Content-Type: application/json
@@ -822,7 +822,7 @@ Create and return a new review for a cabin specified by id.
 
     ```json
     {
-      "message": "User already has a review for this cabin"
+      "message": "User already has a review for this spot"
     }
     ```
 
@@ -898,7 +898,7 @@ Update and return an existing review.
 
     ```json
     {
-      "review": "This was an awesome cabin!",
+      "review": "This was an awesome spot!",
       "stars": 5,
     }
     ```
@@ -913,8 +913,8 @@ Update and return an existing review.
     {
       "id": 1,
       "userId": 1,
-      "cabinId": 1,
-      "review": "This was an awesome cabin!",
+      "spotId": 1,
+      "review": "This was an awesome spot!",
       "stars": 5,
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
@@ -1007,8 +1007,8 @@ Return all the bookings that the current user has made.
       "Bookings": [
         {
           "id": 1,
-          "cabinId": 1,
-          "cabin": {
+          "spotId": 1,
+          "spot": {
             "id": 1,
             "ownerId": 1,
             "address": "123 Disney Lane",
@@ -1031,17 +1031,17 @@ Return all the bookings that the current user has made.
     }
     ```
 
-### Get all Bookings for a cabin based on the cabin's id
+### Get all Bookings for a spot based on the spot's id
 
-Return all the bookings for a cabin specified by id.
+Return all the bookings for a spot specified by id.
 
 * Require Authentication: true
 * Request
   * Method: GET
-  * Route path: /api/cabins/:cabinId/bookings
+  * Route path: /api/spots/:spotId/bookings
   * Body: none
 
-* Successful Response: If you ARE NOT the owner of the cabin.
+* Successful Response: If you ARE NOT the owner of the spot.
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -1051,7 +1051,7 @@ Return all the bookings for a cabin specified by id.
     {
       "Bookings": [
         {
-          "cabinId": 1,
+          "spotId": 1,
           "startDate": "2021-11-19",
           "endDate": "2021-11-20"
         }
@@ -1059,7 +1059,7 @@ Return all the bookings for a cabin specified by id.
     }
     ```
 
-* Successful Response: If you ARE the owner of the cabin.
+* Successful Response: If you ARE the owner of the spot.
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -1075,7 +1075,7 @@ Return all the bookings for a cabin specified by id.
             "lastName": "Smith"
           },
           "id": 1,
-          "cabinId": 1,
+          "spotId": 1,
           "userId": 2,
           "startDate": "2021-11-19",
           "endDate": "2021-11-20",
@@ -1086,7 +1086,7 @@ Return all the bookings for a cabin specified by id.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1094,19 +1094,19 @@ Return all the bookings for a cabin specified by id.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
-### Create a Booking from a cabin based on the cabin's id
+### Create a Booking from a spot based on the spot's id
 
-Create and return a new booking from a cabin specified by id.
+Create and return a new booking from a spot specified by id.
 
 * Require Authentication: true
-* Require proper authorization: cabin must NOT belong to the current user
+* Require proper authorization: spot must NOT belong to the current user
 * Request
   * Method: POST
-  * Route path: /api/cabins/:cabinId/bookings
+  * Route path: /api/spots/:spotId/bookings
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1127,7 +1127,7 @@ Create and return a new booking from a cabin specified by id.
     ```json
     {
       "id": 1,
-      "cabinId": 1,
+      "spotId": 1,
       "userId": 2,
       "startDate": "2021-11-19",
       "endDate": "2021-11-20",
@@ -1152,7 +1152,7 @@ Create and return a new booking from a cabin specified by id.
     }
     ```
 
-* Error response: Couldn't find a cabin with the specified id
+* Error response: Couldn't find a spot with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1160,7 +1160,7 @@ Create and return a new booking from a cabin specified by id.
 
     ```json
     {
-      "message": "cabin couldn't be found"
+      "message": "spot couldn't be found"
     }
     ```
 
@@ -1172,7 +1172,7 @@ Create and return a new booking from a cabin specified by id.
 
     ```json
     {
-      "message": "Sorry, this cabin is already booked for the specified dates",
+      "message": "Sorry, this spot is already booked for the specified dates",
       "errors": {
         "startDate": "Start date conflicts with an existing booking",
         "endDate": "End date conflicts with an existing booking"
@@ -1209,7 +1209,7 @@ Update and return an existing booking.
     ```json
     {
       "id": 1,
-      "cabinId": 1,
+      "spotId": 1,
       "userId": 2,
       "startDate": "2021-11-19",
       "endDate": "2021-11-20",
@@ -1266,7 +1266,7 @@ Update and return an existing booking.
 
     ```json
     {
-      "message": "Sorry, this cabin is already booked for the specified dates",
+      "message": "Sorry, this spot is already booked for the specified dates",
       "errors": {
         "startDate": "Start date conflicts with an existing booking",
         "endDate": "End date conflicts with an existing booking"
@@ -1280,7 +1280,7 @@ Delete an existing booking.
 
 * Require Authentication: true
 * Require proper authorization: Booking must belong to the current user or the
-  cabin must belong to the current user
+  spot must belong to the current user
 * Request
   * Method: DELETE
   * Route path: /api/bookings/:bookingId
@@ -1324,15 +1324,15 @@ Delete an existing booking.
 
 ## IMAGES
 
-### Delete a cabin Image
+### Delete a spot Image
 
-Delete an existing image for a cabin.
+Delete an existing image for a spot.
 
 * Require Authentication: true
-* Require proper authorization: cabin must belong to the current user
+* Require proper authorization: spot must belong to the current user
 * Request
   * Method: DELETE
-  * Route path: /api/cabin-images/:imageId
+  * Route path: /api/spot-images/:imageId
   * Body: none
 
 * Successful Response
@@ -1347,7 +1347,7 @@ Delete an existing image for a cabin.
     }
     ```
 
-* Error response: Couldn't find a cabin Image with the specified id
+* Error response: Couldn't find a spot Image with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1355,7 +1355,7 @@ Delete an existing image for a cabin.
 
     ```json
     {
-      "message": "cabin Image couldn't be found"
+      "message": "spot Image couldn't be found"
     }
     ```
 
@@ -1394,14 +1394,14 @@ Delete an existing image for a Review.
     }
     ```
 
-## Add Query Filters to Get All cabins
+## Add Query Filters to Get All spots
 
-Return cabins filtered by query parameters.
+Return spots filtered by query parameters.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: /api/cabins
+  * Route path: /api/spots
   * Query Parameters
     * page: integer, minimum: 1, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
@@ -1421,7 +1421,7 @@ Return cabins filtered by query parameters.
 
     ```json
     {
-      "cabins": [
+      "spots": [
         {
           "id": 1,
           "ownerId": 1,

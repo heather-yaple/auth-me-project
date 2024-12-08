@@ -2,20 +2,20 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const { restoreUser } = require("../../utils/auth.js");
-const cabinsRouter = require('./cabins.js');
+const spotsRouter = require('./spots.js');
 const reviewsRouter = require('./reviews.js');
 const bookingsRouter = require('./bookings.js');
-const cabinImgsRouter = require('./cabin-images.js');
+const spotImgsRouter = require('./spot-images.js');
 const reviewImgsRouter = require('./review-images.js');
 
 
 router.use(restoreUser);
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
-router.use('/cabins', cabinsRouter);
+router.use('/spots', spotsRouter);
 router.use('/reviews', reviewsRouter);
 router.use('/bookings', bookingsRouter);
-router.use('/cabin-images', cabinImgsRouter);
+router.use('/spot-images', spotImgsRouter);
 router.use('/review-images', reviewImgsRouter);
 
 

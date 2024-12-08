@@ -1,5 +1,5 @@
-// test/cabin-model/test.js
-const { cabin, User } = require('../../db/models');
+// test/spot-model/test.js
+const { spot, User } = require('../../db/models');
 
 // Mock the database with beforeAll, afterAll, and individual test cases
 beforeAll(async () => {
@@ -8,13 +8,13 @@ beforeAll(async () => {
 
 afterAll(async () => {
     // Clean up the database after all tests have run
-    await cabin.destroy({ where: {}, truncate: true });
+    await spot.destroy({ where: {}, truncate: true });
 });
 
-describe('cabin Model Tests', () => {
-    let testcabin;
+describe('spot Model Tests', () => {
+    let testspot;
 
-    const cabinDetails = {
+    const SpotDetails = {
         ownerId: 1,
         address: '123 Disney Lane',
         city: 'San Francisco',
@@ -27,16 +27,16 @@ describe('cabin Model Tests', () => {
         price: 123,
     };
 
-    test('Insert a new cabin', async () => {
-        testcabin = await cabin.create(cabinDetails);
-        expect(testcabin).toBeDefined();
-        expect(testcabin.id).toBeGreaterThan(0);
-        console.log('Inserted the first cabin no problem');
+    test('Insert a new spot', async () => {
+        testspot = await spot.create(SpotDetails);
+        expect(testspot).toBeDefined();
+        expect(testspot.id).toBeGreaterThan(0);
+        console.log('Inserted the first spot no problem');
     });
 
-    test('Insert the same cabin, should receive an error', async () => {
+    test('Insert the same spot, should receive an error', async () => {
         try {
-            await cabin.create(cabinDetails);
+            await spot.create(SpotDetails);
         } catch (e) {
             expect(e).toBeDefined();
             expect(e.message).toContain('duplicate key value violates unique constraint');
@@ -45,16 +45,16 @@ describe('cabin Model Tests', () => {
     });
 
     test('Check lat/lng values', async () => {
-        const cabin = await cabin.findByPk(testcabin.id);
-        expect(cabin.lat).toBe(cabinDetails.lat);
-        expect(cabin.lng).toBe(cabinDetails.lng);
+        const spot = await spot.findByPk(testspot.id);
+        expect(spot.lat).toBe(SpotDetails.lat);
+        expect(spot.lng).toBe(SpotDetails.lng);
     });
 
-    test('Ensure cabins.ownerId is associated with Users.id', async () => {
-        const cabin = await cabin.findByPk(testcabin.id, {
+    test('Ensure spots.ownerId is associated with Users.id', async () => {
+        const spot = await spot.findByPk(testspot.id, {
             include: User,
         });
-        expect(cabin.User).toBeDefined();
-        expect(cabin.ownerId).toBe(cabin.User.id);
+        expect(spot.User).toBeDefined();
+        expect(spot.ownerId).toBe(spot.User.id);
     });
 });

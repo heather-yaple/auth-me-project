@@ -1,26 +1,18 @@
-// backend/config/database.js
-const config = require('./index');
+const path = require('path');
 
 module.exports = {
   development: {
-    storage: config.dbFile,
-    dialect: "sqlite",
-    seederStorage: "sequelize",
-    logQueryParameters: true,
-    typeValidation: true
+    dialect: 'sqlite',
+    storage: path.join(__dirname, '..', 'db', 'dev.db'), // SQLite file for development
+  },
+  test: {
+    dialect: 'sqlite',
+    storage: ':memory:', // In-memory database for testing
   },
   production: {
-    use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
-    seederStorage: 'sequelize',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    define: {
-      schema: process.env.SCHEMA
-    }
-  }
+    dialect: 'sqlite',
+    storage: path.join(__dirname, '..', 'db', 'dev.db'), // SQLite file for production
+    logging: false, // Disable logging in production
+  },
 };
+

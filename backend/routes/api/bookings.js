@@ -2,16 +2,16 @@ const express = require("express");
 const { Sequelize } = require("sequelize");
 const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
-const { cabin, Review, User, cabinImage, ReviewImage, Booking } = require('../../db/models');
+const { spot, Review, User, spotImage, ReviewImage, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateBooking = [
-  check('cabinId')
+  check('spotId')
     .isInt()
     .exists({ checkFalsy: true })
-    .withMessage('cabin ID must be an integer'),
+    .withMessage('spot ID must be an integer'),
   check('userId')
     .isInt()
     .exists({ checkFalsy: true })
@@ -56,12 +56,12 @@ const fetchUserBookings = async (req, res, next) => {
         userId: req.user.id
       },
       include: [{
-        model: cabin,
+        model: spot,
         attributes: {
           exclude: ['createdAt', 'updatedAt', 'description']
         },
         include: [{
-          model: cabinImage,
+          model: spotImage,
           attributes: ['url'],
           limit: 1,
         }],
@@ -70,19 +70,19 @@ const fetchUserBookings = async (req, res, next) => {
 
     const detailedUserBookings = userBookings.map(booking => ({
       id: booking.id,
-      cabinId: booking.cabinId,
-      cabin: {
-        id: booking.cabin.id,
-        ownerId: booking.cabin.ownerId,
-        address: booking.cabin.address,
-        city: booking.cabin.city,
-        state: booking.cabin.state,
-        country: booking.cabin.country,
-        lat: booking.cabin.lat,
-        lng: booking.cabin.lng,
-        name: booking.cabin.name,
-        price: booking.cabin.price,
-        previewImage: booking.cabin.cabinImages.length > 0 ? booking.cabin.cabinImages[0].url : null,
+      spotId: booking.spotId,
+      spot: {
+        id: booking.spot.id,
+        ownerId: booking.spot.ownerId,
+        address: booking.spot.address,
+        city: booking.spot.city,
+        state: booking.spot.state,
+        country: booking.spot.country,
+        lat: booking.spot.lat,
+        lng: booking.spot.lng,
+        name: booking.spot.name,
+        price: booking.spot.price,
+        previewImage: booking.spot.spotImages.length > 0 ? booking.spot.spotImages[0].url : null,
       },
       userId: booking.userId,
       startDate: booking.startDate,
@@ -141,7 +141,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     const booked = await Booking.findOne({
       where: {
         id: { [Op.ne]: bookingId },
-        cabinId: booking.cabinId,
+        spotId: booking.spotId,
         [Op.or]: [
           { startDate: { [Op.between]: [startDate, endDate] } },
           { endDate: { [Op.between]: [startDate, endDate] } },
@@ -157,7 +157,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
     if (booked) {
       return res.status(403).json({
-        message: "Sorry, this cabin is already booked for the specified dates",
+        message: "Sorry, this spot is already booked for the specified dates",
         errors: {
           startDate: "Start date conflicts with an existing booking",
           endDate: "End date conflicts with an existing booking",
@@ -181,13 +181,13 @@ router.delete("/:bookingId", requireAuth, validDates, async (req, res) => {
     return res.status(404).json({ message: "Booking couldn't be found" });
   };
 
-	const cabin = await booked.getcabin();
+	const spot = await booked.getspot();
 
-	if (!cabin) {
-		return res.status(404).json({ message: "cabin couldn't be found" });
+	if (!spot) {
+		return res.status(404).json({ message: "spot couldn't be found" });
 	}
 
-	if (booked.userId !== currentUser && cabin.ownerId !== currentUser) {
+	if (booked.userId !== currentUser && spot.ownerId !== currentUser) {
     return res.status(403).json({ message: "You are not authorized."});
 }
 
